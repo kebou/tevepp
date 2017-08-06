@@ -1,0 +1,154 @@
+{
+	"Szia!": "Szia!",
+	"greeting.hi": "greeting.hi",
+	"greeting": {
+		"hi": {
+			"0": "Szia {{name}}!",
+			"1": "Hello {{name}}!",
+			"2": "Szervusz {{name}}!",
+			"3": "Üdv {{name}}!"
+		},
+		"bye": {
+			"0": "Viszlát {{name}}!",
+			"1": "Pápá {{name}}!"
+		},
+		"newUser": {
+			"0": "Szükséged van néhány hasznos infóra a fővárosi tömegközlekedéssel kapcsolatban?",
+			"1": "Remélem segítségedre leszek!",
+			"2": "Ha nem tudod, hogy hogyan érd el az úticélod, vagy ha tudni szeretnéd mikor indul a buszod írj nekem bátran!"
+		},
+		"oldUser": {
+			"0": "Jó, hogy újra írsz!",
+			"1": "Örülök, hogy újra itt vagy!",
+			"2": "Szuper, hogy megint írsz!"
+		}
+	},
+	"allIsWell": {
+		"0": "Minden okés!",
+		"1": "Köszi, minden rendben!",
+		"2": "Köszönöm érdeklődésed, minden szupi szuper! 😉"
+	},
+	"button": {
+		"yes": "Igen",
+		"no": "Nem",
+		"cancel": "Mégse",
+		"edit": "✏️ Szerkesztés",
+		"remove": "❌ Törlés",
+		"add": "+ Hozzáadás",
+		"help": "Segítség",
+		"details": "Részletek",
+		"planFromHere": "Útvonal innen",
+		"planToHere": "Útvonal ide",
+		"planFromStop": "Útvonal a megállóból",
+		"planTrip": "Útvonaltervezés",
+		"goToStop": "Útvonal a megállóhoz",
+		"moreOptions": "További lehetőségek",
+		"mapForWalk": "Térkép a sétához",
+		"moreDepartures": "További indulások",
+		"home": "Otthon",
+		"favouriteLocations": "Kedvenc helyek",
+		"favourites": "Kedvencek",
+		"editName": "Név módosítása",
+		"editLocation": "Hely módosítása",
+		"dontModify": "Maradjon a régi",
+		"sendFeedback": "Visszajelzés küldése"
+	},
+	"joke": {
+		"0": "🤵🏻 Egész úton menetiránynak háttal kellett utaznom, Jean!\n👨🏻‍🌾 Miért nem kérte meg a szemben ülőt, hogy cseréljen helyet Önnel, Uram?\n🤵🏻 Akartam én, de nem ült velem szemben senki.",
+		"1": "❓Mivé változik a villamos, ha megcsókolja a királylány?\n❗️Békávé.",
+		"2": "Egy fickó fut a busz után, az egyik utas nevetve felkiált:\n🙋🏻‍♂️ Nézzék a hülyéjét, hogy fut a busz után!\n👨🏼‍💼 Hogyne futna, hiszen ő a sofőr!",
+		"3": "Csúcsforgalomban a buszra nehezen férnek fel az utasok:\n🙎🏻‍♂️Menjenek már beljebb, annyi hely van ott, hogy sakkozni lehetne!\n🙍🏼 Jöjjön csak jóember, úgyis hiányzik egy sötét paraszt!"
+	},
+	"trip": {
+		"walkingDistance": "Ide a leggyorsabban gyalog juthatsz el. Egy kis mozgás sosem árt 😉",
+		"searchingTrip": {
+			"0": "Már keresem is az útvonalat {{start}} és {{stop}} között!",
+			"1": "Útvonal tervezése {{start}} és {{stop}} között folyamatban!"
+		},
+		"tripPlanningFailed": "Az általad választott pontok között sajnos nem sikerült útvonalat terveznem.",
+		"noService": "Előfordulhat, hogy a megadott címek között nem közlekedik semmilyen BKV járat.",
+		"askStart": {
+			"0": "Honnan indulnál?",
+			"1": "Honnan kezdenéd az utazást?"
+		},
+		"askStop": {
+			"0": "Hova mennél?",
+			"1": "Mi az úti célod?",
+			"2": "Hova szeretnél menni?",
+			"3": "Merre tartasz?"
+		},
+		"canceled": {
+			"0": "Hát jó, akkor most nem tervezek útvonalat 🙂",
+			"1": "Útvonaltervezés – lefújva!",
+			"2": "Értem én, majd legközelebb! 😉"
+		}
+	},
+	"locationHint": "📍 Írj egy címet, vagy az aktuális tartózkodási helyedet is elküldheted.",
+	"invalidLocation": "Sajnos nem sikerült beazonosítanom a helyet az üzeneted alapján, kérlek próbáld meg mégegyszer.",
+	"minute": "%s perc",
+	"stop": "%s megálló",
+	"walk": "séta",
+	"startFromStop": "{{stopName}} megállóból indulva",
+	"schedule": {
+		"direction": {
+			"0": "Melyik irányba mennél?",
+			"1": "Melyik irányba utaznál?"
+		},
+		"withinOneMinute": "Egy percen belül a megállóban van a következő {{routeName}}.",
+		"withinXMinutes": "{{minutes}} percen belül a megállóban van a következő {{routeName}}.",
+		"departAt": "A következő {{routeName}} {{time}}-kor indul a megállóból.",
+		"invalidStopName": "Nem találtam ilyen nevű megállót, próbáld meg pontosabban megadni a nevét.",
+		"invalidRouteName": "Nem találtam ilyen nevű járatot, próbáld meg mégegyszer.",
+		"invalidRouteStopPair": "{{routeName}} {{transportType}} a következő egy órában nem indul {{stopName}} megállóból."
+	},
+	"transportType": {
+		"TRAM": "villamos",
+		"SUBWAY": "metró",
+		"BUS": "busz",
+		"FERRY": "hajó",
+		"RAIL": "HÉV",
+		"TROLLEYBUS": "troli"
+	},
+	"favouriteLocation": {
+		"newLocation": "Milyen helyet szeretnél hozzáadni?",
+		"editLocation": "Mire változtatnád {{title}} címet?",
+		"newName": "Milyen néven mentenéd el {{locationTitle}} helyet?",
+		"editName": "Mire változtatnád {{name}} nevet?",
+		"nameHint": "Írj egy nevet (max. 20 karakter)",
+		"canceled": {
+			"0": "Akkor most nem adok hozzá új kedvencet.",
+			"1": "Kedvenc hely hozzáadás - lefújva!"
+		},
+		"maxLocationReached": "Összesen {{maxLocation}} helyet menthetsz el, új hely hozzáadásához először tötölnöd kell egyet.",
+		"missingName": "Kérlek küldj el a hely nevét szöveges üzenetként.",
+		"approveNewLocation": "Hozzáadhatom {{name}} néven {{title}} helyet?",
+		"newLocationAdded": {
+			"0": "{{name}} helyet felvetted a kedvenceid közé. ⭐️",
+			"1": "{{name}} már meg is található a kedvenceid között. 🌟",
+			"2": "{{name}} helyet sikeresen hozzáadtad a kedvenceidhez. ⭐️"
+		},
+		"addNewLocation": "Új hely hozzáadása",
+		"confirmRemoval": "Biztosan törlöd {{name}} helyet?",
+		"locationRemoved": {
+			"0": "{{name}} helyet sikeresen törölted a kedvenceid közül.",
+			"1": "Hiszed vagy nem, de {{name}} hely már nincs a kedvenceid között.",
+			"2": "{{name}} hely szomorúan távozott kedvenceid közül."
+		},
+		"cancelRemoval": {
+			"0": "Jójó, nem törlöm!!! 😃",
+			"1": "Huhh, pont időben szóltál... Törlés visszavonva!",
+			"2": "Kedvenc hely törlése - lefújva!🙅🏼‍♂️"
+		},
+		"noFavourites": "Sajnos még nem tudom, hogy melyik helyekről utazol a legtöbbet 😶",
+		"addFirst": "Elárulsz nekem egyet? 😊",
+		"firstLocationAdded": "Gratulálok! 🎉  Így sokkal egyszerűbb lesz az útvonaltervezés. 😃",
+		"addHint": "További helyeket a [📍 Kedvenc Helyek] menüpontnál menthetsz el."
+	},
+	"chooseFromQuickReplies": "Kérlek, válassz egyet a lehetséges válaszok közül.",
+	"help": {
+		"0": "📍 Küldd el az aktuális helyzetedet, hogy megtudd, milyen járatok indulnak a közeledben lévő megállókból.",
+		"1": "🚊 Egy járat menetrendjéhez küldd el a járat nevét és a megállót ahonnan indulnál, pl.: \"17, Albertfalva utca\"",
+		"2": "🗺 Az Útvonaltervezés menüpontot választva könnyedén megtudhatod, hogy milyen járatokkal érheted el a célod.",
+		"3": "⭐📍 A Kedvenc Helyek menüpontnál általad gyakran látogatott helyeket menthetsz el, melyek segítségével villámgyorssá válik az útvonaltervezés."
+	}
+}

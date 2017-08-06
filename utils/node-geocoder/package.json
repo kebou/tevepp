@@ -1,0 +1,114 @@
+{
+  "_args": [
+    [
+      "node-geocoder",
+      "/Users/Boldi/git/messenger-bot"
+    ]
+  ],
+  "_from": "node-geocoder@latest",
+  "_id": "node-geocoder@3.11.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/node-geocoder",
+  "_nodeVersion": "4.2.3",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/node-geocoder-3.11.0.tgz_1465157151023_0.6684440404642373"
+  },
+  "_npmUser": {
+    "email": "n.chaulet@gmail.com",
+    "name": "nchaulet"
+  },
+  "_npmVersion": "2.14.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "node-geocoder",
+    "raw": "node-geocoder",
+    "rawSpec": "",
+    "scope": null,
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/node-geocoder/-/node-geocoder-3.11.0.tgz",
+  "_shasum": "d008e18d239a279e504974c7e83c21acf5b68b0a",
+  "_shrinkwrap": null,
+  "_spec": "node-geocoder",
+  "_where": "/Users/Boldi/git/messenger-bot",
+  "author": {
+    "name": "nchaulet"
+  },
+  "bugs": {
+    "url": "https://github.com/nchaulet/node-geocoder/issues"
+  },
+  "dependencies": {
+    "bluebird": "3.3.4"
+  },
+  "description": "Node Geocoder, node geocoding library, supports google maps, mapquest, open street map, tom tom, promise",
+  "devDependencies": {
+    "chai": "^1.8.1",
+    "eslint": "^0.24.1",
+    "mocha": "2.4.5",
+    "sinon": "^1.17.3"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "d008e18d239a279e504974c7e83c21acf5b68b0a",
+    "tarball": "https://registry.npmjs.org/node-geocoder/-/node-geocoder-3.11.0.tgz"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "camelcase": 0,
+      "comma-spacing": 0,
+      "eqeqeq": 0,
+      "key-spacing": 0,
+      "no-console": 1,
+      "no-multi-spaces": 0,
+      "no-shadow": 0,
+      "no-underscore-dangle": 0,
+      "quotes": [
+        1,
+        "single"
+      ],
+      "strict": 0
+    }
+  },
+  "gitHead": "575c969c8721671f74ae130024ded9c21388ce45",
+  "homepage": "https://github.com/nchaulet/node-geocoder#readme",
+  "keywords": [
+    "geocoder",
+    "geocoding",
+    "geo",
+    "google",
+    "maps",
+    "mapquest",
+    "agol",
+    "arcgis",
+    "tomtom"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "email": "n.chaulet@gmail.com",
+      "name": "nchaulet"
+    }
+  ],
+  "name": "node-geocoder",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nchaulet/node-geocoder.git"
+  },
+  "scripts": {
+    "lint": "eslint lib",
+    "test": "mocha --check-leaks"
+  },
+  "version": "3.11.0"
+}
