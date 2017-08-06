@@ -1,0 +1,39 @@
+{
+    "env": {
+        "es6": true,
+        "node": true
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+        "indent": [
+            "error", 
+            4,
+            {"SwitchCase": 1}
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always",
+            { "omitLastInOneLineBlock": true}
+        ],
+        "eqeqeq": "error",
+        "handle-callback-err": "error",
+        "valid-typeof": "error",
+        "block-scoped-var": "error",
+        "no-console": "off"
+        // "valid-jsdoc": [
+        //     "error", 
+        //     { 
+        //         "prefer": { "arg": "param", "argument": "param", "class": "constructor", "return": "returns", "virtual": "abstract" },
+        //         "requireReturn": false
+        //     } 
+        // ]
+    }
+}

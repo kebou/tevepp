@@ -1,0 +1,12 @@
+{
+	"Szia!": "Hey!",
+	"greeting": {
+		"hi": "Hey",
+		"bye": "Bye",
+		"newUser": "greeting.newUser"
+	},
+	"button": {
+		"planTrip": "button.planTrip",
+		"help": "button.help"
+	}
+}

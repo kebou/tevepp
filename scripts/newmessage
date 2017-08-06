@@ -1,0 +1,46 @@
+#!/bin/bash
+# Adding new message
+if [ $# -lt 1 ] 
+	then 
+		echo "Usage: newmessage <message_name> [<intent_name>]"
+		exit 1
+fi
+
+message_name=$1
+intent_name=$2
+
+templateFileName="message.js"
+templateFilePath="./templates/$templateFileName"
+
+# cél path összeállítása
+targetFilePath=""
+if [ "$intent_name" != "" ]; then
+    targetFilePath="./messages/"$intent_name
+    if [ ! -d "$targetFilePath" ]; then
+        echo "$intent_name directory doesn't exit"
+        exit 1
+    fi
+else
+    targetFilePath="./messages"
+fi
+
+# temlpate másolása a megfelelő helyre
+cp $templateFilePath $targetFilePath
+mv $targetFilePath/$templateFileName $targetFilePath/$message_name"Message.js"
+
+# template módosítása konkért üzenetté
+sed -i "" "s/sampleMessage/"$message_name"Message/g" $targetFilePath/$message_name"Message.js"
+if [ "$intent_name" == "" ]; then
+    sed -i "" "s/\.\./\./g" $targetFilePath/$message_name"Message.js"
+fi
+
+# üzenet bejegyzése az intent üzenetei közé, ha az intent adott
+if [ "$intent_name" != "" ]; then
+    sed -i "" '/return {/a \
+    \ \ \ \ \ \ \ \ '"$message_name"': require('"'"'./'"$intent_name"'/'"$message_name"'Message'"'"')(bot),\
+    ' "./messages/"$intent_name"Messages.js"
+fi
+
+echo "$message_name message created at $targetFilePath"
+
+code $targetFilePath/$message_name"Message.js"

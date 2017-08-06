@@ -1,0 +1,24 @@
+#!/bin/bash
+# Adding new intent
+if [ $# -lt 1 ] 
+	then 
+		echo "Usage: newintent <intent_name>"
+		exit 1
+fi 
+
+intent_name=$1
+
+templateFileName="botRequired.js"
+templateFilePath="./templates/$templateFileName"
+
+cp $templateFilePath ./intents
+mv ./intents/$templateFileName ./intents/$intent_name".js"
+
+cp $templateFilePath ./messages
+mv ./messages/$templateFileName ./messages/$intent_name"Messages.js"
+
+mkdir ./messages/$intent_name
+
+echo $intent_name" intent created"
+
+
