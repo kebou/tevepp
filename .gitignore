@@ -59,4 +59,4 @@ typings/
 .env
 
 # configuration
-config/default.json
+# config/default.json
