@@ -55,7 +55,7 @@ module.exports = (bot) => {
             case 'HELP':
                 return ChitChat.sendHelp(user);
 
-            case 'BOOTBOT_GET_STARTED':
+            case 'GET_STARTED_PAYLOAD':
                 return ChitChat.sendGreeting(user);
 
             default:
