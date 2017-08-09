@@ -55,6 +55,9 @@ module.exports = (bot) => {
             case 'HELP':
                 return ChitChat.sendHelp(user);
 
+            case 'BOOTBOT_GET_STARTED':
+                return ChitChat.sendGreeting(user);
+
             default:
                 console.error(`Unknown Postback called: ${type}`);
                 break;
