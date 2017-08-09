@@ -3,7 +3,6 @@ const Text = require('../messages/elements/texts');
 const Button = require('../messages/elements/buttons');
 
 module.exports = (bot) => {
-    bot.setGreetingText('Hello!');
 
     bot.setPersistentMenu([
         {
@@ -29,9 +28,10 @@ module.exports = (bot) => {
         }
     ]);
 
-    bot.sendProfileRequest({
-        whitelisted_domains: [
-            'https://2c025365.ngrok.io'
-        ]
-    });
+    bot.setGreetingText([
+        {
+            locale: 'default',
+            text: '🚊 Gyors, hasznos információk a fővárosi tömegközlekedéssel kapcsolatban.\nÚtvonaltervezés, indulási idők.'
+        }
+    ]);
 };

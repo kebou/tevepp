@@ -105,6 +105,7 @@ module.exports = (bot) => {
             // járatindulások lekérdezése a megállóból
             .then(res => {
                 stops = res;
+                console.log(stops);
                 const promises = stops.map(stop => Futar.isDepartureFromStop(stop.id, routeName, 70));
                 return Promise.all(promises);
             })
