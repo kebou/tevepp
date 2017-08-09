@@ -3,7 +3,9 @@
 
 module.exports.appendRouteSuffix = (user, routeName) => {
     if (user.locale === 'hu') {
-        return routeName + '-' + _getHunSuffix(routeName);
+        const suffix = _getHunSuffix(routeName);
+        if (suffix === '') return routeName;
+        return routeName + '-' + suffix;
     }
     return routeName;
 };
