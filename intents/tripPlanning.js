@@ -150,7 +150,7 @@ module.exports = (bot) => {
         return Promise.all(promises)
             .then(imgIds => {
                 for (let i in imgIds) {
-                    tripDetails.legs[i].imgId = imgIds[i];
+                    tripDetails.legs[i].imageId = imgIds[i];
                 }
                 return tripDetails;
             });
