@@ -31,7 +31,7 @@ module.exports = (bot) => {
 
     bot.sendProfileRequest({
         whitelisted_domains: [
-            'https://7a5fa985.ngrok.io'
+            'https://2c025365.ngrok.io'
         ]
     });
 };
