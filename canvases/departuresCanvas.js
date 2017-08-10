@@ -68,7 +68,7 @@ const drawBackground = (ctx) => {
 
 const drawRouteName = (ctx, departure, idx, rows) => {
     let textAlign, textStart;
-    if (departure.route.name > 3) { textAlign = 'start'; textStart = c.routeName.TEXT_START }
+    if (departure.route.name.length > 3) { textAlign = 'start'; textStart = c.routeName.TEXT_START }
     else if (isNaN(parseInt(departure.route.name.slice(-1)))) { textAlign = 'end'; textStart = c.routeName.TEXT_END_CHAR }
     else { textAlign = 'end'; textStart = c.routeName.TEXT_END }
 
