@@ -146,7 +146,7 @@ const drawHeadsign = (ctx, leg, idx, rows) => {
     ctx.fillStyle = c.color.text;
     ctx.font = c.font.px60.light;
     ctx.textAlign = 'start';
-    const headsign = formatStopName(ctx, leg.route.headsign, maxWidth);
+    const headsign = formatStopName(ctx, leg.to, maxWidth);
     ctx.fillText(headsign, textStart, c.text.base(rows) + idx * c.rows.spacing(rows));
     return;
 };
