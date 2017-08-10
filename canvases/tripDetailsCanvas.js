@@ -132,7 +132,7 @@ const drawHeadsignRow = (ctx, leg) => {
 
 const drawTime = (ctx, leg) => {
     ctx.fillStyle = c.color.text;
-    ctx.font = c.font.px40.semibold;
+    ctx.font = c.font.px40.bold;
     ctx.textAlign = 'start';
     
     const startTime = moment(leg.startTime).format('HH:mm');
