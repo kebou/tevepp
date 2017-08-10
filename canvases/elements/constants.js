@@ -28,7 +28,8 @@ module.exports = {
             regular: '60px SFUIDisplay-Regular'
         },
         px40: {
-            semibold: '600 40px SFUIDisplay'
+            semibold: '600 40px SFUIDisplay',
+            bold: '700 40px SFUIDisplay'
         }
     }
 };
