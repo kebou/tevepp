@@ -155,7 +155,7 @@ const drawLine = (ctx, leg, idx, rows) => {
     if (!(idx < rows - 1)) return;
 
     ctx.lineWidth = 0.5;
-    ctx.strokeStyle = c.color.black;
+    ctx.strokeStyle = c.color.text;
 
     ctx.beginPath();
     ctx.moveTo(c.line.START, c.line.base(rows) + idx * c.rows.spacing(rows));
