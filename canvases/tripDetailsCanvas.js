@@ -32,8 +32,8 @@ const localConstants = {
         get TEXT_CENTER() {
             return c.line.vertical.CENTER;
         },
-        Y_TOP: 98,
-        Y_BOTTOM: 446
+        Y_TOP: 111,
+        Y_BOTTOM: 441
     },
     headsign: {
         START: 150,
