@@ -12,8 +12,8 @@ if (!Font) throw new Error('Need to compile with font support');
 
 const localConstants = {
     start: {
-        TEXT_START: 167,
-        Y: 146,
+        TEXT_START: 195,
+        Y: 114,
         get MAX_WIDTH() {
             return c.canvas.WIDTH - c.start.TEXT_START - 25;
         }
@@ -22,32 +22,35 @@ const localConstants = {
         get TEXT_START() {
             return c.start.TEXT_START;
         },
-        Y: 410,
+        Y: 443,
         get MAX_WIDTH() {
             return c.canvas.WIDTH - c.stop.TEXT_START - 25;
         }
     },
     time: {
         TEXT_START: 50,
+        get TEXT_CENTER() {
+            return c.line.vertical.CENTER;
+        },
         Y_TOP: 98,
         Y_BOTTOM: 446
     },
     headsign: {
-        START: 137,
-        Y: 276
+        START: 150,
+        Y: 279
     },
     line: {
         vertical: {
-            CENTER: 100,
-            START: 124,
-            END: 392
+            CENTER: 112,
+            START: 139,
+            END: 377
         },
         top: {
             get CENTER() {
                 return c.line.vertical.START;
             },
-            START: 75,
-            END: 125
+            START: 87,
+            END: 137
         },
         bottom: {
             get CENTER() {
@@ -132,14 +135,14 @@ const drawHeadsignRow = (ctx, leg) => {
 
 const drawTime = (ctx, leg) => {
     ctx.fillStyle = c.color.text;
-    ctx.font = c.font.px40.bold;
-    ctx.textAlign = 'start';
+    ctx.font = c.font.px50.bold;
+    ctx.textAlign = 'center';
     
     const startTime = moment(leg.startTime).format('HH:mm');
     const endTime = moment(leg.endTime).format('HH:mm');
 
-    ctx.fillText(startTime, c.time.TEXT_START, c.time.Y_TOP);
-    ctx.fillText(endTime, c.time.TEXT_START, c.time.Y_BOTTOM);
+    ctx.fillText(startTime, c.time.TEXT_CENTER, c.time.Y_TOP);
+    ctx.fillText(endTime, c.time.TEXT_CENTER, c.time.Y_BOTTOM);
     return;
 };
 
