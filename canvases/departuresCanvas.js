@@ -91,7 +91,7 @@ const drawHeadsign = (ctx, departure, idx, rows) => {
 
 const drawTime = (ctx, departure, idx, rows) => {
     ctx.fillStyle = c.color.text;
-    ctx.font = c.font.px60.light;
+    ctx.font = c.font.px60.semibold;
     ctx.textAlign = 'end';
     ctx.fillText(getTime(departure.timestamp), c.time.TEXT_END, c.text.BASE + idx * c.rows.SPACING);
 };
