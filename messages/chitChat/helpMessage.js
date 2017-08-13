@@ -8,7 +8,8 @@ module.exports = (bot) => {
         const quickReplies = QR.menu(user);
         //const options = { typing: true };
         const element = {
-            title: Text.help(user)
+            title: '❓',
+            subtitle: Text.help(user)
         };
 
         //return bot.sendTextMessage(user.id, text, quickReplies, options);
