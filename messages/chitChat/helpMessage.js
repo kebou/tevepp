@@ -4,16 +4,11 @@ const QR = require('../elements/quickreplies');
 
 module.exports = (bot) => {
     const helpMessage = (user) => {
-        //const text = Text.help(user);
+        const text = Text.help(user);
         const quickReplies = QR.menu(user);
-        //const options = { typing: true };
-        const element = {
-            title: '❓',
-            subtitle: Text.help(user)
-        };
+        const options = { typing: true };
 
-        //return bot.sendTextMessage(user.id, text, quickReplies, options);
-        return bot.sendGenericTemplate(user.id, [element], { quickReplies, typing: true });
+        return bot.sendTextMessage(user.id, text, quickReplies, options);
     };
 
     return helpMessage;
