@@ -26,7 +26,8 @@ module.exports = {
             bold: 'bold 60px SFUIDisplay',
             semibold: '600 60px SFUIDisplay',
             light: '300 60px SFUIDisplay',
-            regular: 'regular 60px SFUIDisplay'
+            regular: 'regular 60px SFUIDisplay',
+            medium: '500 60px SFUIDisplay'
         },
         px50: {
             semibold: '600 50px SFUIDisplay',
