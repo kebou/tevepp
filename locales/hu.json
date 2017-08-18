@@ -63,7 +63,7 @@
 		"walkingDistance": "Ide a leggyorsabban gyalog juthatsz el. Egy kis mozgás sosem árt 😉",
 		"searchingTrip": {
 			"0": "🔍 Már keresem is az útvonalat {{start}} és {{stop}} között!",
-			"1": "Útvonal tervezése {{start}} és {{stop}} között folyamatban!"
+			"1": "🔍 Útvonal tervezése {{start}} és {{stop}} között folyamatban!"
 		},
 		"tripPlanningFailed": "😞 Az általad választott pontok között sajnos nem sikerült útvonalat terveznem.",
 		"noService": "Előfordulhat, hogy a megadott címek között nem közlekedik semmilyen BKV járat.",
