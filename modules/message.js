@@ -47,11 +47,11 @@ module.exports = (bot) => {
         userController.getUser(userId)
             .then(user => {
                 const intent = getIntent(payload.message);
-                return handleIntent(user, chat, intent);
+                return handleIntent(user, chat, intent, text);
             });
     });
 
-    const handleIntent = (user, chat, intent) => {
+    const handleIntent = (user, chat, intent, text) => {
         switch (intent) {
 
             case 'GREETING_HI':
@@ -72,9 +72,17 @@ module.exports = (bot) => {
             case 'LOCATION_LIST':
                 return FavouriteLocation.sendLocationList(user);
 
+            case 'GREETING_WHATSUP':
+                return ChitChat.sendAllIsWell(user);
+
+            case 'THANKS':
+                return ChitChat.sendWelcome(user);
+
 
             default:
-                return console.error(`Unhandled intent: ${intent}`);
+                console.error(`Unhandled intent: ${intent}`);
+                console.error(`Message: ${text}`);
+                return ChitChat.sendOutOfScope(user);
         }
     };
 

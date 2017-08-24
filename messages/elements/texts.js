@@ -30,6 +30,18 @@ module.exports.help = (user, index) => {
     return user.__(getRandomItem(user, 'help'));
 };
 
+module.exports.allIsWell = (user) => {
+    return user.__(getRandomItem(user, 'allIsWell'));
+};
+
+module.exports.welcome = (user) => {
+    return user.__(getRandomItem(user, 'welcome'));
+};
+
+module.exports.outOfScope = (user) => {
+    return user.__(getRandomItem(user, 'outOfScope'));
+};
+
 const tripPlanning = {};
 
 tripPlanning.walkingDistance = (user) => {
@@ -57,6 +69,13 @@ tripPlanning.detailsTitle = (user, leg) => {
     const duration = Math.round(leg.duration / 60000);
     const stops = leg.intermediateStops + 1;
     return `${user.__n('minute', duration)} • ${user.__n('stop', stops)}`;
+};
+
+tripPlanning.detailsWalkTitle = (user, leg) => {
+    const duration = Math.round(leg.duration / 60000);
+    const walkDistance = Math.round(leg.distance);
+    const walk = walkDistance >= 1000 ? `${round(walkDistance / 1000, 1)} km` : `${walkDistance} m`;
+    return `${user.__n('minute', duration)} • ${walk}`;
 };
 
 tripPlanning.failed = (user) => {

@@ -13,7 +13,7 @@ module.exports = (start, stop) => {
         fromName: start.title,
         fromLat: start.latitude,
         fromLon: start.longitude,
-        toName: stop.title,
+        toName: stop.shortTitle,
         toLat: stop.latitude,
         toLon: stop.longitude,
         maxTransfers: 4
@@ -36,7 +36,9 @@ module.exports = (start, stop) => {
 const formatData = (plan) => {
     let stops = new Set();
     // tömegközlekedés nélküli lehetőségek kiszűrése és formázás
-    const options = plan.itineraries.filter(itinerary => itinerary.transitTime).map(itinerary => formatItinerary(itinerary, stops));
+    const options = plan.itineraries
+        .filter(itinerary => itinerary.transitTime)
+        .map(itinerary => formatItinerary(itinerary, stops));
 
     const tripData = {
         from: new Location({
@@ -56,14 +58,41 @@ const formatData = (plan) => {
 };
 
 const formatItinerary = (itinerary, stops) => {
-    // gyalogos részek kiszűrése és formázás
-    const legs = itinerary.legs.filter(leg => leg.mode !== 'WALK').map(leg => formatLeg(leg, stops));
+    // gyalogos részek kiszűrése a kezdeti és a végső sétán kívül és formázás
+    const legs = itinerary.legs
+        .filter((leg, idx) => leg.mode !== 'WALK' || (leg.mode === 'WALK' && idx === itinerary.legs.length - 1))
+        .map(leg => {
+            if (leg.mode === 'WALK') {
+                return formatWalkLeg(leg);
+            }
+            return formatLeg(leg, stops);
+        });
     return {
         startTime: itinerary.startTime,
         endTime: itinerary.endTime,
         duration: itinerary.duration,
         walkDistance: Math.round(itinerary.walkDistance),
         legs
+    };
+};
+
+const formatWalkLeg = (leg) => {
+    return {
+        from: new Location({
+            title: leg.from.name,
+            latitude: leg.from.lat,
+            longitude: leg.from.lon
+        }),
+        to: new Location({
+            title: leg.to.name,
+            latitude: leg.to.lat,
+            longitude: leg.to.lon
+        }),
+        duration: leg.duration,
+        distance: leg.distance,
+        startTime: leg.startTime,
+        endTime: leg.endTime,
+        mode: leg.mode
     };
 };
 
@@ -79,7 +108,8 @@ const formatLeg = (leg, stops) => {
         duration: leg.duration,
         startTime: leg.startTime,
         endTime: leg.endTime,
-        intermediateStops: leg.intermediateStops.length
+        intermediateStops: leg.intermediateStops.length,
+        mode: leg.mode
     };
 };
 
@@ -87,6 +117,7 @@ const formatLeg = (leg, stops) => {
 const replaceNames = (tripData, stopNames) => {
     for (let option of tripData.options) {
         for (let leg of option.legs) {
+            if (leg.mode === 'WALK') continue;
             leg.route.headsign = stopNames[leg.route.headsign];
             leg.from.setName(stopNames[leg.from.name]);
             leg.to.setName(stopNames[leg.to.name]);

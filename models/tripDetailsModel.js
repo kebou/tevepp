@@ -12,9 +12,11 @@ const TripDetailsSchema = new Schema({
         to: Object,
         route: Object,
         duration: Number,
+        distance: Number,
         startTime: Number,
         endTime: Number,
-        intermediateStops: Number
+        intermediateStops: Number,
+        mode: String
     }],
     createdAt: { type: Date, default: Date.now, expires: '5d' }
 });

@@ -1,6 +1,7 @@
 'use strict';
 const TripSummaryCanvas = require('../canvases/tripSummaryCanvas');
 const TripDetailsCanvas = require('../canvases/tripDetailsCanvas');
+const TripDetailsWalkCanvas = require('../canvases/tripDetailsWalkCanvas');
 const DeparturesCanvas = require('../canvases/departuresCanvas');
 const Image = require('../models/imageModel');
 
@@ -11,6 +12,11 @@ module.exports.tripSummary = (legs) => {
 };
 
 module.exports.tripDetails = (leg) => {
+    if (leg.mode === 'WALK') {
+        return TripDetailsWalkCanvas(leg)
+            .then(buffer => new Image({ contentType: 'png', data: buffer, type: 'tripDetails' }).save())
+            .then(img => img.id);
+    }
     return TripDetailsCanvas(leg)
         .then(buffer => new Image({ contentType: 'png', data: buffer, type: 'tripDetails' }).save())
         .then(img => img.id);
