@@ -14,9 +14,18 @@ module.exports = (bot) => {
 
     const sendHelp = (user) => Message.help(user);
 
+    const sendAllIsWell = (user) => Message.allIsWell(user);
+
+    const sendWelcome = (user) => Message.welcome(user);
+
+    const sendOutOfScope = (user) => Message.outOfScope(user);
+
     return {
         sendGreeting,
         sendJoke,
-        sendHelp
+        sendHelp,
+        sendAllIsWell,
+        sendWelcome,
+        sendOutOfScope
     };
 };

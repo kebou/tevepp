@@ -19,11 +19,20 @@ module.exports = (bot) => {
 };
 
 const _formatElement = (user, leg) => {
+    let title, button;
+    if (leg.mode === 'WALK') {
+        title = Text.tripPlanning.detailsWalkTitle(user, leg);
+        button = Button.mapForDestiantion(user, leg.to);
+    } else {
+        title = Text.tripPlanning.detailsTitle(user, leg);
+        button = Button.mapForWalk(user, leg.from);
+    }
+
     return {
-        title: Text.tripPlanning.detailsTitle(user, leg),
+        title,
         image_url: SERVER_URL + '/image/' + leg.imageId,
         buttons: [
-            Button.mapForWalk(user, leg.from)
+            button
         ]
     };
 };

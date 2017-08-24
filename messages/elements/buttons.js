@@ -35,6 +35,14 @@ module.exports.mapForWalk = (user, location) => {
     };
 };
 
+module.exports.mapForDestiantion = (user, location) => {
+    return {
+        type: 'web_url',
+        title: user.__('button.mapForDestiantion'),
+        url: locationController.toMapUrl(location)
+    };
+};
+
 module.exports.tripDetails = (user, option) => {
     return {
         type: 'postback',

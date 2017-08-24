@@ -1,6 +1,4 @@
 {
-	"Szia!": "Szia!",
-	"greeting.hi": "greeting.hi",
 	"greeting": {
 		"hi": {
 			"0": "Szia {{name}}!",
@@ -24,9 +22,22 @@
 		}
 	},
 	"allIsWell": {
-		"0": "Minden okés!",
-		"1": "Köszi, minden rendben!",
+		"0": "Minden okés! 😀",
+		"1": "Köszi, minden rendben! 🙂",
 		"2": "Köszönöm érdeklődésed, minden szupi szuper! 😉"
+	},
+	"welcome": {
+		"0": "Nagyon szívesen! 😊",
+		"1": "Szívesen, remélem a segítségedre voltam! ☺️",
+		"2": "Nagyon szívesen, máskor is! 🙂",
+		"3": "Ugyan kérlek, öröm ha segíhetek 😉",
+		"4": "Igazán nincs mit, remélem tudtam segíteni 🙂"
+	},
+	"outOfScope": {
+		"0": "Ne haragudj, de ezt nem értem 😕",
+		"1": "Sajnos ez meghaladja a képességeimet 😞",
+		"2": "Hát ezzel megfogtál 😀",
+		"3": "Bevallom, most ötletem sincs, hogy mit szeretnél 😃"
 	},
 	"button": {
 		"yes": "Igen",
@@ -42,6 +53,7 @@
 		"planFromStop": "Útvonal a megállóból",
 		"planTrip": "Útvonaltervezés",
 		"goToStop": "Útvonal a megállóhoz",
+		"mapForDestiantion": "Útvonal a célhoz",
 		"moreOptions": "További lehetőségek",
 		"mapForWalk": "Térkép a sétához",
 		"moreDepartures": "További indulások",

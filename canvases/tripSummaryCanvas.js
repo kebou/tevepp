@@ -79,6 +79,8 @@ module.exports = (legs) => {
 
 const drawCanvas = (ctx, legs) => {
     drawBackground(ctx);
+    // gyalogos részek kiszűrése
+    legs = legs.filter(leg => leg.mode !== 'WALK');
     return legs.reduce((prev, leg, idx, legs) => {
         return prev.then(() => drawRow(ctx, leg, idx, legs.length));
     }, Promise.resolve());

@@ -151,6 +151,19 @@ const toMapUrl = (location, type) => {
     return url + `&daddr=${location.latitude},${location.longitude}&dirflg=${transport}`;
 };
 
+const toGoogleMapsUrl = (location, type) => {
+    const mode = type || 'WALK';
+    let travelmode = '';
+    switch (mode) {
+        case 'WALK': travelmode = 'walking'; break;
+        case 'DRIVE': travelmode = 'driving'; break;
+        case 'TRANSIT': travelmode = 'transit'; break;
+        case 'CYCLING': travelmode = 'bicycling'; break;
+    }
+    const url = 'https://www.google.com/maps/dir/?api=1';
+    return url + `&destination=${location.latitude},${location.longitude}&travelmode=${travelmode}`;
+};
+
 const _formatTitle = (res) => {
     let title = '';
     if (res.city) title += res.city;
