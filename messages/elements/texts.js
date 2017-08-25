@@ -19,6 +19,10 @@ module.exports.farewell = (user) => {
     return user.__(getRandomItem(user, 'greeting.bye'), { name: user.firstName });
 };
 
+module.exports.emoji = (user) => {
+    return user.__(getRandomItem(user, 'emoji'));
+};
+
 module.exports.joke = (user) => {
     return user.__(getRandomItem(user, 'joke'));
 };
