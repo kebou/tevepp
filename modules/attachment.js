@@ -6,6 +6,7 @@ const Futar = require('../controllers/futarController');
 module.exports = (bot) => {
     const userController = require('../controllers/userController')(bot);
     const Schedule = require('../intents/schedule')(bot);
+    const ChitChat = require('../intents/chitChat')(bot);
     const StartStopPicker = require('../messages/startStopPicker')(bot);
 
     bot.on('attachment', (payload, chat) => {
@@ -21,7 +22,7 @@ module.exports = (bot) => {
 
             case 'location': {
                 let location;
-                locationController.fromAttachment(attachment, user.id)
+                return locationController.fromAttachment(attachment, user.id)
                     .then(loc => {
                         location = loc;
                         return Futar.stopsForLocation(location);
@@ -34,10 +35,10 @@ module.exports = (bot) => {
                         console.error(err);
                         StartStopPicker(user, location);
                     });
-                break;
             }
 
-            default: break;
+            default:
+                return ChitChat.sendEmoji(user);
         }
     };
 };

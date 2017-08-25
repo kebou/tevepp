@@ -39,6 +39,13 @@
 		"2": "Hát ezzel megfogtál 😀",
 		"3": "Bevallom, most ötletem sincs, hogy mit szeretnél 😃"
 	},
+	"emoji": {
+		"0": "👍🏻",
+		"1": "👌🏻",
+		"2": "🙃",
+		"3": "🚊",
+		"4": "🐪"
+	},
 	"button": {
 		"yes": "Igen",
 		"no": "Nem",

@@ -20,12 +20,15 @@ module.exports = (bot) => {
 
     const sendOutOfScope = (user) => Message.outOfScope(user);
 
+    const sendEmoji = (user) => Message.emoji(user);
+
     return {
         sendGreeting,
         sendJoke,
         sendHelp,
         sendAllIsWell,
         sendWelcome,
-        sendOutOfScope
+        sendOutOfScope,
+        sendEmoji
     };
 };

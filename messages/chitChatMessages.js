@@ -7,6 +7,7 @@ module.exports = (bot) => {
     }
 
     return {
+        emoji: require('./chitChat/emojiMessage')(bot),
         welcome: require('./chitChat/welcomeMessage')(bot),
         allIsWell: require('./chitChat/allIsWellMessage')(bot),
         outOfScope: require('./chitChat/outOfScopeMessage')(bot),
