@@ -66,7 +66,7 @@ module.exports = (bot) => {
                     case 'InvalidRouteNameError':
                         return Message.invalidRouteName(user);
                     case 'NoDirectionsError':
-                        return Message.invalidRouteStopPair(user, err.stopName, err.routeName);
+                        return Message.invalidRouteStopPair(user, err.stopName, err.routeName);
                     default: throw err;
                 }
             });
@@ -82,16 +82,16 @@ module.exports = (bot) => {
                 })
                 .then(res => res[0])
                 .then(route => {
-                if (user.searchRetried) {
-                    const err = new Error('Nincsenek a keresésnek megfelelő megálló-járat párok.');
-                    err.name = 'NoDirectionsError';
-                    err.stopName = stop;
-                    err.routeName = route;
-                    throw err;
-                }
-                user.searchRetried = true;
-                return sendDeparturesFromUserSearch(user, stop.name, route.name);
-            });
+                    if (user.searchRetried) {
+                        const err = new Error('Nincsenek a keresésnek megfelelő megálló-járat párok.');
+                        err.name = 'NoDirectionsError';
+                        err.stopName = stop;
+                        err.routeName = route;
+                        throw err;
+                    }
+                    user.searchRetried = true;
+                    return sendDeparturesFromUserSearch(user, stop.rawName, route.name);
+                });
         }
 
         if (directions.length < 2) {
@@ -117,7 +117,6 @@ module.exports = (bot) => {
             // járatindulások lekérdezése a megállóból
             .then(res => {
                 stops = res;
-                console.log(stops);
                 const promises = stops.map(stop => Futar.isDepartureFromStop(stop.id, routeName, 70));
                 return Promise.all(promises);
             })
