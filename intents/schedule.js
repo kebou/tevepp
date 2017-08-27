@@ -90,7 +90,7 @@ module.exports = (bot) => {
                     throw err;
                 }
                 user.searchRetried = true;
-                return sendDeparturesFromUserSearch(user, stop, route);
+                return sendDeparturesFromUserSearch(user, stop.name, route.name);
             });
         }
 
