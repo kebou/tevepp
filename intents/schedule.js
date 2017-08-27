@@ -66,7 +66,7 @@ module.exports = (bot) => {
                     case 'InvalidRouteNameError':
                         return Message.invalidRouteName(user);
                     case 'NoDirectionsError':
-                        return Message.invalidRouteStopPair(user, err.stopName, err.routeName));
+                        return Message.invalidRouteStopPair(user, err.stopName, err.routeName);
                     default: throw err;
                 }
             });
