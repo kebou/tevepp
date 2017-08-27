@@ -65,6 +65,8 @@ module.exports = (bot) => {
                         return Message.invalidStopName(user);
                     case 'InvalidRouteNameError':
                         return Message.invalidRouteName(user);
+                    case 'NoDirectionsError':
+                        return Message.invalidRouteStopPair(user, err.stopName, err.routeName));
                     default: throw err;
                 }
             });
@@ -79,7 +81,17 @@ module.exports = (bot) => {
                     return Futar.searchRoute(routeName);
                 })
                 .then(res => res[0])
-                .then(route => Message.invalidRouteStopPair(user, stop, route));
+                .then(route => {
+                if (user.searchRetried) {
+                    const err = new Error('Nincsenek a keresésnek megfelelő megálló-járat párok.');
+                    err.name = 'NoDirectionsError';
+                    err.stopName = stop;
+                    err.routeName = route;
+                    throw err;
+                }
+                user.searchRetried = true;
+                return sendDeparturesFromUserSearch(user, stop, route);
+            });
         }
 
         if (directions.length < 2) {
