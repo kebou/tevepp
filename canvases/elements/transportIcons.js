@@ -4,7 +4,7 @@ module.exports.fromColor = (routeColor) => {
     switch (routeColor) {
         case 'FFD800': return transportIcons.TRAM;
         case '009FE3': return transportIcons.BUS;
-        case 'F01041': return transportIcons.TROLLEYBUS;
+        case 'FF1609': return transportIcons.TROLLEYBUS;
         case '1E1E1E': return transportIcons.NIGHTLINE;
         case 'E41F18': return transportIcons.M2;
         case '005CA5': return transportIcons.M3;
@@ -29,7 +29,7 @@ module.exports.fromType = (type) => {
 const transportIcons = {
     TRAM: { name: 'TRAM_icon', color: 'FFD800', start: -53 },
     BUS: { name: 'BUS_icon', color: '009FE3', start: -45 },
-    TROLLEYBUS: { name: 'TROLLEYBUS_icon', color: 'F01041', start: -60 },
+    TROLLEYBUS: { name: 'TROLLEYBUS_icon', color: 'FF1609', start: -60 },
     NIGHTLINE: { name: 'NIGHTLINE_icon', color: '1E1E1E', start: -45 },
     M1: { name: 'M1_icon', color: 'FFD800', start: -51 },
     M2: { name: 'M2_icon', color: 'E41F18', start: -51 },
