@@ -1,11 +1,11 @@
 'use strict';
-const tryParseJSON = require('../utils/tryparse-json');
+const tryParseJSON = require('../../utils/tryparse-json');
 
 module.exports = (bot) => {
-    const userController = require('../controllers/userController')(bot);
-    const FavouriteLocation = require('../intents/favouriteLocation')(bot);
-    const TripPlanning = require('../intents/tripPlanning')(bot);
-    const ChitChat = require('../intents/chitChat')(bot);
+    const userController = require('../../controllers/userController')(bot);
+    const FavouriteLocation = require('../../intents/favouriteLocation')(bot);
+    const TripPlanning = require('../../intents/tripPlanning')(bot);
+    const ChitChat = require('../../intents/chitChat')(bot);
 
     bot.on('postback', (payload, chat) => {
         const userId = payload.sender.id;

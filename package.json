@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-  },
+  "scripts": {},
   "author": "kebou",
   "license": "ISC",
   "engines": {
@@ -21,6 +20,7 @@
     "futar-api": "git+https://df7a4834c13fb008f1993f33674498b38d643c10:x-oauth-basic@github.com/kebou/futar-api.git",
     "heroku-self-ping": "^1.1.4",
     "i18n": "^0.8.3",
+    "koa-compose": "^4.0.0",
     "mongoose": "^4.10.4",
     "node-wit": "^4.2.0"
   }

@@ -1,6 +1,6 @@
 'use strict';
-const Text = require('../messages/elements/texts');
-const Button = require('../messages/elements/buttons');
+const Text = require('../../messages/elements/texts');
+const Button = require('../../messages/elements/buttons');
 
 module.exports = (bot) => {
 
