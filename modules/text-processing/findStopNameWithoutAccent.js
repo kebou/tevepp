@@ -1,5 +1,6 @@
 'use strict';
 const Futar = require('../../controllers/futarController');
+const latinize = require('../../utils/nlg').latinize;
 /**
  * In: tokens
  * Out: start, stop
@@ -15,7 +16,6 @@ module.exports = (ctx, next) => {
     for (let index = 0; index < tokens.length; index++) {
         const token = tokens[index];
         let startToken = hasStartSuffix(token);
-        console.log(startToken);
         if (startToken && startToken.length > 0) {
             tokens[index] = startToken[0];
             startNameIndex = index;
@@ -55,7 +55,7 @@ const findStop = (array, search) => {
     const stopName = search.reduce((a, b) => a.concat(' ' + b), '').trim();
     return Futar.searchStop(stopName)
         .then(res => {
-            if (res[0].rawName.split(' ')[0].toLowerCase() !== search[0].toLowerCase()) {
+            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) !== latinize(search[0].toLowerCase())) {
                 return findStop(array, search);
             }
             return res[0];

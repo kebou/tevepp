@@ -4,8 +4,11 @@ const TextProcessor = require('../text-processing/textProcessor');
 const tp = new TextProcessor();
 
 const printCtx = (ctx, next) => {
+    console.log('Start:');
     console.log(ctx.start);
+    console.log('End:');
     console.log(ctx.end);
+    console.log('RouteName:');
     console.log(ctx.routeName);
     return next();
 };
