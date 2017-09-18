@@ -1,6 +1,6 @@
 'use strict';
 const BootBot = require('bootbot');
-const Image = require('../models/imageModel');
+const Image = require('../../models/imageModel');
 
 module.exports = (bot) => {
     if (!(bot instanceof BootBot)) {

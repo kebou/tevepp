@@ -1,13 +1,13 @@
 'use strict';
-const locationController = require('../controllers/locationController');
-const Futar = require('../controllers/futarController');
+const locationController = require('../../controllers/locationController');
+const Futar = require('../../controllers/futarController');
 
 
 module.exports = (bot) => {
-    const userController = require('../controllers/userController')(bot);
-    const Schedule = require('../intents/schedule')(bot);
-    const ChitChat = require('../intents/chitChat')(bot);
-    const StartStopPicker = require('../messages/startStopPicker')(bot);
+    const userController = require('../../controllers/userController')(bot);
+    const Schedule = require('../../intents/schedule')(bot);
+    const ChitChat = require('../../intents/chitChat')(bot);
+    const StartStopPicker = require('../../messages/startStopPicker')(bot);
 
     bot.on('attachment', (payload, chat) => {
         const userId = payload.sender.id;
