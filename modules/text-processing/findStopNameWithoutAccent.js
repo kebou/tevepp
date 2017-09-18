@@ -15,6 +15,7 @@ module.exports = (ctx, next) => {
     for (let index = 0; index < tokens.length; index++) {
         const token = tokens[index];
         let startToken = hasStartSuffix(token);
+        console.log(startToken);
         if (startToken && startToken.length > 0) {
             tokens[index] = startToken[0];
             startNameIndex = index;
@@ -68,7 +69,7 @@ const findStop = (array, search) => {
 };
 
 const hasStartSuffix = (str) => {
-    const pattern = /\b.*(?=bol\b)|\b.*(?=rol)\b|\b.*(?=tol)\b/i;
+    const pattern = /\b.*(?=bol\b)|\b.*(?=rol\b)|\b.*(?=tol\b)/i;
     return str.match(pattern);
 };
 
