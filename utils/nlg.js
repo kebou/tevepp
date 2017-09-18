@@ -21,6 +21,34 @@ const capitalize = module.exports.capitalize = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
+const latin_map = {
+    'Ø': 'O', // 'empty set' (?)
+    'Ă': 'A', // LATIN CAPITAL LETTER A WITH BREVE
+    'ᵥ': 'v', // LATIN SUBSCRIPT SMALL LETTER V
+    'ₓ': 'x', // LATIN SUBSCRIPT SMALL LETTER X
+    'Á': 'A',
+    'á': 'a',
+    'É': 'E',
+    'é': 'e',
+    'Í': 'I',
+    'í': 'i',
+    'Ó': 'O',
+    'ó': 'o',
+    'Ö': 'O',
+    'ö': 'o',
+    'Ő': 'O',
+    'ő': 'o',
+    'Ú': 'U',
+    'ú': 'u',
+    'Ü': 'U',
+    'ü': 'u',
+    'Ű': 'U',
+    'ű': 'u',
+};
+module.exports.latinize = function (s) {
+    return s.replace(/[^A-Za-z0-9]/g, function (x) { return latin_map[x] || x });
+};
+
 const _getHunArticle = (str) => {
     const c = str.charAt(0).toLowerCase();
     if (c === 'a' || c === 'á' || c === 'e' || c === 'é' || c === 'i' || c === 'í' || c === 'o' || c === 'ó' || c === 'ö' || c === 'ő' || c === 'u' || c === 'ú' || c === 'ü' || c === 'ű' || c === '5' || str === '1') {
