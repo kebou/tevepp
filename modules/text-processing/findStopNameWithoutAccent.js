@@ -69,11 +69,11 @@ const findStop = (array, search) => {
 };
 
 const hasStartSuffix = (str) => {
-    const pattern = /\b.*(?=bol\b)|\b.*(?=rol\b)|\b.*(?=tol\b)/i;
+    const pattern = /.*(?=bol$)|.*(?=rol$)|.*(?=tol$)/i;
     return str.match(pattern);
 };
 
 const hasEndSuffix = (str) => {
-    const pattern = /\b.*(?=hoz\b)/i;
+    const pattern = /.*(?=hoz$)|.*(?=ig$)|.*(?=ra$)|.*(?=re$)|.*(?=ba$)|.*(?=be$)/i;
     return str.match(pattern);
 };

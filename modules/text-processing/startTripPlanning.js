@@ -9,8 +9,8 @@ module.exports = (bot) => {
         if (!start && !end) {
             return next();
         }
-        if (start) {
-            Location.fromText(start.name, user.id)
+        if (start && !end) {
+            return Location.fromText(start.name, user.id)
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('start', location);
@@ -18,13 +18,23 @@ module.exports = (bot) => {
                 }))
                 .catch(() => next());
         }
-        if (end) {
-            Location.fromText(end.name, user.id)
+        if (end && !start) {
+            return Location.fromText(end.name, user.id)
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('stop', location);
                     return TripPlanning.askStart(convo);
                 }))
+                .catch(() => next());
+        }
+        if (start && end) {
+            let startLoc;
+            return Location.fromText(start.name, user.id)
+                .then(res => {
+                    startLoc = res;
+                    return Location.fromText(end.name, user.id);
+                })
+                .then(endLoc => TripPlanning.planTrip(user, startLoc, endLoc))
                 .catch(() => next());
         }
     };
