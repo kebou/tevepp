@@ -12,6 +12,10 @@ module.exports = (bot) => {
     }
     const Message = require('../messages/tripPlanningMessages')(bot);
 
+    const planTrip = (user, start, stop) => {
+        return _sendTripSummary(user, start, stop);
+    };
+
     const askStart = (convo) => {
         const question = (convo) => {
             const user = convo.get('user');
@@ -208,6 +212,7 @@ module.exports = (bot) => {
     return {
         askStart,
         askStop,
-        sendTripDetails
+        sendTripDetails,
+        planTrip
     };
 };
