@@ -168,11 +168,7 @@ module.exports = (bot) => {
             .then(() => Futar.planTrip(start, stop))
             .then(res => _saveTripDetails(res))
             .then(res => _createTripSummaryImages(res))
-            .then(res => {
-                tripData = res;
-                return bot.sendAction(user.id, 'typing_off');
-            })
-            .then(() => {
+            .then(tripData => {
                 if (tripData.options.length < 1) {
                     return Message.tripWalkDistance(user, tripData.to);
                 }
