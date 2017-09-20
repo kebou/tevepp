@@ -10,7 +10,7 @@ module.exports = (bot) => {
             return next();
         }
         if (start && !end) {
-            return Location.fromText(start.name, user.id)
+            return Location.fromStop(start, user.id)
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('start', location);
@@ -19,7 +19,7 @@ module.exports = (bot) => {
                 .catch(() => next());
         }
         if (end && !start) {
-            return Location.fromText(end.name, user.id)
+            return Location.fromStop(end, user.id)
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('stop', location);
@@ -29,10 +29,10 @@ module.exports = (bot) => {
         }
         if (start && end) {
             let startLoc;
-            return Location.fromText(start.name, user.id)
+            return Location.fromStop(start, user.id)
                 .then(res => {
                     startLoc = res;
-                    return Location.fromText(end.name, user.id);
+                    return Location.fromStop(end, user.id);
                 })
                 .then(endLoc => TripPlanning.planTrip(user, startLoc, endLoc))
                 .catch(() => next());

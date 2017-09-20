@@ -51,14 +51,9 @@ module.exports = (bot) => {
     };
 
     const sendDeparturesFromUserSearch = (user, stopName, routeName) => {
-        let directions;
         return bot.sendAction(user.id, 'typing_on')
             .then(() => _findDirections(stopName, routeName))
-            .then(res => {
-                directions = res;
-                return bot.sendAction(user.id, 'typing_off');
-            })
-            .then(() => _handleDirections(user, directions, stopName, routeName))
+            .then(directions => _handleDirections(user, directions, stopName, routeName))
             .catch(err => {
                 switch (err.name) {
                     case 'InvalidStopNameError':

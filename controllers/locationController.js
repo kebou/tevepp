@@ -112,6 +112,25 @@ const fromText = (text, userId) => {
         });
 };
 
+const fromStop = (stop, userId) => {
+    return new Promise(resolve => {
+        const params = {
+            title: stop.rawName,
+            latitude: stop.latitude,
+            longitude: stop.longitude
+        };
+        const loc = Location(params);
+        const locObj = loc.toObject();
+    
+        loc.userId = userId;
+        loc.type = 'log';
+        loc.source = 'stop';
+        loc.save();
+    
+        return resolve(locObj);
+    });
+};
+
 const saveFavourite = (user, location, update) => {
     location.userId = user.id;
     location.type = 'favourite';
@@ -193,6 +212,7 @@ module.exports = {
     fromPayload,
     fromAttachment,
     fromQuickReply,
+    fromStop,
     saveFavourite,
     removeFavourite,
     toMapUrl
