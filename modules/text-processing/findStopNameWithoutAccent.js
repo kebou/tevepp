@@ -14,7 +14,7 @@ module.exports = (ctx, next) => {
     let startNameIndex = null;
     let endNameIndex = null;
     for (let index = 0; index < tokens.length; index++) {
-        const token = tokens[index];
+        const token = latinize(tokens[index]);
         let startToken = hasStartSuffix(token);
         if (startToken && startToken.length > 0) {
             tokens[index] = startToken[0];
@@ -47,20 +47,24 @@ const getStopFromTokens = (tokens, index) => {
     }
     let array = tokens.slice(0, index + 1);
     let search = [];
-    return findStop(array, search);
+    let prevRes = null;
+    return findStop(array, search, prevRes);
 };
 
-const findStop = (array, search) => {
+const findStop = (array, search, prevRes) => {
     search.unshift(array.pop());
     const stopName = search.reduce((a, b) => a.concat(' ' + b), '').trim();
     return Futar.searchStop(stopName)
         .then(res => {
-            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) !== latinize(search[0].toLowerCase())) {
-                return findStop(array, search);
+            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].toLowerCase())) {
+                prevRes = res[0];
             }
-            return res[0];
+            return findStop(array, search);
         })
         .catch(() => {
+            if (prevRes) {
+                return Promise.resolve(prevRes);
+            }
             if (array.length < 1) {
                 return Promise.reject();
             }

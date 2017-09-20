@@ -15,7 +15,7 @@ module.exports = (ctx, next) => {
         message.nlp.entities.intent && Array.isArray(message.nlp.entities.intent) &&
         message.nlp.entities.intent.length > 0 && message.nlp.entities.intent[0];
 
-    if (intent && intent.confidence >= 0.7) {
+    if (intent && intent.confidence >= 0.8) {
         ctx.intent = intent.value.toUpperCase();
     }
     if (intent) {
