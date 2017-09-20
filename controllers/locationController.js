@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const NodeGeocoder = require('../utils/node-geocoder');
 const tryParseJSON = require('../utils/tryparse-json');
 const config = require('config');
+const Futar = require('../controllers/futarController');
 
 const mapOpts = {
     provider: 'google',
@@ -90,25 +91,29 @@ const fromQuickReply = (data, userId) => {
 };
 
 const fromText = (text, userId) => {
-    return gc.geocode({ text: text, withBounds: true })
-        .then(res => {
-            if (res.length < 1) {
-                const err = new Error('Geocoder result is empty.');
-                err.name = 'LocationError';
-                throw err;
-            }
+    return Futar.searchStop(text)
+        .then(stops => fromStop(stops[0], userId))
+        .catch(() => {
+            return gc.geocode({ text: text, withBounds: true })
+                .then(res => {
+                    if (res.length < 1) {
+                        const err = new Error('Geocoder result is empty.');
+                        err.name = 'LocationError';
+                        throw err;
+                    }
 
-            const params = _formatParams(res[0]);
+                    const params = _formatParams(res[0]);
 
-            const loc = new Location(params);
-            const locObj = loc.toObject();
+                    const loc = new Location(params);
+                    const locObj = loc.toObject();
 
-            loc.userId = userId;
-            loc.type = 'log';
-            loc.source = 'text';
-            loc.save();
+                    loc.userId = userId;
+                    loc.type = 'log';
+                    loc.source = 'text';
+                    loc.save();
 
-            return locObj;
+                    return locObj;
+                });
         });
 };
 
@@ -121,12 +126,12 @@ const fromStop = (stop, userId) => {
         };
         const loc = Location(params);
         const locObj = loc.toObject();
-    
+
         loc.userId = userId;
         loc.type = 'log';
         loc.source = 'stop';
         loc.save();
-    
+
         return resolve(locObj);
     });
 };
