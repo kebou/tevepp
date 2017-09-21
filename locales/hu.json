@@ -1,14 +1,14 @@
 {
 	"greeting": {
 		"hi": {
-			"0": "Szia {{name}}!",
-			"1": "Hello {{name}}!",
-			"2": "Szervusz {{name}}!",
-			"3": "Üdv {{name}}!"
+			"0": "Szia {{{name}}}!",
+			"1": "Hello {{{name}}}!",
+			"2": "Szervusz {{{name}}}!",
+			"3": "Üdv {{{name}}}!"
 		},
 		"bye": {
-			"0": "Viszlát {{name}}!",
-			"1": "Pápá {{name}}!"
+			"0": "Viszlát {{{name}}}!",
+			"1": "Pápá {{{name}}}!"
 		},
 		"newUser": {
 			"0": "Szükséged van néhány hasznos infóra a fővárosi tömegközlekedéssel kapcsolatban?",
@@ -81,8 +81,8 @@
 	"trip": {
 		"walkingDistance": "Ide a leggyorsabban gyalog juthatsz el. Egy kis mozgás sosem árt 😉",
 		"searchingTrip": {
-			"0": "🔍 Már keresem is az útvonalat {{start}} és {{stop}} között!",
-			"1": "🔍 Útvonal tervezése {{start}} és {{stop}} között folyamatban!"
+			"0": "🔍 Már keresem is az útvonalat {{{start}}} és {{{stop}}} között!",
+			"1": "🔍 Útvonal tervezése {{{start}}} és {{{stop}}} között folyamatban!"
 		},
 		"tripPlanningFailed": "😞 Az általad választott pontok között sajnos nem sikerült útvonalat terveznem.",
 		"noService": "Előfordulhat, hogy a megadott címek között nem közlekedik semmilyen BKV járat.",
@@ -107,18 +107,18 @@
 	"minute": "%s perc",
 	"stop": "%s megálló",
 	"walk": "séta",
-	"startFromStop": "{{stopName}} megállóból indulva",
+	"startFromStop": "{{{stopName}}} megállóból indulva",
 	"schedule": {
 		"direction": {
 			"0": "Melyik irányba mennél?",
 			"1": "Melyik irányba utaznál?"
 		},
-		"withinOneMinute": "Egy percen belül a megállóban van a következő {{routeName}}.",
-		"withinXMinutes": "{{minutes}} percen belül a megállóban van a következő {{routeName}}.",
-		"departAt": "A következő {{routeName}} {{time}}-kor indul a megállóból.",
+		"withinOneMinute": "Egy percen belül a megállóban van a következő {{{routeName}}}.",
+		"withinXMinutes": "{{{minutes}}} percen belül a megállóban van a következő {{{routeName}}}.",
+		"departAt": "A következő {{{routeName}}} {{{time}}}-kor indul a megállóból.",
 		"invalidStopName": "Nem találtam ilyen nevű megállót, próbáld meg pontosabban megadni a nevét.",
 		"invalidRouteName": "Nem találtam ilyen nevű járatot, próbáld meg mégegyszer.",
-		"invalidRouteStopPair": "{{routeName}} {{transportType}} a következő egy órában nem indul {{stopName}} megállóból."
+		"invalidRouteStopPair": "{{{routeName}}} {{{transportType}}} a következő egy órában nem indul {{{stopName}}} megállóból."
 	},
 	"transportType": {
 		"TRAM": "villamos",
@@ -130,28 +130,28 @@
 	},
 	"favouriteLocation": {
 		"newLocation": "Milyen helyet szeretnél hozzáadni?",
-		"editLocation": "Mire változtatnád {{title}} címet?",
-		"newName": "Milyen néven mentenéd el {{locationTitle}} helyet?",
-		"editName": "Mire változtatnád {{name}} nevet?",
+		"editLocation": "Mire változtatnád {{{title}}} címet?",
+		"newName": "Milyen néven mentenéd el {{{locationTitle}}} helyet?",
+		"editName": "Mire változtatnád {{{name}}} nevet?",
 		"nameHint": "Írj egy nevet (max. 20 karakter)",
 		"canceled": {
 			"0": "Akkor most nem adok hozzá új kedvencet.",
 			"1": "Kedvenc hely hozzáadás - lefújva!"
 		},
-		"maxLocationReached": "Összesen {{maxLocation}} helyet menthetsz el, új hely hozzáadásához először tötölnöd kell egyet.",
+		"maxLocationReached": "Összesen {{{maxLocation}}} helyet menthetsz el, új hely hozzáadásához először tötölnöd kell egyet.",
 		"missingName": "Kérlek küldj el a hely nevét szöveges üzenetként.",
-		"approveNewLocation": "Hozzáadhatom {{name}} néven {{title}} helyet?",
+		"approveNewLocation": "Hozzáadhatom {{{name}}} néven {{{title}}} helyet?",
 		"newLocationAdded": {
-			"0": "{{name}} helyet felvetted a kedvenceid közé. ⭐️",
-			"1": "{{name}} már meg is található a kedvenceid között. 🌟",
-			"2": "{{name}} helyet sikeresen hozzáadtad a kedvenceidhez. ⭐️"
+			"0": "{{{name}}} helyet felvetted a kedvenceid közé. ⭐️",
+			"1": "{{{name}}} már meg is található a kedvenceid között. 🌟",
+			"2": "{{{name}}} helyet sikeresen hozzáadtad a kedvenceidhez. ⭐️"
 		},
 		"addNewLocation": "Új hely hozzáadása",
-		"confirmRemoval": "Biztosan törlöd {{name}} helyet?",
+		"confirmRemoval": "Biztosan törlöd {{{name}}} helyet?",
 		"locationRemoved": {
-			"0": "{{name}} helyet sikeresen törölted a kedvenceid közül.",
-			"1": "Hiszed vagy nem, de {{name}} hely már nincs a kedvenceid között.",
-			"2": "{{name}} hely szomorúan távozott kedvenceid közül."
+			"0": "{{{name}}} helyet sikeresen törölted a kedvenceid közül.",
+			"1": "Hiszed vagy nem, de {{{name}}} hely már nincs a kedvenceid között.",
+			"2": "{{{name}}} hely szomorúan távozott kedvenceid közül."
 		},
 		"cancelRemoval": {
 			"0": "Jójó, nem törlöm!!! 😃",
