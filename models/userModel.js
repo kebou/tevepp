@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     _id: {
-        type: Number,
+        type: String,
         required: [true, 'Facebook page-scoped ID is missing.']
     },
     firstName: String,
