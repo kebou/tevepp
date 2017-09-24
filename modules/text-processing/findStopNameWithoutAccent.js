@@ -59,6 +59,12 @@ const findStop = (array, search, prevRes) => {
             if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].toLowerCase())) {
                 prevRes = res[0];
             }
+            if (array.length < 1) {
+                if (prevRes) {
+                    return Promise.resolve(prevRes);
+                }
+                return Promise.resolve(null);
+            }
             return findStop(array, search);
         })
         .catch(() => {
@@ -66,7 +72,7 @@ const findStop = (array, search, prevRes) => {
                 return Promise.resolve(prevRes);
             }
             if (array.length < 1) {
-                return Promise.reject();
+                return Promise.resolve(null);
             }
             return findStop(array, search);
         });
