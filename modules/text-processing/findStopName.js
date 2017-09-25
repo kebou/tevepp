@@ -6,6 +6,10 @@ const Futar = require('../../controllers/futarController');
  */
 module.exports = (ctx, next) => {
     const { tokens } = ctx;
+    if (!tokens) {
+        console.error('findStopName module should be used after "tokens" property in ctx')
+        return next();
+    }
     let startNameIndex = null;
     let endNameIndex = null;
     for (let index = 0; index < tokens.length; index++) {
@@ -25,10 +29,16 @@ module.exports = (ctx, next) => {
     return Promise.all([getStopFromTokens(tokens, startNameIndex), getStopFromTokens(tokens, endNameIndex)])
         .then(res => {
             if (res[0] !== null) {
-                ctx.start = res[0];
+                ctx.start = ctx.start || {};
+                ctx.start.type = 'stop';
+                ctx.start.value = res[0].stop;
+                ctx.start.raw = res[0].raw;
             }
             if (res[1] !== null) {
-                ctx.end = res[1];
+                ctx.end = ctx.end || {};
+                ctx.end.type = 'stop';
+                ctx.end.value = res[1].stop;
+                ctx.end.raw = res[1].raw;
             }
             return next();
         })
@@ -59,11 +69,11 @@ const findStop = (array) => {
                 array.shift();
                 return findStop(array);
             }
-            return res[0];
+            return { stop: res[0], raw: stopName };
         })
         .catch(() => {
             if (array.length < 1) {
-                return Promise.reject();
+                return Promise.resolve(null);
             }
             array.shift();
             return findStop(array);

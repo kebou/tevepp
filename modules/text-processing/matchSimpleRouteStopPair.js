@@ -9,6 +9,11 @@ module.exports = (bot) => {
 
     const matchRouteStopPair = (ctx, next) => {
         const { user, text, routeName } = ctx;
+        if (!user) {
+            const err = new Error('matchSimpleRouteStopPair module should be used with "user" property in ctx');
+            err.name = 'TextProcessingError';
+            throw err;
+        }
         if (!routeName) {
             return next();
         }

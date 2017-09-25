@@ -9,6 +9,10 @@ module.exports.routeName = () => {
     return new RegExp(basicName + '\|' + rail + '\|' + subway + '\|' + ferry, 'gi');
 };
 
+module.exports.routeNameInText = () => {
+    return new RegExp(`(?:${basicName}|${rail}|${subway}|${ferry})(?!-?(?:ba|be|bol|ból|ből|rol|ról|ről|ra|re|tol|tól|től|hoz|hez|höz|ig))`, 'gi');
+};
+
 module.exports.routeNameWithDelimiter = (delimiter) => {
     return new RegExp(`(${basicName}|${rail}|${subway}|${ferry})` + delimiter, 'i');
 };

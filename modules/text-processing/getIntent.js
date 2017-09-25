@@ -4,7 +4,7 @@
  * Out: Intent
  */
 module.exports = (ctx, next) => {
-    const payload = ctx.payload;
+    const { payload } = ctx;
     if (!payload) {
         const err = new Error('.process() should be called with payload property in ctx');
         err.name = 'TextProcessingError';
