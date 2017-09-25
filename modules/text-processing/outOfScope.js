@@ -7,6 +7,11 @@ module.exports = (bot) => {
 
     const outOfScope = (ctx) => {
         const { user, text } = ctx;
+        if (!user) {
+            const err = new Error('outOfScope module should be used with "user" property in ctx');
+            err.name = 'TextProcessingError';
+            throw err;
+        }
         console.error(`Out of Scope Message: ${text}`);
         return ChitChat.sendOutOfScope(user);
     };

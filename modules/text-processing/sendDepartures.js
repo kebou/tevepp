@@ -7,10 +7,15 @@ module.exports = (bot) => {
 
     const sendDepartures = (ctx, next) => {
         const { start, routeName, user } = ctx;
-        if (!start || !routeName) {
+        if (!user) {
+            const err = new Error('sendDepartures module should be used with "user" property in ctx');
+            err.name = 'TextProcessingError';
+            throw err;
+        }
+        if (!routeName || !(start && start.type === 'stop')) {
             return next();
         }
-        Schedule.sendDeparturesFromUserSearch(user, start.name, routeName);
+        Schedule.sendDeparturesFromUserSearch(user, start.value.name, routeName);
     };
     return sendDepartures;
 };

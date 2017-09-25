@@ -2,37 +2,55 @@
 const Futar = require('../../controllers/futarController');
 const latinize = require('../../utils/nlg').latinize;
 /**
- * In: tokens
+ * In: tokensContent
  * Out: start, stop
  */
 module.exports = (ctx, next) => {
     const { start, end } = ctx;
+    if (!ctx.tokensContent) {
+        console.error('findStopNameWithoutAccent module should be used after "tokensContent" property in ctx');
+        return next();
+    }
     if (start && end) {
         return next();
     }
-    const tokens = ctx.tokens.slice().map(x => x.content);
+    const tokens = ctx.tokens.slice();
     let startNameIndex = null;
     let endNameIndex = null;
     for (let index = 0; index < tokens.length; index++) {
-        const token = latinize(tokens[index]);
+        const token = latinize(tokens[index].content);
         let startToken = hasStartSuffix(token);
         if (startToken && startToken.length > 0) {
-            tokens[index] = startToken[0];
+            tokens[index].content = tokens[index].content.substring(0, startToken[0].length);
             startNameIndex = index;
         }
         let stopToken = hasEndSuffix(token);
         if (stopToken && stopToken.length > 0) {
-            tokens[index] = stopToken[0];
+            tokens[index].content = tokens[index].content.substring(0, stopToken[0].length);
             endNameIndex = index;
         }
     }
-    return Promise.all([getStopFromTokens(tokens, startNameIndex), getStopFromTokens(tokens, endNameIndex)])
+    // ha már korábban sikeresen feldolgozásra került start vagy end, akkor azt nem írja felül
+    let promises = [Promise.resolve(null), Promise.resolve(null)];
+    if (!start && startNameIndex !== null) {
+        promises[0] = getStopFromTokens(tokens, startNameIndex);
+    }
+    if (!end && endNameIndex !== null) {
+        promises[1] = getStopFromTokens(tokens, endNameIndex);
+    }
+    return Promise.all(promises)
         .then(res => {
             if (res[0] !== null) {
-                ctx.start = res[0];
+                ctx.start = ctx.start || {};
+                ctx.start.type = 'stop';
+                ctx.start.value = res[0].stop;
+                ctx.start.raw = res[0].raw;
             }
             if (res[1] !== null) {
-                ctx.end = res[1];
+                ctx.end = ctx.end || {};
+                ctx.end.type = 'stop';
+                ctx.end.value = res[1].stop;
+                ctx.end.raw = res[1].raw;
             }
             return next();
         })
@@ -53,28 +71,29 @@ const getStopFromTokens = (tokens, index) => {
 
 const findStop = (array, search, prevRes) => {
     search.unshift(array.pop());
-    const stopName = search.reduce((a, b) => a.concat(' ' + b), '').trim();
+    const stopName = search.reduce((sum, x) => sum.concat(' ' + x.content), '').trim();
     return Futar.searchStop(stopName)
         .then(res => {
-            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].toLowerCase())) {
+            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].content.toLowerCase())) {
                 prevRes = res[0];
             }
             if (array.length < 1) {
                 if (prevRes) {
-                    return Promise.resolve(prevRes);
+                    return Promise.resolve({ stop: prevRes, raw: search });
                 }
                 return Promise.resolve(null);
             }
-            return findStop(array, search);
+            return findStop(array, search, prevRes);
         })
         .catch(() => {
             if (prevRes) {
-                return Promise.resolve(prevRes);
+                search.shift();
+                return Promise.resolve({ stop: prevRes, raw: search });
             }
             if (array.length < 1) {
                 return Promise.resolve(null);
             }
-            return findStop(array, search);
+            return findStop(array, search, prevRes);
         });
 };
 

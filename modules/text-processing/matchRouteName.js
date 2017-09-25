@@ -5,7 +5,7 @@ const Pattern = require('../../utils/patterns');
  * Out: routeName
  */
 module.exports = (ctx, next) => {
-    const pattern = Pattern.routeName();
+    const pattern = Pattern.routeNameInText();
     const match = ctx.text.match(pattern);
     if (match) {
         ctx.routeName = match[0];

@@ -9,6 +9,11 @@ module.exports = (bot) => {
 
     const handleIntent = (ctx, next) => {
         const { user, chat, intent } = ctx;
+        if (!user && !chat) {
+            const err = new Error('#handleIntent module should be used with "user", "chat" property in ctx');
+            err.name = 'TextProcessingError';
+            throw err;
+        }
         switch (intent) {
 
             case 'GREETING_HI':

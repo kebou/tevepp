@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {},
+  "scripts": {
+    "test": "NODE_ENV=test; mocha --reporter spec"
+  },
   "author": "kebou",
   "license": "ISC",
   "engines": {
@@ -25,5 +27,10 @@
     "node-wit": "^4.2.0",
     "request-promise": "^4.2.1",
     "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "chai-as-promised": "*",
+    "mocha": "*"
   }
 }
