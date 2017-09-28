@@ -7,14 +7,14 @@ const latinize = require('../../utils/nlg').latinize;
  */
 module.exports = (ctx, next) => {
     const { start, end } = ctx;
-    if (!ctx.tokensContent) {
-        console.error('findStopNameWithoutAccent module should be used after "tokensContent" property in ctx');
+    if (!ctx.tokens) {
+        console.error('findStopNameWithoutAccent module should be used after "tokens" property in ctx');
         return next();
     }
     if (start && end) {
         return next();
     }
-    const tokens = ctx.tokens.slice();
+    const tokens = ctx.tokens.map(a => Object.assign({}, a));
     let startNameIndex = null;
     let endNameIndex = null;
     for (let index = 0; index < tokens.length; index++) {
@@ -44,13 +44,13 @@ module.exports = (ctx, next) => {
                 ctx.start = ctx.start || {};
                 ctx.start.type = 'stop';
                 ctx.start.value = res[0].stop;
-                ctx.start.raw = res[0].raw;
+                ctx.start.tokens = res[0].tokens;
             }
             if (res[1] !== null) {
                 ctx.end = ctx.end || {};
                 ctx.end.type = 'stop';
                 ctx.end.value = res[1].stop;
-                ctx.end.raw = res[1].raw;
+                ctx.end.tokens = res[1].tokens;
             }
             return next();
         })
@@ -79,7 +79,7 @@ const findStop = (array, search, prevRes) => {
             }
             if (array.length < 1) {
                 if (prevRes) {
-                    return Promise.resolve({ stop: prevRes, raw: search });
+                    return Promise.resolve({ stop: prevRes, tokens: search });
                 }
                 return Promise.resolve(null);
             }
@@ -88,7 +88,7 @@ const findStop = (array, search, prevRes) => {
         .catch(() => {
             if (prevRes) {
                 search.shift();
-                return Promise.resolve({ stop: prevRes, raw: search });
+                return Promise.resolve({ stop: prevRes, tokens: search });
             }
             if (array.length < 1) {
                 return Promise.resolve(null);

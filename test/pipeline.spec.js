@@ -23,6 +23,7 @@ tp.use(require('../modules/text-processing/matchRouteName'));
 tp.use(require('../modules/text-processing/parseText'));
 tp.use(require('../modules/text-processing/findStopName'));
 tp.use(require('../modules/text-processing/findStopNameWithoutAccent'));
+tp.use(require('../modules/text-processing/findAddressWithSuffix'));
 
 describe('Text Processing Pipeline', function () {
     describe('Route Name Matching', function () {
@@ -61,6 +62,13 @@ describe('Text Processing Pipeline', function () {
                 })
                 .then(done, done);
         });
+        it('should not match 8ba', function (done) {
+            tp.process('8ba')
+                .then(() => {
+                    context.should.have.not.property('routeName');
+                })
+                .then(done, done);
+        });
         it('should not match H55', function (done) {
             tp.process('H55')
                 .then(() => {
@@ -77,7 +85,7 @@ describe('Text Processing Pipeline', function () {
                     context.should.have.property('start');
                     context.start.should.have.property('value');
                     context.start.should.have.property('type').with.to.equal('stop');
-                    context.start.should.have.property('raw').with.to.be.a('array');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
                     context.start.value.should.have.property('rawName').with.to.equal('Móricz Zsigmond körtér');
                 })
                 .then(done, done);
@@ -88,7 +96,7 @@ describe('Text Processing Pipeline', function () {
                     context.should.have.property('end');
                     context.end.should.have.property('value');
                     context.end.should.have.property('type').with.to.equal('stop');
-                    context.end.should.have.property('raw').with.to.be.a('array');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
                     context.end.value.should.have.property('rawName').with.to.equal('Blaha Lujza tér');
                 })
                 .then(done, done);
@@ -99,7 +107,7 @@ describe('Text Processing Pipeline', function () {
                     context.should.have.property('start');
                     context.start.should.have.property('value');
                     context.start.should.have.property('type').with.to.equal('stop');
-                    context.start.should.have.property('raw').with.to.be.a('array');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
                     context.start.value.should.have.property('rawName').with.to.equal('Széll Kálmán tér');
                 })
                 .then(done, done);
@@ -128,6 +136,7 @@ describe('Text Processing Pipeline', function () {
                     context.start.should.have.property('value');
                     context.start.should.have.property('type').with.to.equal('stop');
                     context.start.value.should.have.property('rawName').with.to.equal('Blaha Lujza tér');
+                    
                     context.should.have.property('end');
                     context.end.should.have.property('value');
                     context.end.should.have.property('type').with.to.equal('stop');
@@ -141,13 +150,82 @@ describe('Text Processing Pipeline', function () {
                     context.should.have.property('start');
                     context.start.should.have.property('value');
                     context.start.should.have.property('type').with.to.equal('stop');
-                    context.start.should.have.property('raw').with.to.be.a('array');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
                     context.start.value.should.have.property('rawName').with.to.equal('József Attila utca');
+                    
                     context.should.have.property('end');
                     context.end.should.have.property('value');
                     context.end.should.have.property('type').with.to.equal('stop');
-                    context.end.should.have.property('raw').with.to.be.a('array');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
                     context.end.value.should.have.property('rawName').with.to.equal('Albertfalva utca');
+                })
+                .then(done, done);
+        });
+        it('should plan a trip between Móricz Zsigmond körtér and Kerepesi út 29.', function (done) {
+            tp.process('moriczrol kerepesi 29-be')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Móricz Zsigmond körtér');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Kerepesi út 29.');
+                })
+                .then(done, done);
+        });
+        it('should plan a trip between Blaha Lujza tér and Albertfalva utca 199.', function (done) {
+            tp.process('blaharol albertfalva utca 17be')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Blaha Lujza tér');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Albertfalva utca 17.');
+                })
+                .then(done, done);
+        });
+        it('should plan a trip between Batthyány utca 48. and Országház utca 5.', function (done) {
+            tp.process('batthyány utca 48bol orszaghaz utca 5be')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('location');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    context.start.value.should.have.property('title').with.to.equal('Budapest, Batthyány utca 48.');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Országház utca 5.');
+                })
+                .then(done, done);
+        });
+        it('should plan a trip between Népfürdő utca 10. and Virág utca 6.', function (done) {
+            tp.process('virág utca 6ba népfürdő utca 10ből')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('location');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    context.start.value.should.have.property('title').with.to.equal('Budapest, Népfürdő utca 10.');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Virág utca 6.');
                 })
                 .then(done, done);
         });

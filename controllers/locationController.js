@@ -93,28 +93,50 @@ const fromQuickReply = (data, userId) => {
 const fromText = (text, userId) => {
     return Futar.searchStop(text)
         .then(stops => fromStop(stops[0], userId))
-        .catch(() => {
-            return gc.geocode({ text: text, withBounds: true })
-                .then(res => {
-                    if (res.length < 1) {
-                        const err = new Error('Geocoder result is empty.');
-                        err.name = 'LocationError';
-                        throw err;
-                    }
+        .catch(() => searchLocation(text, userId));
+};
 
-                    const params = _formatParams(res[0]);
+const searchLocation = (text, userId) => {
+    return gc.geocode({ text: text, withBounds: true })
+        .then(res => {
+            // console.log(text);
+            // console.log(res);
+            if (res.length < 1) {
+                const err = new Error('Geocoder result is empty.');
+                err.name = 'LocationError';
+                throw err;
+            }
+            if (res[0].country !== 'Magyarország') {
+                const err = new Error('Geocoder result is not in Hungary.');
+                err.name = 'LocationError';
+                throw err;
+            }
 
-                    const loc = new Location(params);
-                    const locObj = loc.toObject();
-
-                    loc.userId = userId;
-                    loc.type = 'log';
-                    loc.source = 'text';
-                    loc.save();
-
-                    return locObj;
-                });
+            const params = _formatParams(res[0]);
+            const loc = new Location(params);
+            const locObj = loc.toObject();
+            
+            if (userId) {
+                loc.userId = userId;
+                loc.type = 'log';
+                loc.source = 'text';
+                loc.save();
+            }
+            return locObj;
         });
+};
+
+const fromLocation = (location, userId) => {
+    return new Promise(resolve => {
+        
+        const loc = new Location(location);
+        loc.userId = userId;
+        loc.type = 'log';
+        loc.source = 'location';
+        loc.save();
+
+        return resolve(location);
+    });
 };
 
 const fromStop = (stop, userId) => {
@@ -124,14 +146,14 @@ const fromStop = (stop, userId) => {
             latitude: stop.latitude,
             longitude: stop.longitude
         };
-        const loc = Location(params);
+        const loc = new Location(params);
         const locObj = loc.toObject();
-
-        loc.userId = userId;
-        loc.type = 'log';
-        loc.source = 'stop';
-        loc.save();
-
+        if (userId) {
+            loc.userId = userId;
+            loc.type = 'log';
+            loc.source = 'stop';
+            loc.save();
+        }
         return resolve(locObj);
     });
 };
@@ -213,11 +235,13 @@ const _formatParams = (res) => {
 };
 
 module.exports = {
+    searchLocation,
     fromText,
     fromPayload,
     fromAttachment,
     fromQuickReply,
     fromStop,
+    fromLocation,
     saveFavourite,
     removeFavourite,
     toMapUrl

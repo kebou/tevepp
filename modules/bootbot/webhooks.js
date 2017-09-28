@@ -26,19 +26,19 @@ module.exports = (bot) => {
             });
     });
 
-    bot.app.get('/loadtest', (req, res) => {
-        let user, start;
-        userController.getUser('1405829276203024')
-            .then(res => {
-                user = res;
-                return locationController.fromText('albertfalva utca', user.id);
-            })
-            .then(res => {
-                start = res;
-                return locationController.fromText('szentendre', user.id);
-            })
-            .then(stop => TripPlanning.planTrip(user, start, stop))
-            .then(() => res.sendStatus(200))
-            .catch(console.error);
-    });
+    // bot.app.get('/loadtest', (req, res) => {
+    //     let user, start;
+    //     userController.getUser('1405829276203024')
+    //         .then(res => {
+    //             user = res;
+    //             return locationController.fromText('albertfalva utca', user.id);
+    //         })
+    //         .then(res => {
+    //             start = res;
+    //             return locationController.fromText('szentendre', user.id);
+    //         })
+    //         .then(stop => TripPlanning.planTrip(user, start, stop))
+    //         .then(() => res.sendStatus(200))
+    //         .catch(console.error);
+    // });
 };
