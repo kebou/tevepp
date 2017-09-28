@@ -10,7 +10,11 @@ module.exports = (bot) => {
             return next();
         }
         if (start && !end) {
-            return Location.fromStop(start.value, user.id)
+            let getLocation = Location.fromLocation;
+            if (start.type === 'stop') {
+                getLocation = Location.fromStop;
+            }
+            return getLocation(start.value, user.id)
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('start', location);
@@ -19,7 +23,11 @@ module.exports = (bot) => {
                 .catch(() => next());
         }
         if (end && !start) {
-            return Location.fromStop(end.value, user.id)
+            let getLocation = Location.fromLocation;
+            if (end.type === 'stop') {
+                getLocation = Location.fromStop;
+            }
+            return getLocation(end.value, user.id)
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('stop', location);
@@ -28,11 +36,19 @@ module.exports = (bot) => {
                 .catch(() => next());
         }
         if (start && end) {
+            let getStartLocation = Location.fromLocation;
+            if (start.type === 'stop') {
+                getStartLocation = Location.fromStop;
+            }
+            let getEndLocation = Location.fromLocation;
+            if (end.type === 'stop') {
+                getEndLocation = Location.fromStop;
+            }
             let startLoc;
-            return Location.fromStop(start.value, user.id)
+            return getStartLocation(start.value, user.id)
                 .then(res => {
                     startLoc = res;
-                    return Location.fromStop(end.value, user.id);
+                    return getEndLocation(end.value, user.id);
                 })
                 .then(endLoc => TripPlanning.planTrip(user, startLoc, endLoc))
                 .catch(() => next());

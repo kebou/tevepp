@@ -28,6 +28,7 @@ module.exports = (bot) => {
     tp.use(require('../text-processing/parseText'));
     tp.use(require('../text-processing/findStopName'));
     tp.use(require('../text-processing/findStopNameWithoutAccent'));
+    tp.use(require('../text-processing/findAddressWithSuffix'));
     tp.use(printCtx);
 
     tp.use(require('../text-processing/sendDepartures')(bot));
