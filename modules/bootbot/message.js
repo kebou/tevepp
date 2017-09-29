@@ -29,6 +29,7 @@ module.exports = (bot) => {
     tp.use(require('../text-processing/findStopName'));
     tp.use(require('../text-processing/findStopNameWithoutAccent'));
     tp.use(require('../text-processing/findAddressWithSuffix'));
+    tp.use(require('../text-processing/findAddress'));
     tp.use(printCtx);
 
     tp.use(require('../text-processing/sendDepartures')(bot));
@@ -59,7 +60,8 @@ module.exports = (bot) => {
         const userId = payload.sender.id;
         const text = payload.message.text;
 
-        return userController.getUser(userId)
+        return bot.sendAction(userId, 'typing_on')
+            .then(() => userController.getUser(userId))
             .then(user => tp.process(text, { user, chat, payload }));
     });
 };

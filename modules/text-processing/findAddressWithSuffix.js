@@ -2,7 +2,7 @@
 const latinize = require('../../utils/nlg').latinize;
 const Location = require('../../controllers/locationController');
 /**
- * In: tokensContent
+ * In: tokens
  * Out: start, stop
  */
 module.exports = (ctx, next) => {
