@@ -24,6 +24,7 @@ tp.use(require('../modules/text-processing/parseText'));
 tp.use(require('../modules/text-processing/findStopName'));
 tp.use(require('../modules/text-processing/findStopNameWithoutAccent'));
 tp.use(require('../modules/text-processing/findAddressWithSuffix'));
+tp.use(require('../modules/text-processing/findAddress'));
 
 describe('Text Processing Pipeline', function () {
     describe('Route Name Matching', function () {
@@ -226,6 +227,23 @@ describe('Text Processing Pipeline', function () {
                     context.end.should.have.property('type').with.to.equal('location');
                     context.end.should.have.property('tokens').with.to.be.a('array');
                     context.end.value.should.have.property('title').with.to.equal('Budapest, Virág utca 6.');
+                })
+                .then(done, done);
+        });
+        it('should plan a trip between Blaha Lujza tér and Móricz Zsigmond körtér', function (done) {
+            tp.process('blaha moricz')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Blaha Lujza tér');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('stop');
+                    context.end.value.should.have.property('rawName').with.to.equal('Móricz Zsigmond körtér');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
                 })
                 .then(done, done);
         });
