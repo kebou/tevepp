@@ -19,7 +19,7 @@ const revealCtx = (ctx, next) => {
 };
 
 tp.use(revealCtx);
-tp.use(require('../modules/text-processing/matchRouteName'));
+
 tp.use(require('../modules/text-processing/parseText'));
 
 tp.use(require('../modules/text-processing/findStopNameWithMorph'));
@@ -27,6 +27,7 @@ tp.use(require('../modules/text-processing/findStopNameWithoutAccent'));
 tp.use(require('../modules/text-processing/findAddressWithSuffix'));
 tp.use(require('../modules/text-processing/findAddressWithNumber'));
 tp.use(require('../modules/text-processing/findStopNameWithoutSuffix'));
+tp.use(require('../modules/text-processing/matchRouteName'));
 
 describe('Text Processing Pipeline', function () {
     describe('Route Name Matching', function () {
