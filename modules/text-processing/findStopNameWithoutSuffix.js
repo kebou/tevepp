@@ -30,6 +30,7 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
             if (!start && end) {
                 ctx.start = ctx.start || {};
                 ctx.start.type = 'stop';
+                ctx.start.module = 'findStopNameWithoutSuffix';
                 ctx.start.value = res.location;
                 ctx.start.tokens = res.tokens;
                 return next();
@@ -38,6 +39,7 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
             // ha csak végcél nincs vagy semmi nincs
             ctx.end = ctx.end || {};
             ctx.end.type = 'stop';
+            ctx.end.module = 'findStopNameWithoutSuffix';
             ctx.end.value = res.location;
             ctx.end.tokens = res.tokens;
             // ha csak végcél nincs

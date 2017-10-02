@@ -21,10 +21,12 @@ const revealCtx = (ctx, next) => {
 tp.use(revealCtx);
 tp.use(require('../modules/text-processing/matchRouteName'));
 tp.use(require('../modules/text-processing/parseText'));
-tp.use(require('../modules/text-processing/findStopName'));
+
+tp.use(require('../modules/text-processing/findStopNameWithMorph'));
 tp.use(require('../modules/text-processing/findStopNameWithoutAccent'));
 tp.use(require('../modules/text-processing/findAddressWithSuffix'));
-tp.use(require('../modules/text-processing/findAddress'));
+tp.use(require('../modules/text-processing/findAddressWithNumber'));
+tp.use(require('../modules/text-processing/findStopNameWithoutSuffix'));
 
 describe('Text Processing Pipeline', function () {
     describe('Route Name Matching', function () {
@@ -244,6 +246,35 @@ describe('Text Processing Pipeline', function () {
                     context.end.should.have.property('type').with.to.equal('stop');
                     context.end.value.should.have.property('rawName').with.to.equal('Móricz Zsigmond körtér');
                     context.end.should.have.property('tokens').with.to.be.a('array');
+                })
+                .then(done, done);
+        });
+        it('should match kerepesi 29 as end', function (done) {
+            tp.process('kerepesi 29')
+                .then(() => {
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Kerepesi út 29.');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                })
+                .then(done, done);
+        });
+        it('should plan a trip between Fehérvári út 199. and Lévay utca 8.', function (done) {
+            this.timeout(3000);
+            tp.process('fehervari ut 199 levay utca 8')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('location');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    context.start.value.should.have.property('title').with.to.equal('Budapest, Fehérvári út 199.');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Lévay utca 8.');
                 })
                 .then(done, done);
         });

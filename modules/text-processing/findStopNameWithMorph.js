@@ -7,7 +7,7 @@ const Futar = require('../../controllers/futarController');
 module.exports = (ctx, next) => {
     const { tokens } = ctx;
     if (!tokens) {
-        console.error('findStopName module should be used after "tokens" property in ctx');
+        console.error('findStopNameWithMorph module should be used after "tokens" property in ctx');
         return next();
     }
     let startNameIndex = null;
@@ -31,12 +31,14 @@ module.exports = (ctx, next) => {
             if (res[0] !== null) {
                 ctx.start = ctx.start || {};
                 ctx.start.type = 'stop';
+                ctx.start.module = 'findStopNameWithMorph';
                 ctx.start.value = res[0].stop;
                 ctx.start.tokens = res[0].tokens;
             }
             if (res[1] !== null) {
                 ctx.end = ctx.end || {};
                 ctx.end.type = 'stop';
+                ctx.end.module = 'findStopNameWithMorph';
                 ctx.end.value = res[1].stop;
                 ctx.end.tokens = res[1].tokens;
             }

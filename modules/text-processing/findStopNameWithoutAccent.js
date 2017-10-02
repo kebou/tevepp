@@ -43,12 +43,14 @@ module.exports = (ctx, next) => {
             if (res[0] !== null) {
                 ctx.start = ctx.start || {};
                 ctx.start.type = 'stop';
+                ctx.start.module = 'findStopNameWithoutAccent';
                 ctx.start.value = res[0].stop;
                 ctx.start.tokens = res[0].tokens;
             }
             if (res[1] !== null) {
                 ctx.end = ctx.end || {};
                 ctx.end.type = 'stop';
+                ctx.end.module = 'findStopNameWithoutAccent';
                 ctx.end.value = res[1].stop;
                 ctx.end.tokens = res[1].tokens;
             }

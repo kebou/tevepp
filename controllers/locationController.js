@@ -99,8 +99,6 @@ const fromText = (text, userId) => {
 const searchLocation = (text, userId) => {
     return gc.geocode({ text: text, withBounds: true })
         .then(res => {
-            // console.log(text);
-            // console.log(res);
             if (res.length < 1) {
                 const err = new Error('Geocoder result is empty.');
                 err.name = 'LocationError';
