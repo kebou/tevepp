@@ -15,10 +15,6 @@ const printCtx = (ctx, next) => {
 
 module.exports = (bot) => {
     const userController = require('../../controllers/userController')(bot);
-    const ChitChat = require('../../intents/chitChat')(bot);
-    const Schedule = require('../../intents/schedule')(bot);
-    const TripPlanning = require('../../intents/tripPlanning')(bot);
-    const FavouriteLocation = require('../../intents/favouriteLocation')(bot);
 
     tp.use(require('../text-processing/getIntent'));
     tp.use(require('../text-processing/handleIntent')(bot));
@@ -26,10 +22,12 @@ module.exports = (bot) => {
     tp.use(require('../text-processing/matchRouteName'));
     tp.use(require('../text-processing/matchSimpleRouteStopPair')(bot));
     tp.use(require('../text-processing/parseText'));
-    tp.use(require('../text-processing/findStopName'));
+
+    tp.use(require('../text-processing/findStopNameWithMorph'));
     tp.use(require('../text-processing/findStopNameWithoutAccent'));
     tp.use(require('../text-processing/findAddressWithSuffix'));
-    tp.use(require('../text-processing/findAddress'));
+    tp.use(require('../text-processing/findAddressWithNumber'));
+    tp.use(require('../text-processing/findStopNameWithoutSuffix'));
     tp.use(printCtx);
 
     tp.use(require('../text-processing/sendDepartures')(bot));

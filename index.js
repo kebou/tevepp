@@ -142,11 +142,14 @@ const Futar = require('./controllers/futarController');
 
 
 
-Futar.searchStop('Blaha')
-    .then(res => console.log(res))
-    .catch(err => console.log(err));
+// Futar.searchStop('Blaha')
+//     .then(res => console.log(res))
+//     .catch(err => console.log(err));
 
-
+const Location = require('./controllers/locationController');
+Location.searchLocation('kerepesi 29')
+    .then(console.log)
+    .catch(console.error);
 
 
 

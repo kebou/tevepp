@@ -61,6 +61,7 @@ module.exports = (ctx, next) => {
             }
             ctx[indexes[0].type] = ctx[indexes[0].type] || {};
             ctx[indexes[0].type].type = 'location';
+            ctx[indexes[0].type].module = 'findAddressWithSuffix';
             ctx[indexes[0].type].value = res.location;
             ctx[indexes[0].type].tokens = res.tokens;
             tokensToProcess = tokens.filter(token => filterTokens(token, ctx[indexes[0].type], null));
@@ -72,6 +73,7 @@ module.exports = (ctx, next) => {
             }
             ctx[indexes[1].type] = ctx[indexes[1].type] || {};
             ctx[indexes[1].type].type = 'location';
+            ctx[indexes[1].type].module = 'findAddressWithSuffix';
             ctx[indexes[1].type].value = res.location;
             ctx[indexes[1].type].tokens = res.tokens;
             return next();

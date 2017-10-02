@@ -2,20 +2,17 @@
 const Futar = require('../../controllers/futarController');
 const Pattern = require('../../utils/patterns');
 /**
- * In: user, text, routeName
+ * In: user, text
  */
 module.exports = (bot) => {
     const Schedule = require('../../intents/schedule')(bot);
 
     const matchRouteStopPair = (ctx, next) => {
-        const { user, text, routeName } = ctx;
+        const { user, text } = ctx;
         if (!user) {
             const err = new Error('matchSimpleRouteStopPair module should be used with "user" property in ctx');
             err.name = 'TextProcessingError';
             throw err;
-        }
-        if (!routeName) {
-            return next();
         }
         const matches = text.match(Pattern.routeNameWithDelimiterAfter());
         if (!matches || matches.length < 1) {
@@ -23,7 +20,7 @@ module.exports = (bot) => {
         }
         const delimiter = matches[0].slice(-1);
         const parts = text.split(delimiter);
-        parts.shift();
+        const routeName = parts.shift();
         const stopName = parts.reduce((a, b) => a.concat(delimiter + b), '').substring(1).trim();
         
         return Futar.searchStop(stopName)
