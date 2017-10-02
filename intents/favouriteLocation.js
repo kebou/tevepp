@@ -5,7 +5,7 @@ const locationController = require('../controllers/locationController');
 const Location = require('../models/locationModel');
 const nlg = require('../utils/nlg');
 
-const MAX_LOCATION = config.get('maxLocation');
+const MAX_LOCATION = process.env.FAVOURITE_LOCATION_MAX || config.get('maxLocation');
 
 module.exports = (bot) => {
     if (!(bot instanceof BootBot)) {
