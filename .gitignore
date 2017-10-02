@@ -59,4 +59,5 @@ typings/
 .env
 
 # configuration
-# config/default.json
+config/*
+ecosystem.config.js
