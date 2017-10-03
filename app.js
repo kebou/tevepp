@@ -28,7 +28,7 @@ const VERIFY_TOKEN = process.env.VERIFY_TOKEN || config.get('verifyToken');
 const APP_SECRET = process.env.APP_SECRET || config.get('appSecret');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(MONGO_URL);
+mongoose.connect(MONGO_URL, { useMongoClient: true });
 
 const PORT = process.env.PORT || 3000;
 
