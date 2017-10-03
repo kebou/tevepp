@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const MONGO_URL = process.env.MONGO_URL || config.get('mongoURL');
 mongoose.Promise = global.Promise;
-mongoose.connect(MONGO_URL);
+mongoose.connect(MONGO_URL, { useMongoClient: true });
 
 const TextProcessor = require('../modules/text-processing/textProcessor');
 const tp = new TextProcessor();
