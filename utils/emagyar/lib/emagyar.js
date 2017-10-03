@@ -6,7 +6,7 @@ const parseXml = bp.promisify(parser.parseString);
 
 class Emagyar {
     constructor(url, modules) {
-        this.url = url || 'http://localhost:8000/process';
+        this.url = url || 'http://localhost:8000';
         this.modules = modules || ['emToken', 'emMorph', 'emTag', 'emCons', 'emDep', 'emChunk', 'emNer'];
     }
 
@@ -52,7 +52,7 @@ class Emagyar {
             modules = this.modules;
         }
         const rpOptions = {
-            url: this.url,
+            url: this.url + '/process',
             json: true,
             qs: {
                 run: this._formatModulesQuery(modules),
