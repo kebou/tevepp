@@ -2,9 +2,8 @@
 const Text = require('../elements/texts');
 const QR = require('../elements/quickreplies');
 const Buttons = require('../elements/buttons');
-const config = require('config');
 
-const MAX_LOCATION = config.get('maxLocation');
+const MAX_LOCATION = process.env.FAVOURITE_LOCATION_MAX;
 
 module.exports = (bot) => {
     const locationListMessage = (user) => {

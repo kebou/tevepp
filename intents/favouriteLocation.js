@@ -1,11 +1,10 @@
 'use strict';
 const BootBot = require('bootbot');
-const config = require('config');
 const locationController = require('../controllers/locationController');
 const Location = require('../models/locationModel');
 const nlg = require('../utils/nlg');
 
-const MAX_LOCATION = process.env.FAVOURITE_LOCATION_MAX || config.get('maxLocation');
+const MAX_LOCATION = process.env.FAVOURITE_LOCATION_MAX;
 
 module.exports = (bot) => {
     if (!(bot instanceof BootBot)) {

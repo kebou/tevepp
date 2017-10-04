@@ -4,13 +4,12 @@ const Location = require('../models/locationModel');
 const mongoose = require('mongoose');
 const NodeGeocoder = require('../utils/node-geocoder');
 const tryParseJSON = require('../utils/tryparse-json');
-const config = require('config');
 const Futar = require('../controllers/futarController');
 
 const mapOpts = {
     provider: 'google',
     language: 'hu',
-    apiKey: process.env.MAPS_API_KEY || config.get('mapsApiKey'),
+    apiKey: process.env.MAPS_API_KEY,
     formatter: null,
     bounds: '47.1523107,18.8460594|47.6837053,19.3915303'
 };

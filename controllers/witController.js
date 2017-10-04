@@ -1,8 +1,7 @@
 'use strict';
 const {Wit, log} = require('node-wit');
-const config = require('config');
 
-const WIT_ACCESS_TOKEN = process.env.WIT_ACCESS_TOKEN || config.get('witAccessToken');
+const WIT_ACCESS_TOKEN = process.env.WIT_ACCESS_TOKEN;
 
 const wit = new Wit({
     accessToken: WIT_ACCESS_TOKEN,
