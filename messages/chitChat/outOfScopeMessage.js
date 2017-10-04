@@ -7,10 +7,10 @@ module.exports = (bot) => {
         const text = Text.outOfScope(user);
         const help = Text.help(user);
         const quickReplies = QR.menu(user);
-        const options = { typing: 5 };
+        const options = { typing: true };
 
         return bot.sendTextMessage(user.id, text, [], options)
-            .then(bot.sendTextMessage(user.id, help, quickReplies, options));
+            .then(() => bot.sendTextMessage(user.id, help, quickReplies, options));
     };
 
     return outOfScopeMessage;

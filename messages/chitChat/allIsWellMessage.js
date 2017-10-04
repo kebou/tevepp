@@ -10,7 +10,7 @@ module.exports = (bot) => {
         const options = { typing: 5 };
 
         return bot.sendTextMessage(user.id, text, [], options)
-            .then(bot.sendTextMessage(user.id, help, quickReplies, options));
+            .then(() => bot.sendTextMessage(user.id, help, quickReplies, options));
     };
 
     return allIsWellMessage;
