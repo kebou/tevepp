@@ -4,8 +4,7 @@ const chai = require('chai');
 const should = require('chai').should();
 const mongoose = require('mongoose');
 
-const config = require('config');
-const MONGO_URL = process.env.MONGO_URL || config.get('mongoURL');
+const MONGO_URL = process.env.MONGO_URL;
 mongoose.Promise = global.Promise;
 mongoose.connect(MONGO_URL, { useMongoClient: true });
 

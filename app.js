@@ -10,7 +10,6 @@ const quickReply = require('./modules/bootbot/quickreply');
 const messengerProfile = require('./modules/bootbot/messengerProfile');
 const webhooks = require('./modules/bootbot/webhooks');
 const i18n = require('i18n');
-const config = require('config');
 
 const selfPing = require('heroku-self-ping')(process.env.APP_URL); // eslint-disable-line no-unused-vars
 
@@ -22,10 +21,10 @@ i18n.configure({
     objectNotation: true
 });
 
-const MONGO_URL = process.env.MONGO_URL || config.get('mongoURL');
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN || config.get('pageAccessToken');
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN || config.get('verifyToken');
-const APP_SECRET = process.env.APP_SECRET || config.get('appSecret');
+const MONGO_URL = process.env.MONGO_URL;
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+const APP_SECRET = process.env.APP_SECRET;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(MONGO_URL, { useMongoClient: true });

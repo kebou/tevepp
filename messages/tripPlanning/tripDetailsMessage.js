@@ -2,9 +2,8 @@
 const Text = require('../elements/texts');
 const QR = require('../elements/quickreplies');
 const Button = require('../elements/buttons');
-const config = require('config');
 
-const SERVER_URL = process.env.SERVER_URL || config.get('serverURL');
+const SERVER_URL = process.env.SERVER_URL;
 
 module.exports = (bot) => {
     const tripDetailsMessage = (user, legs) => {
