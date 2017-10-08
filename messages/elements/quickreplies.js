@@ -154,6 +154,15 @@ module.exports.dontModify = (user) => {
     };
 };
 
+module.exports.sendFeedback = (user) => {
+    return {
+        content_type: 'text',
+        title: user.__('button.sendFeedback'),
+        image_url: 'http://i.imgur.com/iBgza79.png',
+        payload: 'SEND_FEEDBACK'
+    };
+};
+
 /**
  * Quick Reply menü összeállítása
  * @param {object} user a felhasználót reprezentáló objektum

@@ -1,0 +1,76 @@
+config:
+  target: 'https://f2abe746.ngrok.io'
+  processor: ./processors.js
+  variables:
+    userId: '1230775050293125'
+  payload:
+    path: trip-planning.csv
+    fields:
+      - text
+  phases:
+    - duration: 60
+      arrivalCount: 10
+    - duration: 120
+      arrivalCount: 100
+    - duration: 600
+      arrivalCount: 1000
+  environments:
+    production:
+      target: "https://tevepp-proxy.herokuapp.com"
+      variables:
+        userId: '1405829276203024'
+scenarios:
+  - beforeRequest: setJSONBody
+    flow:
+      - post:
+          url: /webhook
+          json:
+            object: page
+            entry:
+              - id: '1239134546118933'
+                time: 1507233343703
+                messaging:
+                  - sender:
+                      id: '1405829276203024'
+                    recipient:
+                      id: '1239134546118933'
+                    timestamp: 1507233343149
+                    message:
+                      mid: mid.$cAAQ8D10GZp5lH2DurVe7hul2HoEt
+                      seq: 360816
+                      text: 'szia'
+      - post:
+          url: /webhook
+          json:
+            object: page
+            entry:
+              - id: '1239134546118933'
+                time: 1507233343703
+                messaging:
+                  - sender:
+                      id: '1405829276203024'
+                    recipient:
+                      id: '1239134546118933'
+                    timestamp: 1507233343149
+                    message:
+                      mid: mid.$cAAQ8D10GZp5lH2DurVe7hul2HoEt
+                      seq: 360816
+                      text: '{{ text }}'
+      - think: 5
+      - post:
+          url: /webhook
+          json:
+            object: page
+            entry:
+              - id: '1239134546118933'
+                time: 1507233343703
+                messaging:
+                  - sender:
+                      id: '1405829276203024'
+                    recipient:
+                      id: '1239134546118933'
+                    timestamp: 1507233343149
+                    message:
+                      mid: mid.$cAAQ8D10GZp5lH2DurVe7hul2HoEt
+                      seq: 360816
+                      text: 'köszi'

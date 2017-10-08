@@ -4,7 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test; mocha --reporter spec"
+    "test": "NODE_ENV=test; mocha --reporter spec",
+    "alma": "./scripts/test.sh",
+    "addmessage": "./scripts/newmessage",
+    "addintent": "./scripts/newintent"
   },
   "author": "kebou",
   "license": "ISC",
@@ -26,6 +29,7 @@
     "mongoose": "^4.10.4",
     "node-wit": "^4.2.0",
     "request-promise": "^4.2.1",
+    "winston": "^2.4.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {

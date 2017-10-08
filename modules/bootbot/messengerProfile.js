@@ -21,13 +21,18 @@ module.exports = (bot) => {
             payload: 'LOCATION_LIST'
         },
         {
-            title: '⭐️ Kedvencek',
+            title: '💬 Továbbiak',
             type: 'nested',
             call_to_actions: [
                 {
-                    title: '🎟️ BKK Pass',
-                    type: 'web_url',
-                    url: 'https://shop.bkk.hu/webpass'
+                    title: '🔄 Visszajelzés küldése',
+                    type: 'postback',
+                    payload: 'FEEDBACK'
+                },
+                {
+                    title: '❓ Segítség',
+                    type: 'postback',
+                    payload: 'HELP'
                 }
             ]
         }

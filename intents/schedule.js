@@ -12,20 +12,24 @@ module.exports = (bot) => {
     }
     const Message = require('../messages/scheduleMessages')(bot);
 
+    const sendDeparturesFromStops = (user, stops, location) => {
+
+    };
+
     const sendDeparturesFromNearbyStops = (user, stops, location) => {
-        let departureData = [];
-        return _getDepartures(stops, departureData)
-            .then(() => _createImages(departureData))
+        return _getDepartures(stops)
+            .then(departureData => _filterDepartures(departureData))
+            .then(departureData => _createImages(departureData))
             .then(departureData => Message.departures(user, departureData, location));
     };
 
-    const _getDepartures = (stops, departureData) => {
-        return stops.reduce((prev, stop) => {
-            return prev.then(() => {
-                return Futar.departuresFromStop(stop.id)
-                    .then(departures => departureData.push(departures));
-            });
-        }, Promise.resolve());
+    const _getDepartures = (stops) => {
+        const promises = stops.map(stop => Futar.departuresFromStop(stop.id));
+        return Promise.all(promises);
+    };
+
+    const _filterDepartures = (departureData) => {
+        return departureData.filter(x => x.departures.length > 0);
     };
 
     const _createImages = (departureData) => {
@@ -54,47 +58,7 @@ module.exports = (bot) => {
         return bot.sendAction(user.id, 'typing_on')
             .then(() => _findDirections(stopName, routeName))
             .then(directions => _handleDirections(user, directions, stopName, routeName))
-            .catch(err => {
-                switch (err.name) {
-                    case 'InvalidStopNameError':
-                        return Message.invalidStopName(user);
-                    case 'InvalidRouteNameError':
-                        return Message.invalidRouteName(user);
-                    case 'NoDirectionsError':
-                        return Message.invalidRouteStopPair(user, err.stopName, err.routeName);
-                    default: throw err;
-                }
-            });
-    };
-
-    const _handleDirections = (user, directions, stopName, routeName) => {
-        if (directions.length < 1) {
-            let stop;
-            return Futar.searchStop(stopName)
-                .then(res => {
-                    stop = res[0];
-                    return Futar.searchRoute(routeName);
-                })
-                .then(res => res[0])
-                .then(route => {
-                    if (user.searchRetried) {
-                        const err = new Error('Nincsenek a keresésnek megfelelő megálló-járat párok.');
-                        err.name = 'NoDirectionsError';
-                        err.stopName = stop;
-                        err.routeName = route;
-                        throw err;
-                    }
-                    user.searchRetried = true;
-                    return sendDeparturesFromUserSearch(user, stop.rawName, route.name);
-                });
-        }
-
-        if (directions.length < 2) {
-            const direction = directions[0];
-            return sendNextDeparture(user, direction.stopId, direction.routeIds);
-        }
-
-        return Message.selectDirection(user, directions);
+            .catch(err => _handleError(user, err));
     };
 
     const _findDirections = (stopName, routeName) => {
@@ -104,35 +68,85 @@ module.exports = (bot) => {
                 stops = res;
                 return Futar.searchRoute(routeName);
             })
-            // szűrés közös stopId-k alapján
-            .then(routes => {
-                const routeIds = routes.map(x => x.id);
-                return stops.filter(stop => _commonRouteIds(stop, routeIds));
-            })
-            // járatindulások lekérdezése a megállóból
-            .then(res => {
-                stops = res;
-                const promises = stops.map(stop => Futar.isDepartureFromStop(stop.id, routeName, 70));
-                return Promise.all(promises);
-            })
-            // megállók szűrése indulási idők alapján (ha van indulás x percen belül, akkor jó a megálló)
-            .then(res => stops.filter((stop, idx) => res[idx]))
-            // irányok lekérdezése
-            .then(res => {
-                const promises = res.map(stop => Futar.getDirections(stop.id, stop.routeIds));
-                return Promise.all(promises);
-            })
-            // tömb lapítása
-            .then(res => res.reduce((a, b) => a.concat(b), []));
+            .then(routes => _filterStopsByRouteIds(stops, routes))
+            .then(stops => _filterStopsByDepartureData(stops, routeName))
+            .then(stops => _getDirections(stops))
+            .then(stops => _flattenArray(stops));
     };
 
-    const _commonRouteIds = (stop, routeIds) => {
-        const common = intersect(stop.routeIds, routeIds);
-        stop.routeIds = common;
-        return common.length;
+    // szűrés közös stopId-k alapján
+    const _filterStopsByRouteIds = (stops, routes) => {
+        const routeIds = routes.map(x => x.id);
+        
+        return stops.filter(stop => {
+            const common = intersect(stop.routeIds, routeIds);
+            stop.routeIds = common;
+            return common.length;
+        });
     };
 
+    // megállók szűrése indulási idők alapján (ha van indulás x percen belül, akkor jó a megálló)
+    const _filterStopsByDepartureData = (stops, routeName) => {
+        const promises = stops.map(stop => Futar.isDepartureFromStop(stop.id, routeName, 70));
+        return Promise.all(promises)
+            .then(isDeparture => stops.filter((stop, idx) => isDeparture[idx]));
+    };
 
+    // irányok lekérdezése
+    const _getDirections = (stops) => {
+        const promises = stops.map(stop => Futar.getDirections(stop.id, stop.routeIds));
+        return Promise.all(promises);
+    };
+
+    // tömb lapítása
+    const _flattenArray = (stops) => {
+        return stops.reduce((a, b) => a.concat(b), []);
+    };
+
+    const _handleDirections = (user, directions, stopName, routeName) => {
+        if (directions.length < 1) {
+            return _handleNoDirection(user, stopName, routeName);
+        }
+        if (directions.length < 2) {
+            const direction = directions[0];
+            return sendNextDeparture(user, direction.stopId, direction.routeIds);
+        }
+        return Message.selectDirection(user, directions);
+    };
+
+    const _handleNoDirection = (user, stopName, routeName) => {
+        let stop;
+        return Futar.searchStop(stopName)
+            .then(res => {
+                stop = res[0];
+                return Futar.searchRoute(routeName);
+            })
+            .then(res => res[0])
+            .then(route => {
+                if (user.searchRetried) {
+                    const err = new Error('Nincsenek a keresésnek megfelelő megálló-járat párok.');
+                    err.name = 'NoDirectionsError';
+                    err.stopName = stop;
+                    err.routeName = route;
+                    throw err;
+                }
+                user.searchRetried = true;
+                return sendDeparturesFromUserSearch(user, stop.rawName, route.name);
+            });
+    };
+
+    const _handleError = (user, err) => {
+        console.error(err);
+        switch (err.name) {
+            case 'InvalidStopNameError':
+                return Message.invalidStopName(user);
+            case 'InvalidRouteNameError':
+                return Message.invalidRouteName(user);
+            case 'NoDirectionsError':
+                return Message.invalidRouteStopPair(user, err.stopName, err.routeName);
+            default: throw err;
+        }
+    };
 
 
     return {

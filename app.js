@@ -45,6 +45,7 @@ bot.module(message);
 bot.module(attachment);
 bot.module(quickReply);
 bot.module(postback);
+bot.module(require('./modules/bootbot/referral'));
 
 bot.module(messengerProfile);
 

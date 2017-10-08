@@ -1,5 +1,15 @@
-#!/bin/bash
+#!/usr/bin/env bash
+export NODE_ENV=test
+export APP_SECRET='3e3a0ddd21119bb212442ff96a38fee9'
+export PAGE_ACCESS_TOKEN='EAAZAUrVXF2IEBAD39zSmJwcZAjm1dltHDueDBgNDb8c3Y0w0SQ2TxY1p7lUK0g7ZC33OdNZCsldiqLysTZCgJGVJZCimGf7ov0GfZCi7C1VLOSQQARwx5YmkYCG6aOf2V0ivFDU22TIqk7yWgXxO37sDSyF7IDzdJEKcgtCIzaRu43xUcB7UVrG'
+export VERIFY_TOKEN='token-totem'
+export WIT_ACCESS_TOKEN='B7XHTUDYOCJMP7DGA64ZJG3MHY3ZGTIJ'
+export MAPS_API_KEY='AIzaSyAf4u6ECn38Lg2GbotPuWboR0IUIugSOSo'
+export SERVER_URL='http://127.0.0.1:3000'
+export PORT='3000'
+export GATE_URL='http://127.0.0.1:6472'
+export MONGO_URL='mongodb://localhost/Tevepp-dev'
+export SLACK_WEBHOOK_URL='https://hooks.slack.com/services/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'
+export FAVOURITE_LOCATION_MAX=5
 
-sed '/return {/a \
-'"$1"': require('"'"'./'"$2"'/'"$1"'Message'"'"')(bot),\
-' "./messages/$2Messages.js"
+npm test

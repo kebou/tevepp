@@ -61,3 +61,6 @@ typings/
 # configuration
 config/*
 ecosystem.config.js
+
+scripts/test.sh
+scripts/generatecode.sh
