@@ -24,9 +24,9 @@ tp.use(require('../modules/text-processing/parseText'));
 tp.use(require('../modules/text-processing/findStopNameWithMorph'));
 tp.use(require('../modules/text-processing/findStopNameWithoutAccent'));
 tp.use(require('../modules/text-processing/findAddressWithSuffix'));
+tp.use(require('../modules/text-processing/matchRouteName'));
 tp.use(require('../modules/text-processing/findAddressWithNumber'));
 tp.use(require('../modules/text-processing/findStopNameWithoutSuffix'));
-tp.use(require('../modules/text-processing/matchRouteName'));
 
 describe('Text Processing Pipeline', function () {
     describe('Route Name Matching', function () {
@@ -129,6 +129,18 @@ describe('Text Processing Pipeline', function () {
             })
             .then(done, done);
         });
+
+        it('should send 1 departures from Infopark', function (done) {
+            tp.process('infoparkbol 1')
+            .then(() => {
+                context.should.have.property('start');
+                context.start.should.have.property('value');
+                context.start.should.have.property('type').with.to.equal('stop');
+                context.start.value.should.have.property('rawName').with.to.equal('Infopark');
+                context.should.have.property('routeName').with.to.equal('1');
+            })
+            .then(done, done);
+        });
     });
 
     describe('Trip Planning', function () {
@@ -178,6 +190,23 @@ describe('Text Processing Pipeline', function () {
                     context.end.should.have.property('type').with.to.equal('location');
                     context.end.should.have.property('tokens').with.to.be.a('array');
                     context.end.value.should.have.property('title').with.to.equal('Budapest, Kerepesi út 29.');
+                })
+                .then(done, done);
+        });
+        it('should plan a trip between Széll Kálmán tér and Solymár', function (done) {
+            tp.process('Széll Kálmán térről Solymárra')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Széll Kálmán tér');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Solymár');
                 })
                 .then(done, done);
         });

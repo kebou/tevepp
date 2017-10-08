@@ -226,9 +226,40 @@ favouriteLocation.addHint = (user) => {
     return user.__('favouriteLocation.addHint');
 };
 
-
 module.exports.favouriteLocation = favouriteLocation;
 
+
+const feedback = {};
+
+feedback.intro = (user) => {
+    return user.__('feedback.intro');
+};
+
+feedback.listening = (user) => {
+    return user.__(getRandomItem(user, 'feedback.listening'));
+};
+
+feedback.addTextFirst = (user) => {
+    return user.__('feedback.addTextFirst');
+};
+
+feedback.attachImage = (user) => {
+    return user.__('feedback.attachImage');
+};
+
+feedback.skipImageUpload = (user) => {
+    return user.__('feedback.skipImageUpload', { sendFeedback: user.__('button.sendFeedback') });
+};
+
+feedback.canceled = (user) => {
+    return user.__(getRandomItem(user, 'feedback.canceled'));
+};
+
+feedback.thanksForFeedback = (user) => {
+    return user.__('feedback.thanksForFeedback');
+};
+
+module.exports.feedback = feedback;
 
 /**
  * Véletlenszerűen visszaad egyet az alternatív szövegek közül

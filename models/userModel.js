@@ -24,7 +24,11 @@ const UserSchema = new Schema({
     }],
     role: {
         type: String,
-        enum: ['admin', 'tester', 'user']
+        enum: ['admin', 'tester', 'user'],
+        default: 'user'
+    },
+    source: {
+        type: String
     }
 }, { timestamps: true, toObject: { virtuals: true } });
 

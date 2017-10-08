@@ -163,6 +163,23 @@
 		"firstLocationAdded": "Gratulálok! 🎉  Így sokkal egyszerűbb lesz az útvonaltervezés. 😃",
 		"addHint": "További helyeket a [📍 Kedvenc Helyek] menüpontnál menthetsz el."
 	},
+	"feedback": {
+		"intro": "Ha valamilyen észrevételed van, hibát találtál vagy csak elmondanád a véleményed, most megírhatod.",
+		"listening": {
+			"0": "Mondhatod is ... 🙂",
+			"1": "Hallgatlak is... 😀",
+			"2": "Ne kímélj... 😃"
+		},
+		"addTextFirst": "Kérlek, először írj néhány szót, később lehetőséged lesz képet is mellékelni.",
+		"attachImage": "📷 Küldj egy képet, ha az segít az üzeneted megértésében.",
+		"skipImageUpload": "Ha ezt most kihagnyád, nyomj a {{{sendFeedback}}} gombra.",
+		"canceled": {
+			"0": "Visszajelzés - lefújva!",
+			"1": "Akkor most ezt nem küldöm el. 🙂",
+			"2": "Aggodalomra semmi ok, nem küldöm el a visszajelzést. 😃"
+		},
+		"thanksForFeedback": "A véleményed mindig fontos számomra, nagyon köszönöm, a készítőm örülni fog neki! 🙏🏻❤️"
+	},
 	"chooseFromQuickReplies": "Kérlek, válassz egyet a lehetséges válaszok közül.",
 	"help": {
 		"0": "📍 Küldd el az aktuális helyzetedet, hogy megtudd, milyen járatok indulnak a közeledben lévő megállókból.",

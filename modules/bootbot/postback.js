@@ -6,14 +6,18 @@ module.exports = (bot) => {
     const FavouriteLocation = require('../../intents/favouriteLocation')(bot);
     const TripPlanning = require('../../intents/tripPlanning')(bot);
     const ChitChat = require('../../intents/chitChat')(bot);
+    const Feedback = require('../../intents/feedback')(bot);
 
     bot.on('postback', (payload, chat) => {
-        const userId = payload.sender.id;
-        let { type, data } = tryParseJSON(payload.postback.payload);
+        const { sender, postback, referral } = payload;
+        const userId = sender.id;
+        let { type, data } = tryParseJSON(postback.payload);
 
-        if (!type) type = payload.postback.payload;
+        if (!type) type = payload && postback.payload;
+        if (referral) type = referral.ref.toUpperCase();
 
         userController.getUser(userId)
+            .then(user => addUserSource(user, referral))
             .then(user => handlePostback(user, chat, type, data));
     });
 
@@ -55,6 +59,12 @@ module.exports = (bot) => {
             case 'HELP':
                 return ChitChat.sendHelp(user);
 
+            case 'FEEDBACK':
+                return chat.conversation(convo => {
+                    convo.set('user', user);
+                    return Feedback.askFeedback(convo);
+                });
+
             case 'GET_STARTED_PAYLOAD':
                 return ChitChat.sendGreeting(user);
 
@@ -63,4 +73,22 @@ module.exports = (bot) => {
                 break;
         }
     };
+};
+
+const addUserSource = (user, referral) => {
+    if (user.source) {
+        return user;
+    }
+    let src = '';
+    if (!referral) {
+        src = 'unknown';
+    } else {
+        const { ref, source } = referral;
+        src = source.toLowerCase();
+        if (ref) {
+            src += `_${ref}`;
+        }
+    }
+    user.source = src;
+    return user.save();
 };

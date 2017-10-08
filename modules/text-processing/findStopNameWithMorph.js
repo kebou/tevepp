@@ -56,7 +56,7 @@ const getStopFromTokens = (tokens, index) => {
     let array = [];
     let idx = index;
     while (idx !== -1 && (tokens[idx].content.match(/\W/i) !== null || tokens[idx].hfstana[0] === '[/N]' || tokens[idx].hfstana[0] === '[/Num]' || tokens[idx].hfstana[0] === '[/Num|Digit]')) {
-        array.push(tokens[idx].lemma);
+        array.push(tokens[idx]);
         idx--;
     }
     array.reverse();
@@ -64,11 +64,11 @@ const getStopFromTokens = (tokens, index) => {
 };
 
 const findStop = (array) => {
-    const stopName = array.reduce((a, b) => a.concat(' ' + b), '').trim();
+    const stopName = array.reduce((prev, token) => prev.concat(' ' + token.lemma), '').trim();
 
     return Futar.searchStop(stopName)
         .then(res => {
-            if (res[0].rawName.split(' ')[0].toLowerCase() !== array[0].toLowerCase()) {
+            if (res[0].rawName.split(' ')[0].toLowerCase() !== array[0].lemma.toLowerCase()) {
                 array.shift();
                 return findStop(array);
             }

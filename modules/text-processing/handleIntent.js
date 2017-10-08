@@ -6,6 +6,7 @@ module.exports = (bot) => {
     const ChitChat = require('../../intents/chitChat')(bot);
     const TripPlanning = require('../../intents/tripPlanning')(bot);
     const FavouriteLocation = require('../../intents/favouriteLocation')(bot);
+    const Feedback = require('../../intents/feedback')(bot);
 
     const handleIntent = (ctx, next) => {
         const { user, chat, intent } = ctx;
@@ -39,6 +40,12 @@ module.exports = (bot) => {
 
             case 'THANKS':
                 return ChitChat.sendWelcome(user);
+
+            case 'FEEDBACK':
+                return chat.conversation(convo => {
+                    convo.set('user', user);
+                    return Feedback.askFeedback(convo);
+                });
 
 
             default: {

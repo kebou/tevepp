@@ -25,9 +25,9 @@ module.exports = (bot) => {
     tp.use(require('../text-processing/findStopNameWithMorph'));
     tp.use(require('../text-processing/findStopNameWithoutAccent'));
     tp.use(require('../text-processing/findAddressWithSuffix'));
+    tp.use(require('../text-processing/matchRouteName'));
     tp.use(require('../text-processing/findAddressWithNumber'));
     tp.use(require('../text-processing/findStopNameWithoutSuffix'));
-    tp.use(require('../text-processing/matchRouteName'));
     tp.use(printCtx);
 
     tp.use(require('../text-processing/sendDepartures')(bot));
