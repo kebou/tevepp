@@ -11,7 +11,7 @@ const messengerProfile = require('./modules/bootbot/messengerProfile');
 const webhooks = require('./modules/bootbot/webhooks');
 const i18n = require('i18n');
 
-const selfPing = require('heroku-self-ping')(process.env.APP_URL); // eslint-disable-line no-unused-vars
+const selfPing = require('heroku-self-ping')(process.env.PING_URL); // eslint-disable-line no-unused-vars
 
 i18n.configure({
     locales: ['hu'],
