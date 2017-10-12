@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 /**
  * In: user, text
  */
@@ -12,7 +13,7 @@ module.exports = (bot) => {
             err.name = 'TextProcessingError';
             throw err;
         }
-        console.error(`Out of Scope Message: ${text}`);
+        logger.warn('Out of Scope Message:', text, { tokens: ctx.tokens });
         return ChitChat.sendOutOfScope(user);
     };
 

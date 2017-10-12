@@ -1,5 +1,6 @@
 'use strict';
 const BootBot = require('bootbot');
+const logger = require('winston');
 const Canvas = require('../controllers/canvasController');
 const Futar = require('../controllers/futarController');
 const locationController = require('../controllers/locationController');
@@ -99,7 +100,7 @@ module.exports = (bot) => {
                     if (err.name !== 'LocationError') {
                         throw err;
                     }
-                    console.error(err);
+                    logger.error(err);
                     const user = convo.get('user');
                     return Message.invalidLocation(user)
                         .then(() => askStop(convo));
@@ -141,7 +142,7 @@ module.exports = (bot) => {
             })
             .then(res => Message.tripDetails(user, res.legs))
             .catch(err => {
-                console.error(err);
+                logger.error(err);
                 if (err.name !== 'TripDetailsMissingError') {
                     throw err;
                 }
@@ -175,7 +176,7 @@ module.exports = (bot) => {
                 return Message.tripSummary(user, tripData.options);
             })
             .catch(err => {
-                console.error(err);
+                logger.error(err);
                 return Message.tripPlanningFailed(user);
             });
     };

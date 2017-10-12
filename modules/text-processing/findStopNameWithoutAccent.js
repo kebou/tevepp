@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const Futar = require('../../controllers/futarController');
 const latinize = require('../../utils/nlg').latinize;
 /**
@@ -8,7 +9,7 @@ const latinize = require('../../utils/nlg').latinize;
 module.exports = (ctx, next) => {
     const { start, end } = ctx;
     if (!ctx.tokens) {
-        console.error('findStopNameWithoutAccent module should be used after "tokens" property in ctx');
+        logger.error('findStopNameWithoutAccent module should be used after "tokens" property in ctx');
         return next();
     }
     if (start && end) {

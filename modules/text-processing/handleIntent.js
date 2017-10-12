@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 /**
  * In: user, chat, intent
  */
@@ -50,7 +51,7 @@ module.exports = (bot) => {
 
             default: {
                 if (intent) {
-                    console.error(`Unhandled intent: ${intent}`);
+                    logger.warn('Unhandled intent:', intent);
                 }
                 return next();
             }

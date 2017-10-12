@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const Pattern = require('../../utils/patterns');
 /**
  * In: tokens, start, end
@@ -7,7 +8,7 @@ const Pattern = require('../../utils/patterns');
 module.exports = (ctx, next) => {
     const { start, end, tokens } = ctx;
     if (!tokens) {
-        console.error('matchRouteName module should be used after "tokens" property in ctx');
+        logger.error('matchRouteName module should be used after "tokens" property in ctx');
         return next();
     }
     

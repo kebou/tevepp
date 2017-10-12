@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const tryParseJSON = require('../../utils/tryparse-json');
 
 module.exports = (bot) => {
@@ -57,7 +58,7 @@ module.exports = (bot) => {
                 return ChitChat.sendHelp(user);
 
             default:
-                return console.error(`Unknown Quick Reply called: ${type}`);
+                return logger.warn('Unknown Quick Reply called:', type);
         }
     };
 };
