@@ -1,9 +1,9 @@
 'use strict';
-const Emagyar = require('../../utils/emagyar/index').class;
+const Emagyar = require('emagyar');
 const GATE_URL = process.env.GATE_URL;
 let emagyar;
 if (process.env.EMAGYAR !== undefined) {
-    emagyar = require('../../utils/emagyar/index').web;
+    emagyar = require('../../utils/emagyar-web');
 } else {
     emagyar = new Emagyar(GATE_URL, ['emToken', 'emMorph', 'emTag']);
 }
