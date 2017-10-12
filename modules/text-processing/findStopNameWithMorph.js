@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const Futar = require('../../controllers/futarController');
 /**
  * In: tokens
@@ -7,7 +8,7 @@ const Futar = require('../../controllers/futarController');
 module.exports = (ctx, next) => {
     const { tokens } = ctx;
     if (!tokens) {
-        console.error('findStopNameWithMorph module should be used after "tokens" property in ctx');
+        logger.error('findStopNameWithMorph module should be used after "tokens" property in ctx');
         return next();
     }
     let startNameIndex = null;

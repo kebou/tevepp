@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 /**
  * In: payload
  * Out: Intent
@@ -19,8 +20,7 @@ module.exports = (ctx, next) => {
         ctx.intent = intent.value.toUpperCase();
     }
     if (intent) {
-        console.log('Intent:');
-        console.log(intent);
+        logger.info('Intent received:', intent);
     }
     return next();
 };

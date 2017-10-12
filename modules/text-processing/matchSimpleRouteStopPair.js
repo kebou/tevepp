@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const Futar = require('../../controllers/futarController');
 const Pattern = require('../../utils/patterns');
 /**
@@ -22,9 +23,13 @@ module.exports = (bot) => {
         const parts = text.split(delimiter);
         const routeName = parts.shift();
         const stopName = parts.reduce((a, b) => a.concat(delimiter + b), '').substring(1).trim();
+        logger.debug('[matchSimpleRouteStopPair] - Possible routeName match:', { routeName, stopName });
         
         return Futar.searchStop(stopName)
-            .then(res => Schedule.sendDeparturesFromUserSearch(user, res[0].name, routeName))
+            .then(res => {
+                logger.verbose('[matchSimpleRouteStopPair] - stopName, routeName matched:', { text, routeName, stopName });
+                return Schedule.sendDeparturesFromUserSearch(user, res[0].name, routeName);
+            })
             .catch(() => next());
     };
     return matchRouteStopPair;

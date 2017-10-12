@@ -1,21 +1,22 @@
 'use strict';
-const Pattern = require('../../utils/patterns');
+const logger = require('winston');
 const TextProcessor = require('../text-processing/textProcessor');
 const tp = new TextProcessor();
 
 const printCtx = (ctx, next) => {
-    console.log('Start:');
-    console.log(ctx.start);
-    console.log('End:');
-    console.log(ctx.end);
-    console.log('RouteName:');
-    console.log(ctx.routeName);
+    logger.info('Text:', ctx.text);
+    logger.info('Start:', ctx.start);
+    logger.info('End:', ctx.end);
+    logger.info('RouteName:', ctx.routeName);
     return next();
 };
 
 module.exports = (bot) => {
     const userController = require('../../controllers/userController')(bot);
+    const ChitChat = require('../../intents/chitChat')(bot);
 
+    tp.use(require('../text-processing/sendTypingIndicator')(bot));
+    tp.use(require('../text-processing/validateInput'));
     tp.use(require('../text-processing/getIntent'));
     tp.use(require('../text-processing/handleIntent')(bot));
 
@@ -28,7 +29,7 @@ module.exports = (bot) => {
     tp.use(require('../text-processing/matchRouteName'));
     tp.use(require('../text-processing/findAddressWithNumber'));
     tp.use(require('../text-processing/findStopNameWithoutSuffix'));
-    tp.use(printCtx);
+    //tp.use(printCtx);
 
     tp.use(require('../text-processing/sendDepartures')(bot));
     tp.use(require('../text-processing/startTripPlanning')(bot));
@@ -58,8 +59,17 @@ module.exports = (bot) => {
         const userId = payload.sender.id;
         const text = payload.message.text;
 
-        return bot.sendAction(userId, 'typing_on')
-            .then(() => userController.getUser(userId))
-            .then(user => tp.process(text, { user, chat, payload }));
+        let _user;
+        return userController.getUser(userId)
+            .then(user => {
+                _user = user;
+                logger.info(`New message received from ${user.lastName} ${user.firstName}.`);
+                return user;
+            })
+            .then(user => tp.process(text, { user, chat, payload }))
+            .catch(err => {
+                logger.error(err);
+                return ChitChat.sendOutOfScope(_user);
+            });
     });
 };

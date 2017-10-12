@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 /**
  * Out: user, start, end, routeName
  */
@@ -20,7 +21,7 @@ module.exports = (bot) => {
         if (!stopName) {
             return next();
         }
-
+        logger.info('Sending departures:', { text: ctx.text, stopName, routeName });
         return Schedule.sendDeparturesFromUserSearch(user, stopName, routeName);
     };
 

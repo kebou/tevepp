@@ -1,11 +1,14 @@
 'use strict';
+const logger = require('winston');
 const Emagyar = require('emagyar');
 const GATE_URL = process.env.GATE_URL;
 let emagyar;
 if (process.env.EMAGYAR !== undefined) {
     emagyar = require('../../utils/emagyar-web');
+    logger.debug('Using emagyar-web.');
 } else {
     emagyar = new Emagyar(GATE_URL, ['emToken', 'emMorph', 'emTag']);
+    logger.debug('Using emagyar module.');
 }
 //'QT,HFSTLemm,ML3-PosLem-hfstcode'
 /**
@@ -17,10 +20,11 @@ module.exports = (ctx, next) => {
         .then(res => {
             ctx.emagyar = res;
             ctx.tokens = parseTokens(res.tokens);
+            logger.debug('Parsed tokens:', ctx.tokens);
             return next();
         })
         .catch(err => {
-            console.error(err);
+            logger.error(err);
             return next();
         });
 };

@@ -1,7 +1,7 @@
 'use strict';
+const logger = require('winston');
 const locationController = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
-
 
 module.exports = (bot) => {
     const userController = require('../../controllers/userController')(bot);
@@ -32,8 +32,8 @@ module.exports = (bot) => {
                         return Schedule.sendDeparturesFromNearbyStops(user, stops, location);
                     })
                     .catch(err => {
-                        console.error(err);
-                        StartStopPicker(user, location);
+                        logger.debug(err);
+                        return StartStopPicker(user, location);
                     });
             }
 

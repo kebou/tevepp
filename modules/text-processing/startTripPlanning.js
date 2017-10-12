@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const Location = require('../../controllers/locationController');
 
 module.exports = (bot) => {
@@ -18,6 +19,7 @@ module.exports = (bot) => {
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('start', location);
+                    logger.info('Starting trip planning:', { text: ctx.text, start });
                     return TripPlanning.askStop(convo);
                 }))
                 .catch(() => next());
@@ -31,6 +33,7 @@ module.exports = (bot) => {
                 .then(location => chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('stop', location);
+                    logger.info('Starting trip planning:', { text: ctx.text, end });
                     return TripPlanning.askStart(convo);
                 }))
                 .catch(() => next());
@@ -50,7 +53,10 @@ module.exports = (bot) => {
                     startLoc = res;
                     return getEndLocation(end.value, user.id);
                 })
-                .then(endLoc => TripPlanning.planTrip(user, startLoc, endLoc))
+                .then(endLoc => {
+                    logger.info('Trip planning:', { text: ctx.text, start, end });
+                    TripPlanning.planTrip(user, startLoc, endLoc);
+                })
                 .catch(() => next());
         }
     };

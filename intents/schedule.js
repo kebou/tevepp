@@ -136,7 +136,6 @@ module.exports = (bot) => {
     };
 
     const _handleError = (user, err) => {
-        console.error(err);
         switch (err.name) {
             case 'InvalidStopNameError':
                 return Message.invalidStopName(user);
