@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const tryParseJSON = require('../../utils/tryparse-json');
 
 module.exports = (bot) => {
@@ -9,7 +10,8 @@ module.exports = (bot) => {
     const Feedback = require('../../intents/feedback')(bot);
 
     bot.on('postback', (payload, chat) => {
-        const { sender, postback, referral } = payload;
+        const { sender, postback } = payload;
+        const referral = postback.referral;
         const userId = sender.id;
         let { type, data } = tryParseJSON(postback.payload);
 
@@ -65,11 +67,14 @@ module.exports = (bot) => {
                     return Feedback.askFeedback(convo);
                 });
 
-            case 'GET_STARTED_PAYLOAD':
+            case 'GET_STARTED':
                 return ChitChat.sendGreeting(user);
 
+            case 'FB_DATA_COLLECTION':
+                return ChitChat.sendTesterMessage(user);
+
             default:
-                console.error(`Unknown Postback called: ${type}`);
+                logger.warn('Unknown Postback called:', type);
                 break;
         }
     };

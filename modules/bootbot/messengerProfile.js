@@ -4,10 +4,7 @@ module.exports = (bot) => {
     const userController = require('../../controllers/userController')(bot);
     const ChitChat = require('../../intents/chitChat')(bot);
 
-    bot.setGetStartedButton(payload => {
-        return userController.getUser(payload.sender.id)
-            .then(user => ChitChat.sendGreeting(user));
-    });
+    bot.setGetStartedButton('GET_STARTED');
 
     bot.setPersistentMenu([
         {

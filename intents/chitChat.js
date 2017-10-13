@@ -22,6 +22,8 @@ module.exports = (bot) => {
 
     const sendEmoji = (user) => Message.emoji(user);
 
+    const sendTesterMessage = (user) => Message.dataCollection(user);
+
     return {
         sendGreeting,
         sendJoke,
@@ -29,6 +31,7 @@ module.exports = (bot) => {
         sendAllIsWell,
         sendWelcome,
         sendOutOfScope,
-        sendEmoji
+        sendEmoji,
+        sendTesterMessage
     };
 };

@@ -15,6 +15,11 @@ module.exports.greetUser = (user) => {
     return user.__(getRandomItem(user, 'greeting.oldUser'));
 };
 
+module.exports.startHelp = (user) => {
+    if (user.new) return user.__('helpSummary');
+    return user.__(getRandomItem(user, 'help'));
+};
+
 module.exports.farewell = (user) => {
     return user.__(getRandomItem(user, 'greeting.bye'), { name: user.firstName });
 };
@@ -260,6 +265,35 @@ feedback.thanksForFeedback = (user) => {
 };
 
 module.exports.feedback = feedback;
+
+
+const dataCollection = {};
+
+dataCollection.greeting = (user) => {
+    return user.__('dataCollection.greeting', { name: user.firstName });
+};
+
+dataCollection.thanksForTheClick = (user) => {
+    return user.__('dataCollection.thanksForTheClick');
+};
+
+dataCollection.testMe = (user) => {
+    return user.__('dataCollection.testMe');
+};
+
+dataCollection.writeSentences = (user) => {
+    return user.__('dataCollection.writeSentences');
+};
+
+dataCollection.willBeHelpful = (user) => {
+    return user.__('dataCollection.willBeHelpful');
+};
+
+dataCollection.getStarted = (user) => {
+    return user.__('dataCollection.getStarted');
+};
+
+module.exports.dataCollection = dataCollection;
 
 /**
  * Véletlenszerűen visszaad egyet az alternatív szövegek közül
