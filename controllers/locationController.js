@@ -4,12 +4,12 @@ const Location = require('../models/locationModel');
 const mongoose = require('mongoose');
 const NodeGeocoder = require('../utils/node-geocoder');
 const tryParseJSON = require('../utils/tryparse-json');
-const config = require('config');
+const Futar = require('../controllers/futarController');
 
 const mapOpts = {
     provider: 'google',
     language: 'hu',
-    apiKey: process.env.MAPS_API_KEY || config.get('mapsApiKey'),
+    apiKey: process.env.MAPS_API_KEY,
     formatter: null,
     bounds: '47.1523107,18.8460594|47.6837053,19.3915303'
 };
@@ -90,6 +90,12 @@ const fromQuickReply = (data, userId) => {
 };
 
 const fromText = (text, userId) => {
+    return Futar.searchStop(text)
+        .then(stops => fromStop(stops[0], userId))
+        .catch(() => searchLocation(text, userId));
+};
+
+const searchLocation = (text, userId) => {
     return gc.geocode({ text: text, withBounds: true })
         .then(res => {
             if (res.length < 1) {
@@ -97,19 +103,56 @@ const fromText = (text, userId) => {
                 err.name = 'LocationError';
                 throw err;
             }
+            if (res[0].country !== 'Magyarország') {
+                const err = new Error('Geocoder result is not in Hungary.');
+                err.name = 'LocationError';
+                throw err;
+            }
 
             const params = _formatParams(res[0]);
-
             const loc = new Location(params);
             const locObj = loc.toObject();
-
-            loc.userId = userId;
-            loc.type = 'log';
-            loc.source = 'text';
-            loc.save();
-
+            
+            if (userId) {
+                loc.userId = userId;
+                loc.type = 'log';
+                loc.source = 'text';
+                loc.save();
+            }
             return locObj;
         });
+};
+
+const fromLocation = (location, userId) => {
+    return new Promise(resolve => {
+        
+        const loc = new Location(location);
+        loc.userId = userId;
+        loc.type = 'log';
+        loc.source = 'location';
+        loc.save();
+
+        return resolve(location);
+    });
+};
+
+const fromStop = (stop, userId) => {
+    return new Promise(resolve => {
+        const params = {
+            title: stop.rawName,
+            latitude: stop.latitude,
+            longitude: stop.longitude
+        };
+        const loc = new Location(params);
+        const locObj = loc.toObject();
+        if (userId) {
+            loc.userId = userId;
+            loc.type = 'log';
+            loc.source = 'stop';
+            loc.save();
+        }
+        return resolve(locObj);
+    });
 };
 
 const saveFavourite = (user, location, update) => {
@@ -189,10 +232,13 @@ const _formatParams = (res) => {
 };
 
 module.exports = {
+    searchLocation,
     fromText,
     fromPayload,
     fromAttachment,
     fromQuickReply,
+    fromStop,
+    fromLocation,
     saveFavourite,
     removeFavourite,
     toMapUrl

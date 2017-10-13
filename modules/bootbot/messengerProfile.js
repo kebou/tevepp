@@ -1,8 +1,10 @@
 'use strict';
-const Text = require('../messages/elements/texts');
-const Button = require('../messages/elements/buttons');
 
 module.exports = (bot) => {
+    const userController = require('../../controllers/userController')(bot);
+    const ChitChat = require('../../intents/chitChat')(bot);
+
+    bot.setGetStartedButton('GET_STARTED');
 
     bot.setPersistentMenu([
         {
@@ -16,13 +18,18 @@ module.exports = (bot) => {
             payload: 'LOCATION_LIST'
         },
         {
-            title: '⭐️ Kedvencek',
+            title: '💬 Továbbiak',
             type: 'nested',
             call_to_actions: [
                 {
-                    title: '🎟️ BKK Pass',
-                    type: 'web_url',
-                    url: 'https://shop.bkk.hu/webpass'
+                    title: '🔄 Visszajelzés küldése',
+                    type: 'postback',
+                    payload: 'FEEDBACK'
+                },
+                {
+                    title: '❓ Segítség',
+                    type: 'postback',
+                    payload: 'HELP'
                 }
             ]
         }

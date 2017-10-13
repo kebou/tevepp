@@ -4,23 +4,28 @@ const stopController = require('../stopController');
 
 const futar = new FutarAPI({ version: 3 });
 
-module.exports = (stopId, routeIds) => {
-    let directions;
+const getDirections = (stopId, routeIds) => {
+    let directionsData;
+    return callApi(stopId)
+        .then(data => formatDirections(stopId, routeIds, data.list))
+        .then(({ data, stopsToFetch }) => {
+            directionsData = data;
+            return stopController.getStopNames(stopsToFetch);
+        })
+        .then(stopNames => replaceStopNames(directionsData, stopNames));
+};
+
+const callApi = (stopId) => {
     return futar.routeDetailsForStop(stopId)
         .then(data => {
             if (!(data && data.list && data.list.length > 0)) {
                 throw new Error('Nincsenek viszonylat információk a megállóhoz.');
             }
-            return getDirections(stopId, routeIds, data.list);
-        })
-        .then(({ data, stops }) => {
-            directions = data;
-            return stopController.getStopNames(stops);
-        })
-        .then(stopNames => replaceNames(directions, stopNames));
+            return data;
+        });
 };
 
-const getDirections = (stopId, routeIds, routes) => {
+const formatDirections = (stopId, routeIds, routes) => {
     const directions = {};
     let stopsToFetch = new Set();
     for (let routeId of routeIds) {
@@ -36,26 +41,28 @@ const getDirections = (stopId, routeIds, routes) => {
                 continue;
             }
 
-            const headsign = variant.headsign;
-            if (directions.hasOwnProperty(headsign)) {
-                directions[variant.headsign].routeIds.push(routeId);
+            if (directions.hasOwnProperty(lastStopId)) {
+                directions[lastStopId].routeIds.push(routeId);
                 continue;
             }
 
+            const headsign = variant.headsign;
             stopsToFetch.add(headsign);
-            directions[headsign] = {
+            directions[lastStopId] = {
                 headsign,
                 stopId,
                 routeIds: [routeId]
             };
         }
     }
-    return { data: Object.values(directions), stops: stopsToFetch };
+    return { data: Object.values(directions), stopsToFetch };
 };
 
-const replaceNames = (directions, stopNames) => {
+const replaceStopNames = (directions, stopNames) => {
     for (let direction of directions) {
         direction.headsign = stopNames[direction.headsign];
     }
     return directions;
 };
+
+module.exports = getDirections;

@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     _id: {
-        type: Number,
+        type: String,
         required: [true, 'Facebook page-scoped ID is missing.']
     },
     firstName: String,
@@ -24,13 +24,17 @@ const UserSchema = new Schema({
     }],
     role: {
         type: String,
-        enum: ['admin', 'tester', 'user']
+        enum: ['admin', 'tester', 'user'],
+        default: 'user'
+    },
+    source: {
+        type: String
     }
 }, { timestamps: true, toObject: { virtuals: true } });
 
 UserSchema.virtual('new').get(function () {
     let oldTime = new Date();
-    oldTime.setHours(oldTime.getHours() - 8);
+    oldTime.setHours(oldTime.getHours() - 4);
     return this.createdAt > oldTime;
 });
 

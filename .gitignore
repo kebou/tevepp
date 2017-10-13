@@ -59,4 +59,8 @@ typings/
 .env
 
 # configuration
-# config/default.json
+config/*
+ecosystem.config.js
+
+scripts/test.sh
+scripts/generatecode.sh

@@ -1,5 +1,6 @@
 'use strict';
 const BootBot = require('bootbot');
+const logger = require('winston');
 const Canvas = require('../controllers/canvasController');
 const Futar = require('../controllers/futarController');
 const locationController = require('../controllers/locationController');
@@ -11,6 +12,10 @@ module.exports = (bot) => {
         throw new Error('This modul has to be required with an instance of BootBot.');
     }
     const Message = require('../messages/tripPlanningMessages')(bot);
+
+    const planTrip = (user, start, stop) => {
+        return _sendTripSummary(user, start, stop);
+    };
 
     const askStart = (convo) => {
         const question = (convo) => {
@@ -95,7 +100,7 @@ module.exports = (bot) => {
                     if (err.name !== 'LocationError') {
                         throw err;
                     }
-                    console.error(err);
+                    logger.error(err);
                     const user = convo.get('user');
                     return Message.invalidLocation(user)
                         .then(() => askStop(convo));
@@ -137,7 +142,7 @@ module.exports = (bot) => {
             })
             .then(res => Message.tripDetails(user, res.legs))
             .catch(err => {
-                console.error(err);
+                logger.error(err);
                 if (err.name !== 'TripDetailsMissingError') {
                     throw err;
                 }
@@ -164,18 +169,14 @@ module.exports = (bot) => {
             .then(() => Futar.planTrip(start, stop))
             .then(res => _saveTripDetails(res))
             .then(res => _createTripSummaryImages(res))
-            .then(res => {
-                tripData = res;
-                return bot.sendAction(user.id, 'typing_off');
-            })
-            .then(() => {
+            .then(tripData => {
                 if (tripData.options.length < 1) {
                     return Message.tripWalkDistance(user, tripData.to);
                 }
                 return Message.tripSummary(user, tripData.options);
             })
             .catch(err => {
-                console.error(err);
+                logger.error(err);
                 return Message.tripPlanningFailed(user);
             });
     };
@@ -208,6 +209,7 @@ module.exports = (bot) => {
     return {
         askStart,
         askStop,
-        sendTripDetails
+        sendTripDetails,
+        planTrip
     };
 };

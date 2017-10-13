@@ -4,6 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "test": "NODE_ENV=test; mocha --reporter spec",
+    "alma": "./scripts/test.sh",
+    "addmessage": "./scripts/newmessage",
+    "addintent": "./scripts/newintent"
   },
   "author": "kebou",
   "license": "ISC",
@@ -19,9 +23,19 @@
     "config": "^1.26.1",
     "express": "^4.15.3",
     "futar-api": "git+https://df7a4834c13fb008f1993f33674498b38d643c10:x-oauth-basic@github.com/kebou/futar-api.git",
+    "emagyar": "git+https://c75adef4daf02c58d77595aed2bd4f28fc2927cb:x-oauth-basic@github.com/kebou/emagyar.git",
     "heroku-self-ping": "^1.1.4",
     "i18n": "^0.8.3",
+    "koa-compose": "^4.0.0",
     "mongoose": "^4.10.4",
-    "node-wit": "^4.2.0"
+    "node-wit": "^4.2.0",
+    "request-promise": "^4.2.1",
+    "winston": "^2.4.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "chai-as-promised": "*",
+    "mocha": "*"
   }
 }

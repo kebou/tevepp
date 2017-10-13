@@ -13,7 +13,13 @@ module.exports = (routeName) => {
                 throw err;
             }
             const routesRef = data.references.routes;
-            return data.entry.routeIds.filter(x => routesRef[x].shortName.toLowerCase() === routeName.toLowerCase()).map(routeId => formatRoute(routeId, routesRef));
+            const routes = data.entry.routeIds.filter(x => routesRef[x].shortName.toLowerCase() === routeName.toLowerCase()).map(routeId => formatRoute(routeId, routesRef));
+            if (routes.length < 1) {
+                const err =  new Error('Nincsenek a keresésnek megfelelő viszonylatok.');
+                err.name = 'InvalidRouteNameError';
+                throw err;
+            }
+            return routes;
         });
 };
 

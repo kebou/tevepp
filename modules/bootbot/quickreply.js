@@ -1,12 +1,13 @@
 'use strict';
-const tryParseJSON = require('../utils/tryparse-json');
+const logger = require('winston');
+const tryParseJSON = require('../../utils/tryparse-json');
 
 module.exports = (bot) => {
-    const userController = require('../controllers/userController')(bot);
-    const tripPlanning = require('../intents/tripPlanning')(bot);
-    const Schedule = require('../intents/schedule')(bot);
-    const FavouriteLocation = require('../intents/favouriteLocation')(bot);
-    const ChitChat = require('../intents/chitChat')(bot);
+    const userController = require('../../controllers/userController')(bot);
+    const tripPlanning = require('../../intents/tripPlanning')(bot);
+    const Schedule = require('../../intents/schedule')(bot);
+    const FavouriteLocation = require('../../intents/favouriteLocation')(bot);
+    const ChitChat = require('../../intents/chitChat')(bot);
 
     bot.on('quick_reply', (payload, chat) => {
         const userId = payload.sender.id;
@@ -57,7 +58,7 @@ module.exports = (bot) => {
                 return ChitChat.sendHelp(user);
 
             default:
-                return console.error(`Unknown Quick Reply called: ${type}`);
+                return logger.warn('Unknown Quick Reply called:', type);
         }
     };
 };

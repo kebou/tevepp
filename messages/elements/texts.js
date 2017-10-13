@@ -15,6 +15,11 @@ module.exports.greetUser = (user) => {
     return user.__(getRandomItem(user, 'greeting.oldUser'));
 };
 
+module.exports.startHelp = (user) => {
+    if (user.new) return user.__('helpSummary');
+    return user.__(getRandomItem(user, 'help'));
+};
+
 module.exports.farewell = (user) => {
     return user.__(getRandomItem(user, 'greeting.bye'), { name: user.firstName });
 };
@@ -226,9 +231,69 @@ favouriteLocation.addHint = (user) => {
     return user.__('favouriteLocation.addHint');
 };
 
-
 module.exports.favouriteLocation = favouriteLocation;
 
+
+const feedback = {};
+
+feedback.intro = (user) => {
+    return user.__('feedback.intro');
+};
+
+feedback.listening = (user) => {
+    return user.__(getRandomItem(user, 'feedback.listening'));
+};
+
+feedback.addTextFirst = (user) => {
+    return user.__('feedback.addTextFirst');
+};
+
+feedback.attachImage = (user) => {
+    return user.__('feedback.attachImage');
+};
+
+feedback.skipImageUpload = (user) => {
+    return user.__('feedback.skipImageUpload', { sendFeedback: user.__('button.sendFeedback') });
+};
+
+feedback.canceled = (user) => {
+    return user.__(getRandomItem(user, 'feedback.canceled'));
+};
+
+feedback.thanksForFeedback = (user) => {
+    return user.__('feedback.thanksForFeedback');
+};
+
+module.exports.feedback = feedback;
+
+
+const dataCollection = {};
+
+dataCollection.greeting = (user) => {
+    return user.__('dataCollection.greeting', { name: user.firstName });
+};
+
+dataCollection.thanksForTheClick = (user) => {
+    return user.__('dataCollection.thanksForTheClick');
+};
+
+dataCollection.testMe = (user) => {
+    return user.__('dataCollection.testMe');
+};
+
+dataCollection.writeSentences = (user) => {
+    return user.__('dataCollection.writeSentences');
+};
+
+dataCollection.willBeHelpful = (user) => {
+    return user.__('dataCollection.willBeHelpful');
+};
+
+dataCollection.getStarted = (user) => {
+    return user.__('dataCollection.getStarted');
+};
+
+module.exports.dataCollection = dataCollection;
 
 /**
  * Véletlenszerűen visszaad egyet az alternatív szövegek közül

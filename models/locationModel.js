@@ -32,7 +32,7 @@ const LocationSchema = new Schema({
     name: String,
     source: {
         type: String,
-        enum: ['locationPicker', 'favourites', 'text']
+        enum: ['locationPicker', 'favourites', 'text', 'stop', 'location']
     }
 }, { timestamps: true, toObject: { virtuals: true } });
 
