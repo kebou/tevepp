@@ -34,7 +34,7 @@ const UserSchema = new Schema({
 
 UserSchema.virtual('new').get(function () {
     let oldTime = new Date();
-    oldTime.setHours(oldTime.getHours() - 8);
+    oldTime.setHours(oldTime.getHours() - 4);
     return this.createdAt > oldTime;
 });
 

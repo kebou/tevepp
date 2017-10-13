@@ -7,6 +7,8 @@ module.exports = (bot) => {
     }
 
     return {
+        dataCollection: require('./chitChat/dataCollectionMessage')(bot),
+        startHelp: require('./chitChat/startHelpMessage')(bot),
         emoji: require('./chitChat/emojiMessage')(bot),
         welcome: require('./chitChat/welcomeMessage')(bot),
         allIsWell: require('./chitChat/allIsWellMessage')(bot),
