@@ -21,6 +21,7 @@ module.exports = (bot) => {
     tp.use(require('../text-processing/handleIntent')(bot));
 
     tp.use(require('../text-processing/matchSimpleRouteStopPair')(bot));
+    tp.use(require('../text-processing/matchSimpleStopRoutePair')(bot));
     tp.use(require('../text-processing/parseText'));
 
     tp.use(require('../text-processing/findStopNameWithMorph'));

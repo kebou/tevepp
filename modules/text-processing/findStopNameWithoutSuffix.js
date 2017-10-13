@@ -1,6 +1,7 @@
 'use strict';
 const Location = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
+const latinize = require('../../utils/nlg').latinize;
 /**
  * In: tokens
  * Out: start, stop
@@ -21,7 +22,7 @@ module.exports = (ctx, next) => {
 
 const getLocationFromTokens = (ctx, next, tokens, start, end) => {
     const search = tokens.slice();
-    return findLocation(search)
+    return findStop(search)
         .then(res => {
             if (res === null) {
                 return next();
@@ -54,10 +55,13 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
         });
 };
 
-const findLocation = (search) => {
+const findStop = (search) => {
     const locationString = search.reduce((sum, x) => sum.concat(' ' + x.content), '').trim();
     return Futar.searchStop(locationString)
         .then(res => {
+            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) !== latinize(search[0].content.toLowerCase())) {
+                return Promise.resolve(null);
+            }
             return Promise.resolve({ location: res[0], tokens: search });
         })
         .catch(() => {
@@ -65,7 +69,7 @@ const findLocation = (search) => {
                 return Promise.resolve(null);
             }
             search.shift();
-            return findLocation(search);
+            return findStop(search);
         });
 };
 

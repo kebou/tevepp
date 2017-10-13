@@ -20,6 +20,10 @@ module.exports = (bot) => {
 
         userController.getUser(userId)
             .then(user => addUserSource(user, referral))
+            .then(user => {
+                logger.info(`New ${type} postback received from ${user.lastName} ${user.firstName}.`);
+                return user;
+            })
             .then(user => handlePostback(user, chat, type, data));
     });
 

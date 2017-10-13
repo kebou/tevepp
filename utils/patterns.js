@@ -20,3 +20,7 @@ module.exports.routeNameWithDelimiter = (delimiter) => {
 module.exports.routeNameWithDelimiterAfter = () => {
     return new RegExp(`(?:${basicName}|${rail}|${subway}|${ferry})` + '[ ,.:&;\@-]', 'i');
 };
+
+module.exports.routeNameWithDelimiterBefore = () => {
+    return new RegExp('[ ,.:&;\@-]' + `(?:${basicName}|${rail}|${subway}|${ferry})$`, 'i');
+};

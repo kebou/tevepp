@@ -278,6 +278,24 @@ describe('Text Processing Pipeline', function () {
                 })
                 .then(done, done);
         });
+        it.skip('should plan a trip between Moszkva tér and Nyugati pályaudvar', function (done) {
+            tp.process('moszkva tér nyugati')
+                .then(() => {
+                    console.log(context);
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Blaha Lujza tér');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('stop');
+                    context.end.value.should.have.property('rawName').with.to.equal('Nyugati pályaudvar');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                })
+                .then(done, done);
+        });
         it('should match kerepesi 29 as end', function (done) {
             tp.process('kerepesi 29')
                 .then(() => {
