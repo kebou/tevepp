@@ -27,6 +27,7 @@ tp.use(require('../modules/text-processing/findAddressWithSuffix'));
 tp.use(require('../modules/text-processing/matchRouteName'));
 tp.use(require('../modules/text-processing/findAddressWithNumber'));
 tp.use(require('../modules/text-processing/findStopNameWithoutSuffix'));
+tp.use(require('../modules/text-processing/matchTextAsLocation'));
 
 describe('Text Processing Pipeline', function () {
     describe('Route Name Matching', function () {
@@ -307,6 +308,17 @@ describe('Text Processing Pipeline', function () {
                 })
                 .then(done, done);
         });
+        it('should match Országos Orvosi Rehabilitációs Intézet as end', function (done) {
+            tp.process('Országos Orvosi Rehabilitációs Intézet')
+                .then(() => {
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Szanatórium utca');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                })
+                .then(done, done);
+        });
         it('should plan a trip between Fehérvári út 199. and Lévay utca 8.', function (done) {
             this.timeout(3000);
             tp.process('fehervari ut 199 levay utca 8')
@@ -329,7 +341,6 @@ describe('Text Processing Pipeline', function () {
             this.timeout(3000);
             tp.process('ferenciek nádastó park 5')
                 .then(() => {
-                    console.log(context);
                     context.should.have.property('start');
                     context.start.should.have.property('value');
                     context.start.should.have.property('type').with.to.equal('stop');
@@ -341,6 +352,24 @@ describe('Text Processing Pipeline', function () {
                     context.end.should.have.property('type').with.to.equal('location');
                     context.end.should.have.property('tokens').with.to.be.a('array');
                     context.end.value.should.have.property('title').with.to.equal('Budapest, Nádastó park 5.');
+                })
+                .then(done, done);
+        });
+        it.skip('should plan a trip between Ferenciek tere and Nádastó park', function (done) {
+            this.timeout(3000);
+            tp.process('ferenciek tere nádastó park')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Ferenciek tere');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Nádastó park');
                 })
                 .then(done, done);
         });
