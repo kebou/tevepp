@@ -325,5 +325,24 @@ describe('Text Processing Pipeline', function () {
                 })
                 .then(done, done);
         });
+        it('should plan a trip between Ferenciek tere and Nádastó park 5.', function (done) {
+            this.timeout(3000);
+            tp.process('ferenciek nádastó park 5')
+                .then(() => {
+                    console.log(context);
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Ferenciek tere');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Nádastó park 5.');
+                })
+                .then(done, done);
+        });
     });
 });
