@@ -1,6 +1,8 @@
 'use strict';
+const logger = require('winston');
 const Location = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
+const { filterTokens, tokensToString } = require('./tokenFunctions');
 /**
  * In: tokens
  * Out: start, stop
@@ -8,13 +10,13 @@ const Futar = require('../../controllers/futarController');
 module.exports = (ctx, next) => {
     const { start, end, tokens } = ctx;
     if (!tokens) {
-        console.error('findAddressWithNumber module should be used after "tokens" property in ctx');
+        logger.error('#findAddressWithNumber module should be used after "tokens" property in ctx');
         return next();
     }
     if (start && end) {
         return next();
     }
-    let tokensToProcess = tokens.filter(token => filterTokens(token, start, end));
+    let tokensToProcess = filterTokens(tokens, [ start && start.tokens, end && end.tokens ]);
     const indexes = getIndexes(tokensToProcess);
     let matches = [];
     return findMatches(indexes, tokensToProcess, matches)
@@ -41,7 +43,7 @@ module.exports = (ctx, next) => {
             }
             return next();
         })
-        .catch(console.error);
+        .catch(logger.error);
 };
 
 const getIndexes = (tokens) => {
@@ -63,7 +65,7 @@ const findMatches = (indexes, tokens, matches) => {
                 .then(res => {
                     if (res !== null) {
                         matches.push(res);
-                        tokens = tokens.filter(token => filterTokens(token, res, null));
+                        tokens = filterTokens(tokens, [ res && res.tokens ]);
                     }
                     return;
                 });
@@ -73,25 +75,15 @@ const findMatches = (indexes, tokens, matches) => {
 
 
 const findLocation = (search) => {
-    const locationString = search.reduce((prev, x) => prev.concat(' ' + x.content), '').trim();
+    const locationString = tokensToString(search);
 
     return Location.searchLocation(locationString)
-        .then(res => Promise.resolve({ location: res, tokens: search }))
+        .then(res => ({ location: res, tokens: search }))
         .catch((err) => {
             if (search.length < 1) {
-                return Promise.resolve(null);
+                return null;
             }
             search.shift();
             return findLocation(search);
         });
-};
-
-const filterTokens = (token, start, end) => {
-    if (start && start.tokens && start.tokens.findIndex(x => x.id === token.id) >= 0) {
-        return false;
-    }
-    if (end && end.tokens && end.tokens.findIndex(x => x.id === token.id) >= 0) {
-        return false;
-    }
-    return true;
 };

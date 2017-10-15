@@ -3,6 +3,7 @@ const logger = require('winston');
 const Location = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
 const latinize = require('../../utils/nlg').latinize;
+const { filterTokens, tokensToString } = require('./tokenFunctions');
 /**
  * In: tokens
  * Out: start, stop
@@ -10,18 +11,20 @@ const latinize = require('../../utils/nlg').latinize;
 module.exports = (ctx, next) => {
     const { start, end, tokens } = ctx;
     if (!tokens) {
-        logger.error('findAddress module should be used after "tokens" property in ctx');
+        logger.error('#findStopNameWithoutSuffix module should be used after "tokens" property in ctx');
         return next();
     }
     if (start && end) {
         return next();
     }
-
-    let tokensToProcess = tokens.filter(token => filterTokens(token, start, end));
+    let tokensToProcess = filterTokens(tokens, [ start && start.tokens, end && end.tokens ]);
     return getLocationFromTokens(ctx, next, tokensToProcess, start, end);
 };
 
 const getLocationFromTokens = (ctx, next, tokens, start, end) => {
+    if (tokens.length < 1) {
+        return next();
+    }
     const search = tokens.slice();
     return findStop(search)
         .then(res => {
@@ -48,7 +51,7 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
             if (start && !end) {
                 return next();
             }
-            tokens = tokens.filter(token => filterTokens(token, ctx.start, ctx.end));
+            tokens = filterTokens(tokens, [ ctx.start && ctx.start.tokens, ctx.end && ctx.end.tokens ]);
             return getLocationFromTokens(ctx, next, tokens, ctx.start, ctx.end);
         })
         .catch(err => {
@@ -58,29 +61,50 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
 };
 
 const findStop = (search) => {
-    const locationString = search.reduce((sum, x) => sum.concat(' ' + x.content), '').trim();
+    const locationString = tokensToString(search);
     return Futar.searchStop(locationString)
         .then(res => {
-            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) !== latinize(search[0].content.toLowerCase())) {
-                return Promise.resolve(null);
+            if (!compareResultAndSearch(res, search)) {
+                return null;
             }
-            return Promise.resolve({ location: res[0], tokens: search });
+            return ({ location: res[0], tokens: search });
         })
         .catch(() => {
             if (search.length < 1) {
-                return Promise.resolve(null);
+                return null;
             }
             search.shift();
             return findStop(search);
         });
 };
 
-const filterTokens = (token, start, end) => {
-    if (start && start.tokens && start.tokens.findIndex(x => x.id === token.id) >= 0) {
-        return false;
-    }
-    if (end && end.tokens && end.tokens.findIndex(x => x.id === token.id) >= 0) {
-        return false;
-    }
-    return true;
+// const findStopFromBeginnig = (tokens, search, prevRes) => {
+//     search.unshift(tokens.pop());
+//     const stopName = tokensToString(search);
+//     return Futar.searchStop(stopName)
+//         .then(res => {
+//             if (compareResultAndSearch(res, search)) {
+//                 prevRes = res[0];
+//             }
+//             if (tokens.length < 1) {
+//                 if (prevRes) {
+//                     return ({ stop: prevRes, tokens: search });
+//                 }
+//                 return null;
+//             }
+//         })
+//         .catch(() => {
+//             if (prevRes) {
+//                 search.shift();
+//                 return ({ stop: prevRes, tokens: search });
+//             }
+//             if (tokens.length < 1) {
+//                 return null;
+//             }
+//             return findStopFromBeginnig(tokens, search, prevRes);
+//         });
+// };
+
+const compareResultAndSearch = (result, search) => {
+    return (latinize(result[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].content.toLowerCase()));
 };
