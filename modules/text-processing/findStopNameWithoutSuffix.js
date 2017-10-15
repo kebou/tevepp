@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const Location = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
 const latinize = require('../../utils/nlg').latinize;
@@ -9,7 +10,7 @@ const latinize = require('../../utils/nlg').latinize;
 module.exports = (ctx, next) => {
     const { start, end, tokens } = ctx;
     if (!tokens) {
-        console.error('findAddress module should be used after "tokens" property in ctx');
+        logger.error('findAddress module should be used after "tokens" property in ctx');
         return next();
     }
     if (start && end) {
@@ -50,7 +51,8 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
             tokens = tokens.filter(token => filterTokens(token, ctx.start, ctx.end));
             return getLocationFromTokens(ctx, next, tokens, ctx.start, ctx.end);
         })
-        .catch(() => {
+        .catch(err => {
+            logger.warn(err);
             return next();
         });
 };

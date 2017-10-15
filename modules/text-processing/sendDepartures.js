@@ -16,7 +16,7 @@ module.exports = (bot) => {
         if (!routeName) {
             return next();
         }
-        if (start && stop) {
+        if (start && end) {
             return next();
         }
         const stopName = (start && start.type === 'stop' && start.value.name) || (end && end.type === 'stop' && end.value.name);
