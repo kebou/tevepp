@@ -61,10 +61,10 @@ const _getHunSuffix = (name) => {
     const c = name.slice(-1);
     const cc = name.length > 1 ? name.slice(-2) : null;
 
-    if (c === '1' || c === '2' || c === '4' || c === '7' || c === '9' || name === '10') {
+    if (c === '1' || c === '2' || c === '4' || c === '7' || c === '9' || cc === '10' || cc === '40' || cc === '50' || cc === '70' || cc === '90') {
         return 'es';
     }
-    if (c === '3' || c === '8' || cc === '00' || c === '0') {
+    if (c === '3' || c === '8' || cc === '00' || cc === '20' || cc === '30' || cc === '60' || cc === '80' || c === '0') {
         return 'as';
     }
     if (c === '5') {

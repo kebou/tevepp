@@ -10,8 +10,12 @@ module.exports = (bot) => {
         const userId = sender.id;
         const type = referral.ref.toUpperCase();
 
-        userController.getUser(userId)
+        return userController.getUser(userId)
             .then(user => addUserSource(user, referral))
+            .then(user => {
+                logger.info(`New ${type} referral received from ${user.lastName} ${user.firstName}.`);
+                return user;
+            })
             .then(user => handleReferral(user, chat, type));
     });
 

@@ -188,15 +188,15 @@
 		"2": "🗺 Az Útvonaltervezés menüpontot választva könnyedén megtudhatod, hogy milyen járatokkal érheted el a célod.",
 		"3": "⭐📍 A Kedvenc Helyek menüpontnál általad gyakran látogatott helyeket menthetsz el, melyek segítségével villámgyorssá válik az útvonaltervezés.",
 		"4": "🗺 Útvonaltervezéshez csak írd meg, hogy honnan-hova mennél, pl.: \"Magyar tudósok körútja 2-ből Blahára\"",
-		"5": "❓ Ha elakadnál vagy csak néhány használati tipp kellene, akkor küldd el, hogy \"segítség\"."
+		"5": "❓ Ha elakadnál vagy csak néhány használattal kapcsolatos tipp kellene, akkor küldd írd, hogy \"segítség\"."
 	},
 	"helpSummary": "🗺 Útvonaltervezéshez csak írd meg, hogy honnan és hogy hova tartasz.\n🚍 Indulási információkhoz járatszám és megálló nevének megadásával juthatsz.\n📍 Aktuális helyzetedet elküldve a közeli megállók adatait láthatod, sőt, útvonaltervezést indíthatsz.",
 	"dataCollection": {
 		"greeting": "Kedves {{{name}}}!",
-		"thanksForTheClick": "Köszönöm, hogy kattintottál, nagyon-nagyon örülök, hogy itt vagy 😊",
+		"thanksForTheClick": "Köszönöm, hogy kattintottál, nagyon-nagyon örülök, hogy itt vagy 🙂",
 		"testMe": "Arra szeretnélek kérni, hogy tégy próbára és tesztelgess❗️",
-		"writeSentences": "Írj olyan mondatokat, amelyek útvonaltervezésről 🗺 szólnak, és olyanokat is, amelyekkel különböző járatok 🚊 indulása felől érdeklődsz.",
+		"writeSentences": "Írj olyan mondatokat, amelyek útvonaltervezésről szólnak 🗺 , és olyanokat is, amelyekkel különböző járatok indulása felől érdeklődsz 🚊 .",
 		"willBeHelpful": "Lehet, hogy még nem foglak érteni, esetleg félreértlek, de segítségeddel idővel egyre jobb leszek. 👼🏻",
-		"getStarted": "Jajj de izgulok, kezdjünk is bele... 😄"
+		"getStarted": "Jajj de izgulok, kezdjünk is bele... 😊"
 	}
 }

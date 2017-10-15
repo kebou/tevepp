@@ -1,6 +1,8 @@
 'use strict';
+const logger = require('winston');
 const Location = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
+const latinize = require('../../utils/nlg').latinize;
 /**
  * In: tokens
  * Out: start, stop
@@ -8,7 +10,7 @@ const Futar = require('../../controllers/futarController');
 module.exports = (ctx, next) => {
     const { start, end, tokens } = ctx;
     if (!tokens) {
-        console.error('findAddress module should be used after "tokens" property in ctx');
+        logger.error('findAddress module should be used after "tokens" property in ctx');
         return next();
     }
     if (start && end) {
@@ -21,7 +23,7 @@ module.exports = (ctx, next) => {
 
 const getLocationFromTokens = (ctx, next, tokens, start, end) => {
     const search = tokens.slice();
-    return findLocation(search)
+    return findStop(search)
         .then(res => {
             if (res === null) {
                 return next();
@@ -49,15 +51,19 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
             tokens = tokens.filter(token => filterTokens(token, ctx.start, ctx.end));
             return getLocationFromTokens(ctx, next, tokens, ctx.start, ctx.end);
         })
-        .catch(() => {
+        .catch(err => {
+            logger.warn(err);
             return next();
         });
 };
 
-const findLocation = (search) => {
+const findStop = (search) => {
     const locationString = search.reduce((sum, x) => sum.concat(' ' + x.content), '').trim();
     return Futar.searchStop(locationString)
         .then(res => {
+            if (latinize(res[0].rawName.split(' ')[0].toLowerCase()) !== latinize(search[0].content.toLowerCase())) {
+                return Promise.resolve(null);
+            }
             return Promise.resolve({ location: res[0], tokens: search });
         })
         .catch(() => {
@@ -65,7 +71,7 @@ const findLocation = (search) => {
                 return Promise.resolve(null);
             }
             search.shift();
-            return findLocation(search);
+            return findStop(search);
         });
 };
 

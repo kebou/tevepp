@@ -12,9 +12,14 @@ module.exports = (bot) => {
     bot.on('attachment', (payload, chat) => {
         const userId = payload.sender.id;
         const attachments = payload.message.attachments;
+        const attachment = attachments && attachments.length > 0 && attachments[0];
 
-        userController.getUser(userId)
-            .then(user => handleAttachment(user, attachments[0]));
+        return userController.getUser(userId)
+            .then(user => {
+                logger.info(`New ${attachment.type} attachment received from ${user.lastName} ${user.firstName}.`);
+                return user;
+            })
+            .then(user => handleAttachment(user, attachment));
     });
 
     const handleAttachment = (user, attachment) => {
