@@ -6,7 +6,7 @@ module.exports = (bot) => {
     const helpMessage = (user) => {
         const text = Text.help(user);
         const quickReplies = QR.menu(user);
-        const options = { typing: true };
+        const options = { typing: 1000 };
 
         return bot.sendTextMessage(user.id, text, quickReplies, options);
     };
