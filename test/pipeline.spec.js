@@ -27,6 +27,7 @@ tp.use(require('../modules/text-processing/findAddressWithSuffix'));
 tp.use(require('../modules/text-processing/matchRouteName'));
 tp.use(require('../modules/text-processing/findAddressWithNumber'));
 tp.use(require('../modules/text-processing/findStopNameWithoutSuffix'));
+tp.use(require('../modules/text-processing/findStopNameWithoutSuffixFromBeginning'));
 tp.use(require('../modules/text-processing/matchTextAsLocation'));
 
 describe('Text Processing Pipeline', function () {
@@ -139,6 +140,18 @@ describe('Text Processing Pipeline', function () {
                 context.start.should.have.property('type').with.to.equal('stop');
                 context.start.value.should.have.property('rawName').with.to.equal('Infopark');
                 context.should.have.property('routeName').with.to.equal('1');
+            })
+            .then(done, done);
+        });
+        it.only('should send 6 departures from Széna tér', function (done) {
+            tp.process('szena ter 6os')
+            .then(() => {
+                console.log(context);
+                context.should.have.property('start');
+                context.start.should.have.property('value');
+                context.start.should.have.property('type').with.to.equal('stop');
+                context.start.value.should.have.property('rawName').with.to.equal('Széna tér');
+                context.should.have.property('routeName').with.to.equal('6');
             })
             .then(done, done);
         });
@@ -370,6 +383,43 @@ describe('Text Processing Pipeline', function () {
                     context.end.should.have.property('type').with.to.equal('location');
                     context.end.should.have.property('tokens').with.to.be.a('array');
                     context.end.value.should.have.property('title').with.to.equal('Budapest, Nádastó park');
+                })
+                .then(done, done);
+        });
+        it.only('should plan a trip between Móricz Zsigmond körtér and CEU', function (done) {
+            this.timeout(3000);
+            tp.process('Móricz ceu')
+                .then(() => {
+                    console.log(context);
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Móricz Zsigmond körtér');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Nádastó park');
+                })
+                .then(done, done);
+        });
+        it.only('should plan a trip between Blaha Lujza tér and Batthyány utca 48.', function (done) {
+            this.timeout(3000);
+            tp.process('blaha battyhány utca 48')
+                .then(() => {
+                    context.should.have.property('start');
+                    context.start.should.have.property('value');
+                    context.start.should.have.property('type').with.to.equal('stop');
+                    context.start.value.should.have.property('rawName').with.to.equal('Blaha Lujza tér');
+                    context.start.should.have.property('tokens').with.to.be.a('array');
+                    
+                    context.should.have.property('end');
+                    context.end.should.have.property('value');
+                    context.end.should.have.property('type').with.to.equal('location');
+                    context.end.should.have.property('tokens').with.to.be.a('array');
+                    context.end.value.should.have.property('title').with.to.equal('Budapest, Batthyány utca 48.');
                 })
                 .then(done, done);
         });

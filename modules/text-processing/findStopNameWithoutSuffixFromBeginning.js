@@ -65,7 +65,7 @@ const setContext = (res, ctx, next) => {
 };
 
 const findStop = (tokens, search, prevRes) => {
-    search.unshif(tokens.pop());
+    search.unshift(tokens.shift());
     const stopName = tokensToString(search);
     return Futar.searchStop(stopName)
         .then(res => {
@@ -78,6 +78,7 @@ const findStop = (tokens, search, prevRes) => {
                 }
                 return null;
             }
+            return findStop(tokens, search, prevRes);
         })
         .catch(() => {
             if (prevRes) {
