@@ -1,6 +1,5 @@
 'use strict';
 const logger = require('winston');
-const Location = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
 const latinize = require('../../utils/nlg').latinize;
 const { filterTokens, tokensToString } = require('./tokenFunctions');
@@ -17,17 +16,13 @@ module.exports = (ctx, next) => {
         logger.error('#findStopNameWithoutSuffix module should be used after "tokens" property in ctx');
         return next();
     }
-    // if (start && end) {
-    //     return next();
-    // }
     return getStopFromTokens(ctx, next);
 };
 
 const getStopFromTokens = (ctx, next) => {
     const { tokens, locations } = ctx;
-    const locationsToFilter = filterLocations(locations);
+    const locationsToFilter = getLocationTokens(locations);
     const tokensToProcess = filterTokens(tokens, locationsToFilter);
-    console.log(locationsToFilter);
     
     if (tokensToProcess.length < 1) {
         return next();
@@ -43,12 +38,10 @@ const getStopFromTokens = (ctx, next) => {
 };
 
 const setContext = (res, ctx, next) => {
-    const { start, end } = ctx;
     if (res === null) {
         return next();
     }
     const location = new ContextLocation('stop', res.stop, res.tokens);
-    location.type = 'stop';
     location.source = scriptName;
 
     ctx.locations = ctx.locations || [];
@@ -64,7 +57,7 @@ const findStop = (search) => {
             if (!compareResultAndSearch(res, search)) {
                 return null;
             }
-            return ({ stop: res[0], tokens: search });
+            return { stop: res[0], tokens: search };
         })
         .catch(() => {
             if (search.length < 1) {
@@ -75,77 +68,9 @@ const findStop = (search) => {
         });
 };
 
-const filterLocations = (locations) => {
-    return locations && locations.filter(location => location.source && location.source === scriptName) || [];
+const getLocationTokens = (locations) => {
+    return locations && locations.filter(location => location.source && location.source === scriptName).map(location => location.tokens) || [];
 };
-
-/* const getLocationFromTokens = (ctx, next, tokens, start, end) => {
-    if (tokens.length < 1) {
-        return next();
-    }
-    const search = tokens.slice();
-    return findStop(search)
-        .then(res => {
-            if (res === null) {
-                return next();
-            }
-            
-
-            // ha csak kiindulás nincs
-            if (!start && end) {
-                ctx.start = ctx.start || {};
-                ctx.start.type = 'stop';
-                ctx.start.module = 'findStopNameWithoutSuffix';
-                ctx.start.value = res.location;
-                ctx.start.tokens = res.tokens;
-                return next();
-            }
-
-            // ha csak végcél nincs vagy semmi nincs
-            ctx.end = ctx.end || {};
-            ctx.end.type = 'stop';
-            ctx.end.module = 'findStopNameWithoutSuffix';
-            ctx.end.value = res.location;
-            ctx.end.tokens = res.tokens;
-            // ha csak végcél nincs
-            if (start && !end) {
-                return next();
-            }
-            tokens = filterTokens(tokens, [ ctx.start && ctx.start.tokens, ctx.end && ctx.end.tokens ]);
-            return getLocationFromTokens(ctx, next, tokens, ctx.start, ctx.end);
-        })
-        .catch(err => {
-            logger.warn(err);
-            return next();
-        });
-}; */
-
-// const findStopFromBeginnig = (tokens, search, prevRes) => {
-//     search.unshift(tokens.pop());
-//     const stopName = tokensToString(search);
-//     return Futar.searchStop(stopName)
-//         .then(res => {
-//             if (compareResultAndSearch(res, search)) {
-//                 prevRes = res[0];
-//             }
-//             if (tokens.length < 1) {
-//                 if (prevRes) {
-//                     return ({ stop: prevRes, tokens: search });
-//                 }
-//                 return null;
-//             }
-//         })
-//         .catch(() => {
-//             if (prevRes) {
-//                 search.shift();
-//                 return ({ stop: prevRes, tokens: search });
-//             }
-//             if (tokens.length < 1) {
-//                 return null;
-//             }
-//             return findStopFromBeginnig(tokens, search, prevRes);
-//         });
-// };
 
 const compareResultAndSearch = (result, search) => {
     return (latinize(result[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].content.toLowerCase()));

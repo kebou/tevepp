@@ -21,14 +21,14 @@ tp.use(revealCtx);
 
 tp.use(require('../modules/text-processing/parseText'));
 
-tp.use(require('../modules/text-processing/findStopNameWithMorph'));
-tp.use(require('../modules/text-processing/findStopNameWithoutAccent'));
-tp.use(require('../modules/text-processing/findAddressWithSuffix'));
-tp.use(require('../modules/text-processing/matchRouteName'));
-tp.use(require('../modules/text-processing/findAddressWithNumber'));
-tp.use(require('../modules/text-processing/findStopNameWithoutSuffix'));
+//tp.use(require('../modules/text-processing/findStopNameWithMorph'));
+//tp.use(require('../modules/text-processing/findStopNameWithoutAccent'));
+//tp.use(require('../modules/text-processing/findAddressWithSuffix'));
+//tp.use(require('../modules/text-processing/matchRouteName'));
+//tp.use(require('../modules/text-processing/findAddressWithNumber'));
+//tp.use(require('../modules/text-processing/findStopNameWithoutSuffix'));
 tp.use(require('../modules/text-processing/findStopNameWithoutSuffixFromBeginning'));
-tp.use(require('../modules/text-processing/matchTextAsLocation'));
+//tp.use(require('../modules/text-processing/matchTextAsLocation'));
 
 describe('Text Processing Pipeline', function () {
     describe('Route Name Matching', function () {
@@ -278,7 +278,7 @@ describe('Text Processing Pipeline', function () {
         it.only('should plan a trip between Blaha Lujza tér and Móricz Zsigmond körtér', function (done) {
             tp.process('blaha moricz')
                 .then(() => {
-                    console.log(context.locations);
+                    console.log('context.locations:',context.locations);
 
                     context.should.have.property('start');
                     context.start.should.have.property('value');

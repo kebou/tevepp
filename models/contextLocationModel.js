@@ -5,7 +5,6 @@ class ContextLocation {
         this.type = type;
         this.value = value;
         this.tokens = tokens;
-        this.type = undefined;
         this.source = undefined;
     }
     get string() {
