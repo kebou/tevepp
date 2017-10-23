@@ -4,24 +4,82 @@ const Location = require('../../controllers/locationController');
 const Futar = require('../../controllers/futarController');
 const latinize = require('../../utils/nlg').latinize;
 const { filterTokens, tokensToString } = require('./tokenFunctions');
+const ContextLocation = require('../../models/contextLocationModel');
+const path = require('path');
+const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 /**
  * In: tokens
- * Out: start, stop
+ * Out: start, end
  */
 module.exports = (ctx, next) => {
-    const { start, end, tokens } = ctx;
+    const { tokens } = ctx;
     if (!tokens) {
         logger.error('#findStopNameWithoutSuffix module should be used after "tokens" property in ctx');
         return next();
     }
-    if (start && end) {
-        return next();
-    }
-    let tokensToProcess = filterTokens(tokens, [ start && start.tokens, end && end.tokens ]);
-    return getLocationFromTokens(ctx, next, tokensToProcess, start, end);
+    // if (start && end) {
+    //     return next();
+    // }
+    return getStopFromTokens(ctx, next);
 };
 
-const getLocationFromTokens = (ctx, next, tokens, start, end) => {
+const getStopFromTokens = (ctx, next) => {
+    const { tokens, locations } = ctx;
+    const locationsToFilter = filterLocations(locations);
+    const tokensToProcess = filterTokens(tokens, locationsToFilter);
+    console.log(locationsToFilter);
+    
+    if (tokensToProcess.length < 1) {
+        return next();
+    }
+    
+    const search = tokensToProcess.slice();
+    return findStop(search)
+        .then(res => setContext(res, ctx, next))
+        .catch(err => {
+            logger.warn(err);
+            return next();
+        });
+};
+
+const setContext = (res, ctx, next) => {
+    const { start, end } = ctx;
+    if (res === null) {
+        return next();
+    }
+    const location = new ContextLocation('stop', res.stop, res.tokens);
+    location.type = 'stop';
+    location.source = scriptName;
+
+    ctx.locations = ctx.locations || [];
+    ctx.locations.push(location);
+
+    return getStopFromTokens(ctx, next);
+};
+
+const findStop = (search) => {
+    const locationString = tokensToString(search);
+    return Futar.searchStop(locationString)
+        .then(res => {
+            if (!compareResultAndSearch(res, search)) {
+                return null;
+            }
+            return ({ stop: res[0], tokens: search });
+        })
+        .catch(() => {
+            if (search.length < 1) {
+                return null;
+            }
+            search.shift();
+            return findStop(search);
+        });
+};
+
+const filterLocations = (locations) => {
+    return locations && locations.filter(location => location.source && location.source === scriptName) || [];
+};
+
+/* const getLocationFromTokens = (ctx, next, tokens, start, end) => {
     if (tokens.length < 1) {
         return next();
     }
@@ -31,6 +89,8 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
             if (res === null) {
                 return next();
             }
+            
+
             // ha csak kiindulás nincs
             if (!start && end) {
                 ctx.start = ctx.start || {};
@@ -58,25 +118,7 @@ const getLocationFromTokens = (ctx, next, tokens, start, end) => {
             logger.warn(err);
             return next();
         });
-};
-
-const findStop = (search) => {
-    const locationString = tokensToString(search);
-    return Futar.searchStop(locationString)
-        .then(res => {
-            if (!compareResultAndSearch(res, search)) {
-                return null;
-            }
-            return ({ location: res[0], tokens: search });
-        })
-        .catch(() => {
-            if (search.length < 1) {
-                return null;
-            }
-            search.shift();
-            return findStop(search);
-        });
-};
+}; */
 
 // const findStopFromBeginnig = (tokens, search, prevRes) => {
 //     search.unshift(tokens.pop());

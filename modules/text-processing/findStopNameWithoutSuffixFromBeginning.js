@@ -1,8 +1,11 @@
 'use strict';
 const logger = require('winston');
+const ContextLocation = require('../../models/contextLocationModel');
 const { filterTokens, tokensToString } = require('./tokenFunctions');
 const latinize = require('../../utils/nlg').latinize;
 const Futar = require('../../controllers/futarController');
+const path = require('path');
+const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 /**
  * In: tokens, start, end
  * Out: start, end
@@ -13,15 +16,16 @@ module.exports = (ctx, next) => {
         logger.error('#findStopNameWithoutSuffixFromBeginning module should be used after "tokens" property in ctx');
         return next();
     }
-    if (start && end) {
-        return next();
-    }
+    // if (start && end) {
+    //     return next();
+    // }
     return getStopFromTokens(ctx, next);
 };
 
 const getStopFromTokens = (ctx, next) => {
     const { tokens, start, end } = ctx;
-    const tokensToProcess = filterTokens(tokens, [ start && start.tokens, end && end.tokens ]);
+    const tokensToProcess = tokens;
+    //const tokensToProcess = filterTokens(tokens, [ start && start.tokens, end && end.tokens ]);
 
     if (tokensToProcess.length < 1) {
         return next();
@@ -41,7 +45,15 @@ const setContext = (res, ctx, next) => {
     if (res === null) {
         return next();
     }
-    // ha csak kiindulás nincs
+    const location = new ContextLocation('stop', res.stop, res.tokens);
+    location.type = 'stop';
+    location.source = scriptName;
+
+    ctx.locations = ctx.locations || [];
+    ctx.locations.push(location);
+
+    return next();
+    /*     // ha csak kiindulás nincs
     if (!start && end) {
         ctx.start = ctx.start || {};
         ctx.start.type = 'stop';
@@ -60,8 +72,8 @@ const setContext = (res, ctx, next) => {
     // ha csak végcél nincs 
     if (start && !end) {
         return next();
-    }
-    return getStopFromTokens(ctx, next);
+    } */
+    //return getStopFromTokens(ctx, next);
 };
 
 const findStop = (tokens, search, prevRes) => {
