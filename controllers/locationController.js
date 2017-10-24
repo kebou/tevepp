@@ -9,8 +9,10 @@ const Futar = require('../controllers/futarController');
 const mapOpts = {
     provider: 'google',
     language: 'hu',
+    region: 'hu',
     apiKey: process.env.MAPS_API_KEY,
     formatter: null,
+    excludePartialMatches: true,
     bounds: '47.1523107,18.8460594|47.6837053,19.3915303'
 };
 
@@ -96,7 +98,7 @@ const fromText = (text, userId) => {
 };
 
 const searchLocation = (text, userId) => {
-    return gc.geocode({ text: text, withBounds: true })
+    return gc.geocode({ address: text, country: 'Magyarország', withBounds: true })
         .then(res => {
             if (res.length < 1) {
                 const err = new Error('Geocoder result is empty.');
