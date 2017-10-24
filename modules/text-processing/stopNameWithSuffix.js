@@ -1,18 +1,18 @@
 'use strict';
 const logger = require('winston');
-const latinize = require('../../utils/nlg').latinize;
 const Futar = require('../../controllers/futarController');
+const latinize = require('../../utils/nlg').latinize;
 const ContextLocation = require('../../models/contextLocationModel');
 const path = require('path');
 const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 /**
  * In: tokens
- * Out: locations
+ * Out: locations, lemma
  */
 module.exports = (ctx, next) => {
     const { tokens } = ctx;
     if (!tokens) {
-        logger.error('#stopNameMorph module should be used after "tokens" property in ctx');
+        logger.error('#stopNameWithSuffix module should be used after "tokens" property in ctx');
         return next();
     }
     const indexes = getIndexes(ctx);
@@ -53,13 +53,49 @@ const setContext = (res, ctx, next) => {
     return next();
 };
 
+const findStop = (search, array, prevRes) => {
+    search.unshift(array.pop());
+    const locationString = tokensToString(search);
+    return Futar.searchStop(locationString)
+        .then(res => {
+            if (compareResultAndSearch(res, search)) {
+                prevRes = res[0];
+            }
+            if (array.length < 1) {
+                if (prevRes) {
+                    return { stop: prevRes, tokens: search };
+                }
+                return null;
+            }
+            return findStop(search, array, prevRes);
+        })
+        .catch(() => {
+            if (prevRes) {
+                search.shift();
+                return { stop: prevRes, tokens: search };
+            }
+            if (array.length < 1) {
+                return null;
+            }
+            return findStop(search, array, prevRes);
+        });
+};
+
 const iterateSearchArrays = (searchArrays) => {
-    const promises = searchArrays.map(search => findStop(search));
+    const promises = searchArrays.map(array => {
+        let search = [];
+        let prevRes = null;
+        return findStop(search, array, prevRes);
+    });
     return Promise.all(promises);
 };
 
 const getSearchArrays = (tokens, indexes) => {
     return indexes.map(index => getTokensFromIndex(tokens, index));
+};
+
+const getTokensFromIndex = (tokens, index) => {
+    return tokens.slice(0, index + 1);
 };
 
 const getIndexes = (ctx) => {
@@ -68,15 +104,16 @@ const getIndexes = (ctx) => {
     const endIndexes = [];
 
     for (let index = 0; index < tokens.length; index++) {
-        const hfstana = tokens[index].hfstana;
-        const suffix = hfstana && hfstana.length > 0 && hfstana[hfstana.length - 1];
-        if (!suffix) {
-            continue;
-        }
-        if (isStartSuffix(suffix)) {
+        const token = latinize(tokens[index].content);
+
+        const startToken = isStartToken(token);
+        if (startToken && startToken.length > 0) {
+            tokens[index].custom = startToken[0];
             startIndexes.push(index);
         }
-        if (isEndSuffix(suffix)) {
+        const endToken = isEndToken(token);
+        if (endToken && endToken.length > 0) {
+            tokens[index].custom = endToken[0];
             endIndexes.push(index);
         }
     }
@@ -86,55 +123,20 @@ const getIndexes = (ctx) => {
     };
 };
 
-const findStop = (search) => {
-    const locationString = tokensToString(search);
-    return Futar.searchStop(locationString)
-        .then(res => {
-            if (!compareResultAndSearch(res, search)) {
-                return null;
-            }
-            return { stop: res[0], tokens: search };
-        })
-        .catch(() => {
-            if (search.length < 1) {
-                return null;
-            }
-            search.shift();
-            return findStop(search);
-        });
+const isStartToken = (str) => {
+    const pattern = /.*(?=bol$)|.*(?=rol$)|.*(?=tol$)/i;
+    return str.match(pattern);
 };
 
-const getTokensFromIndex = (tokens, index) => {
-    const search = [];
-    let idx = index;
-    while (idx !== -1 && (isNoun(tokens[idx]) || isNumber(tokens[idx]))) {
-        search.push(tokens[idx]);
-        idx--;
-    }
-    search.reverse();
-    return search;
-};
-
-const isNumber = (token) => {
-    return (token.hfstana[0] === '[/Num]' || token.hfstana[0] === '[/Num|Digit]' || !isNaN(token.content));
-};
-
-const isNoun = (token) => {
-    return (token.content.match(/\W/i) !== null || token.hfstana[0] === '[/N]');
-};
-
-const isStartSuffix = (suffix) => {
-    return (suffix === '[Ela]' || suffix === '[Del]' || suffix === '[Abl]');
-};
-
-const isEndSuffix = (suffix) => {
-    return (suffix === '[Ill]' || suffix === '[Subl]' || suffix === '[All]' || suffix === '[Ter]');
-};
-
-const compareResultAndSearch = (result, search) => {
-    return (latinize(result[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].lemma.toLowerCase()));
+const isEndToken = (str) => {
+    const pattern = /.*(?=hoz$)|.*(?=ig$)|.*(?=ra$)|.*(?=re$)|.*(?=ba$)|.*(?=be$)/i;
+    return str.match(pattern);
 };
 
 const tokensToString = (tokens) => {
-    return tokens.reduce((prev, x) => prev.concat(' ' + x.lemma), '').trim();
+    return tokens.reduce((prev, x) => prev.concat(' ' + (x.custom || x.content)), '').trim();
+};
+
+const compareResultAndSearch = (result, search) => {
+    return (latinize(result[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].content.toLowerCase()));
 };

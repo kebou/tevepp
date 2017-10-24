@@ -16,13 +16,3 @@ class ContextLocation {
 }
 
 module.exports = ContextLocation;
-
-const contextLocation = {
-    type: 'location, stop, favourite',
-    source: 'sourceModuleName',
-    value: 'location specific object',
-    tokens: 'tokens of the match',
-    string: 'concatenated tokens',
-    role: 'start, end',
-    confidence: 'the value of confidence'
-}

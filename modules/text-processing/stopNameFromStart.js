@@ -13,7 +13,7 @@ const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 module.exports = (ctx, next) => {
     const { tokens } = ctx;
     if (!tokens) {
-        logger.error('#findStopNameWithoutSuffixFromBeginning module should be used after "tokens" property in ctx');
+        logger.error('#stopNameFromStart module should be used after "tokens" property in ctx');
         return next();
     }
     return getStopFromTokens(ctx, next);
