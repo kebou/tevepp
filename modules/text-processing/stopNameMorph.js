@@ -64,26 +64,18 @@ const getSearchArrays = (tokens, indexes) => {
 
 const getIndexes = (ctx) => {
     const { tokens } = ctx;
-    const startIndexes = [];
-    const endIndexes = [];
-
-    for (let index = 0; index < tokens.length; index++) {
-        const hfstana = tokens[index].hfstana;
+    
+    return tokens.reduce((indexes, token, index) => {
+        const hfstana = token.hfstana;
         const suffix = hfstana && hfstana.length > 0 && hfstana[hfstana.length - 1];
-        if (!suffix) {
-            continue;
-        }
         if (isStartSuffix(suffix)) {
-            startIndexes.push(index);
+            indexes.start.push(index);
         }
         if (isEndSuffix(suffix)) {
-            endIndexes.push(index);
+            indexes.end.push(index);
         }
-    }
-    return {
-        start: startIndexes,
-        end: endIndexes
-    };
+        return indexes;
+    }, { start: [], end: [] });
 };
 
 const findStop = (search) => {
@@ -124,11 +116,11 @@ const isNoun = (token) => {
 };
 
 const isStartSuffix = (suffix) => {
-    return (suffix === '[Ela]' || suffix === '[Del]' || suffix === '[Abl]');
+    return suffix && (suffix === '[Ela]' || suffix === '[Del]' || suffix === '[Abl]');
 };
 
 const isEndSuffix = (suffix) => {
-    return (suffix === '[Ill]' || suffix === '[Subl]' || suffix === '[All]' || suffix === '[Ter]');
+    return suffix && (suffix === '[Ill]' || suffix === '[Subl]' || suffix === '[All]' || suffix === '[Ter]');
 };
 
 const compareResultAndSearch = (result, search) => {

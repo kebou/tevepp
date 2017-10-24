@@ -100,27 +100,21 @@ const getTokensFromIndex = (tokens, index) => {
 
 const getIndexes = (ctx) => {
     const { tokens } = ctx;
-    const startIndexes = [];
-    const endIndexes = [];
-
-    for (let index = 0; index < tokens.length; index++) {
-        const token = latinize(tokens[index].content);
-
-        const startToken = isStartToken(token);
+    
+    return tokens.reduce((indexes, token, index) => {
+        const latinizedToken = latinize(token.content);
+        const startToken = isStartToken(latinizedToken);
         if (startToken && startToken.length > 0) {
-            tokens[index].custom = startToken[0];
-            startIndexes.push(index);
+            token.custom = startToken[0];
+            indexes.start.push(index);
         }
-        const endToken = isEndToken(token);
+        const endToken = isEndToken(latinizedToken);
         if (endToken && endToken.length > 0) {
-            tokens[index].custom = endToken[0];
-            endIndexes.push(index);
+            token.custom = endToken[0];
+            indexes.end.push(index);
         }
-    }
-    return {
-        start: startIndexes,
-        end: endIndexes
-    };
+        return indexes;
+    }, { start: [], end: [] });
 };
 
 const isStartToken = (str) => {
