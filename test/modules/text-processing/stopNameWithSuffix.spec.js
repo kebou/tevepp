@@ -19,7 +19,7 @@ tp.use(revealCtx)
     .use(require('../../../modules/text-processing/parseText'))
     .use(require('../../../modules/text-processing/stopNameWithSuffix'));
 
-describe('#stopNameMorph module', () => {
+describe('#stopNameWithSuffix module', () => {
     it('should match start stop', (done) => {
         tp.process('Széll Kálmán térről')
             .then(() => {
