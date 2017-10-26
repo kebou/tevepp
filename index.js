@@ -163,7 +163,7 @@ const mapOpts = {
 };
 
 const gc = NodeGeocoder(mapOpts);
-gc.geocode({ address: '55', country: 'Magyarország', minConfidence: 0, withBounds: true })
+gc.geocode({ address: 'utca 6 népfürdő utca 4', country: 'Magyarország', minConfidence: 0, withBounds: true })
     .then(console.log)
     .catch(console.error);
 
