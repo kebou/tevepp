@@ -16,7 +16,7 @@ const _containsToken = (array, token) => {
 };
 
 const tokensToString = (tokens) => {
-    return tokens.reduce((prev, x) => prev.concat(' ' + x.content), '').trim();
+    return tokens.reduce((prev, x) => prev.concat(' ' + (x.custom || x.content)), '').trim();
 };
 
 module.exports = {

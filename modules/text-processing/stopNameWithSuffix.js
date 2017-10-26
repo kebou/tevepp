@@ -2,6 +2,7 @@
 const logger = require('winston');
 const Futar = require('../../controllers/futarController');
 const latinize = require('../../utils/nlg').latinize;
+const { tokensToString } = require('./tokenFunctions');
 const ContextLocation = require('../../models/contextLocationModel');
 const path = require('path');
 const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
@@ -129,10 +130,6 @@ const isStartToken = (str) => {
 const isEndToken = (str) => {
     const pattern = /.*(?=hoz$)|.*(?=ig$)|.*(?=ra$)|.*(?=re$)|.*(?=ba$)|.*(?=be$)/i;
     return str.match(pattern);
-};
-
-const tokensToString = (tokens) => {
-    return tokens.reduce((prev, x) => prev.concat(' ' + (x.custom || x.content)), '').trim();
 };
 
 const compareResultAndSearch = (result, search) => {
