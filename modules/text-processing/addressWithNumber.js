@@ -32,8 +32,13 @@ const getLocationFromTokens = (indexes, ctx, next) => {
 
 const setContext = (res, ctx, next) => {
     res && res.length > 0 && res.map(res => {
+        if (!res) return;
+
         const location = new ContextLocation('location', res.location, res.tokens);
         location.source = scriptName;
+        if (res.partial) {
+            location.source += 'Partial'
+        }
 
         ctx.locations = ctx.locations || [];
         ctx.locations.push(location);
@@ -42,10 +47,9 @@ const setContext = (res, ctx, next) => {
 };
 
 const iterateSearchArrays = (searchArrays) => {
-    const promises = searchArrays.map(array => {
-        let search = [];
-        let prevRes = null;
-        return findLocation(search, array, prevRes);
+    const promises = searchArrays.map(search => {
+        let partial = null;
+        return findLocation(search, partial);
     });
     return Promise.all(promises);
 };
@@ -58,29 +62,35 @@ const getTokensFromIndex = (tokens, index) => {
     return tokens.slice(0, index + 1);
 };
 
-const findLocation = (search, array, prevRes) => {
-    search.unshift(array.pop());
+const findLocation = (search, partial) => {
     const locationString = tokensToString(search);
     return Location.searchLocation(locationString)
+        .then(res => ({ location: res, tokens: search }))
+        .catch(() => searchPartialLocation(locationString, search, partial));
+};
+
+const searchPartialLocation = (text, search, partial) => {
+    return Location.searchLocation(text, { partial: true })
         .then(res => {
-            prevRes = res;
-            if (array.length < 1) {
-                if (prevRes) {
-                    return { location: prevRes, tokens: search };
+            if (!partial) {
+                partial = { location: res, tokens: search, partial: true };
+            }
+            // ne legyen keresés csak a házszámra
+            if (search.length <= 2) {
+                return partial;
+            }
+            search.shift();
+            return findLocation(search, partial);
+        })
+        .catch(() => {
+            if (search.length <= 2) {
+                if (partial) {
+                    return partial;
                 }
                 return null;
             }
-            return findLocation(search, array, prevRes);
-        })
-        .catch(() => {
-            if (prevRes) {
-                search.shift();
-                return { location: prevRes, tokens: search };
-            }
-            if (array.length < 1) {
-                return null;
-            }
-            return findLocation(search, array, prevRes);
+            search.shift();
+            return findLocation(search, partial);
         });
 };
 

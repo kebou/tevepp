@@ -34,6 +34,8 @@ const getStopFromTokens = (indexes, ctx, next) => {
 const setContext = (res, ctx, next) => {
     // set start locations
     res[0] && res[0].length > 0 && res[0].map(res => {
+        if (!res) return;
+
         const location = new ContextLocation('stop', res.stop, res.tokens);
         location.source = scriptName;
         location.role = 'start';
@@ -43,6 +45,8 @@ const setContext = (res, ctx, next) => {
     });
     // set end locations
     res[1] && res[1].length > 0 && res[1].map(res => {
+        if (!res) return;
+        
         const location = new ContextLocation('stop', res.stop, res.tokens);
         location.source = scriptName;
         location.role = 'end';
