@@ -37,7 +37,8 @@ const setContext = (res, ctx, next) => {
         const location = new ContextLocation('location', res.location, res.tokens);
         location.source = scriptName;
         if (res.partial) {
-            location.source += 'Partial'
+            location.source += 'Partial';
+            location.partial = true;
         }
 
         ctx.locations = ctx.locations || [];

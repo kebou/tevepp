@@ -41,6 +41,7 @@ const setContext = (res, ctx, next) => {
         location.source = scriptName;
         if (res.partial) {
             location.source += 'Partial';
+            location.partial = true;
         }
         location.role = 'start';
 
@@ -55,6 +56,7 @@ const setContext = (res, ctx, next) => {
         location.source = scriptName;
         if (res.partial) {
             location.source += 'Partial';
+            location.partial = true;
         }
         location.role = 'end';
 
