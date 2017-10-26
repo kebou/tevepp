@@ -11,7 +11,7 @@ class ContextLocation {
         return this.toString();
     }
     toString() {
-        return this.tokens.reduce((prev, token) => prev.concat(' ' + token.content), '').trim();
+        return this.tokens.reduce((prev, token) => prev.concat(' ' + (token.custom || token.content)), '').trim();
     }
 }
 
