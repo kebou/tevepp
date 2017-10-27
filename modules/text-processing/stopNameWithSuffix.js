@@ -133,5 +133,8 @@ const isEndToken = (str) => {
 };
 
 const compareResultAndSearch = (result, search) => {
-    return (latinize(result[0].rawName.split(' ')[0].toLowerCase()) === latinize(search[0].content.toLowerCase()));
+    let searchString = search[0].custom || search[0].content;
+    searchString = latinize(searchString.toLowerCase());
+    const resultString = latinize(result[0].rawName.split(' ')[0].toLowerCase());
+    return searchString === resultString;
 };

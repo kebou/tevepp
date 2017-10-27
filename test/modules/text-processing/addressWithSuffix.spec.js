@@ -57,7 +57,7 @@ describe('#addressWithNumber module', () => {
     it('should match multiple locations with suffix', (done) => {
         tp.process('országház utca 6ba népfürdő utca 4ből')
             .then(() => {
-                console.log(context.locations[0].string)
+                console.log(context.locations)
                 context.should.have.property('locations').with.to.be.a('array').with.to.have.lengthOf(2);
 
                 const location1 = context.locations[0];

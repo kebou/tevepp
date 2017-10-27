@@ -30,6 +30,15 @@ describe('#stopNameWithSuffix module', () => {
                 location.should.have.property('tokens').with.to.be.a('array');
                 location.value.should.have.property('rawName').with.to.equal('Széll Kálmán tér');
             })
+            .then(() => tp.process('moriczrol kerepesi 29-be'))
+            .then(() => {
+                context.should.have.property('locations').with.to.be.a('array').with.to.have.lengthOf(1);
+                const location = context.locations[0];
+                location.should.have.property('type').with.to.equal('stop');
+                location.should.have.property('role').with.to.equal('start');
+                location.should.have.property('tokens').with.to.be.a('array');
+                location.value.should.have.property('rawName').with.to.equal('Móricz Zsigmond körtér');
+            })
             .then(done, done);
     });
     it('should match end stop', (done) => {

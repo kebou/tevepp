@@ -1,4 +1,5 @@
 'use strict';
+const latinize = require('./nlg').latinize;
 
 const basicName = '\\b[1-9][0-9]{0,2}[ABE]?(?\:\\b|(?=.s\\b))';
 const rail = '\\bH[56789]\\b';
@@ -23,4 +24,8 @@ module.exports.routeNameWithDelimiterAfter = () => {
 
 module.exports.routeNameWithDelimiterBefore = () => {
     return new RegExp('[ ,.:&;\@-]' + `(?:${basicName}|${rail}|${subway}|${ferry})$`, 'i');
+};
+
+module.exports.favouriteLocation = (text) => {
+    return new RegExp(latinize(text), 'gi');
 };

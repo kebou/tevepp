@@ -84,9 +84,10 @@ const getTokensFromIndex = (tokens, index) => {
 
 const findLocation = (search, partial) => {
     const locationString = tokensToString(search);
+    console.log(locationString);
     return Location.searchLocation(locationString)
         .then(res => {
-            console.log(locationString, '-', res);
+            //console.log(locationString, '-', res);
             return res;
         })
         .then(res => ({ location: res, tokens: search }))
@@ -97,7 +98,7 @@ const searchPartialLocation = (text, search, partial) => {
     return Location.searchLocation(text, { partial: true })
         .then(res => {
             if (!partial) {
-                partial = { location: res, tokens: search, partial: true };
+                partial = { location: res, tokens: search.slice(), partial: true };
             }
             // ne legyen keresés csak a házszámra
             if (search.length <= 2) {

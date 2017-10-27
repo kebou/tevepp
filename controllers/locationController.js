@@ -117,35 +117,16 @@ const searchLocation = (text, opts) => {
                 throw err;
             }
 
-            const params = _formatParams(res[0]);
-            const loc = new Location(params);
-            const locObj = loc.toObject();
-
-            if (userId) {
-                loc.userId = userId;
-                loc.type = 'log';
-                loc.source = 'text';
-                loc.save();
-            }
-            return locObj;
-        });
-};
-
-const searchLocationPartial = (text, userId) => {
-    return gcp.geocode({ address: text, country: 'Magyarország', withBounds: true })
-        .then(res => {
-            if (res.length < 1) {
-                const err = new Error('Geocoder result is empty.');
-                err.name = 'LocationError';
-                throw err;
-            }
-            if (res[0].country !== 'Magyarország') {
-                const err = new Error('Geocoder result is not in Hungary.');
-                err.name = 'LocationError';
-                throw err;
+            const budapest = res.filter(x => x.city === 'Budapest');
+            let location;
+            if (budapest && budapest.length > 0) {
+                location = budapest[0];
+            } else {
+                location = res[0];
             }
 
-            const params = _formatParams(res[0]);
+
+            const params = _formatParams(location);
             const loc = new Location(params);
             const locObj = loc.toObject();
 
@@ -269,7 +250,6 @@ const _formatParams = (res) => {
 
 module.exports = {
     searchLocation,
-    searchLocationPartial,
     fromText,
     fromPayload,
     fromAttachment,
