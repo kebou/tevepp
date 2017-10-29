@@ -14,14 +14,24 @@ class TextProcessor {
     }
 
     process(text, ctx) {
+        if (!text) {
+            throw new TypeError('first parameter must be a string or object!');
+        }
+        ctx = ctx || {};
+        if (typeof text === 'string') {
+            ctx.text = text;
+        }
+        if (typeof text === 'object') {
+            ctx = text;
+            text = undefined;
+        }
         const fn = compose(this.middleware);
-        const context = this.createContext(text, ctx);
+        const context = this.createContext(ctx);
         return fn(context);
     }
 
-    createContext(text, ctx) {
+    createContext(ctx) {
         const context = Object.assign({}, ctx);
-        context.text = text;
         return context;
     }
 }
