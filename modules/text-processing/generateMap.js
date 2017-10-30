@@ -7,18 +7,22 @@ const TextProcessor = require('./textProcessor');
 
 const tp = new TextProcessor();
 
-tp.use(require('./findStop'))
+tp.use(require('./findRoleMorph'))
+    .use(require('./findRoleRegexp'))
+    .use(require('./findStop'))
     .use(require('./findLocation'))
     .use(require('./findPartialLocation'))
+    .use(require('./findRouteName'))
+    .use(require('./findFavouriteLocation'))
     .use(require('./returnContext'));
 /**
- * In: tokens
+ * In: tokens, user
  * Out: map
  */
 module.exports = (ctx, next) => {
-    const { tokens } = ctx;
+    const { tokens, user } = ctx;
     if (!tokens) {
-        logger.error('#generateMap module should be used after "tokens" property in ctx');
+        logger.error('#generateMap module should be used after "tokens", "user" property in ctx');
         return next();
     }
     return generateMap(ctx)
@@ -33,7 +37,7 @@ module.exports = (ctx, next) => {
 };
 
 const generateMap = (ctx) => {
-    const { tokens } = ctx;
+    const { tokens, user } = ctx;
     const MAX_LENGTH = 5;
 
     return Promise.all(tokens.map((token, startIdx, tokens) => {
@@ -44,10 +48,10 @@ const generateMap = (ctx) => {
             // do the stuff here
             const tokensToProcess = tokens.slice(startIdx, endIdx + 1);
             const text = tokensToString(tokensToProcess);
-            return tp.process(text, { tokens: tokensToProcess, elements: [] })
+            return tp.process(text, { tokens: tokensToProcess, elements: [], user })
                 .then(ctx => {
                     const mobj = new MapObject(tokensToProcess);
-                    mobj.elements = mobj.elements.concat(ctx.elements);
+                    mobj.setFromContext(ctx);
                     return mobj;
                 });
         }));

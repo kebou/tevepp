@@ -18,6 +18,11 @@ class MapObject {
     toString() {
         return this.tokens.reduce((prev, token) => prev.concat(' ' + (token.custom || token.content)), '').trim();
     }
+    setFromContext (ctx) {
+        const { elements, role } = ctx;
+        this.elements = elements;
+        this.role = role;
+    }
 }
 
 module.exports = MapObject;
