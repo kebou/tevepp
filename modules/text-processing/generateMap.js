@@ -1,7 +1,7 @@
 'use strict';
 const logger = require('winston');
 const { tokensToString } = require('./tokenFunctions');
-const MapObject = require('../../models/mapObjectModel');
+const MapNode = require('../../models/mapNodeModel');
 const TextProcessor = require('./textProcessor');
 
 
@@ -16,13 +16,13 @@ tp.use(require('./findRoleMorph'))
     .use(require('./findFavouriteLocation'))
     .use(require('./returnContext'));
 /**
- * In: tokens, user
+ * In: tokens, user, MAX_WORD_NUMBER
  * Out: map
  */
 module.exports = (ctx, next) => {
-    const { tokens, user } = ctx;
-    if (!tokens) {
-        logger.error('#generateMap module should be used after "tokens", "user" property in ctx');
+    const { tokens, user, MAX_WORD_NUMBER } = ctx;
+    if (!tokens || !user || !MAX_WORD_NUMBER) {
+        logger.error('#generateMap module should be used after "tokens", "user", "MAX_WORD_NUMBER" property in ctx');
         return next();
     }
     return generateMap(ctx)
@@ -37,12 +37,11 @@ module.exports = (ctx, next) => {
 };
 
 const generateMap = (ctx) => {
-    const { tokens, user } = ctx;
-    const MAX_LENGTH = 5;
+    const { tokens, user, MAX_WORD_NUMBER } = ctx;
 
     return Promise.all(tokens.map((token, startIdx, tokens) => {
         return Promise.all(tokens.map((token, endIdx) => {
-            if ((startIdx > endIdx) || (endIdx - startIdx >= MAX_LENGTH)) {
+            if ((startIdx > endIdx) || (endIdx - startIdx >= MAX_WORD_NUMBER)) {
                 return undefined;
             }
             // do the stuff here
@@ -50,7 +49,7 @@ const generateMap = (ctx) => {
             const text = tokensToString(tokensToProcess);
             return tp.process(text, { tokens: tokensToProcess, elements: [], user })
                 .then(ctx => {
-                    const mobj = new MapObject(tokensToProcess);
+                    const mobj = new MapNode(tokensToProcess);
                     mobj.setFromContext(ctx);
                     return mobj;
                 });

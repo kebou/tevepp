@@ -1,6 +1,6 @@
 'use strict';
 
-class MapObject {
+class MapNode {
     constructor(tokens) {
         this.tokens = tokens;
         this.elements = [];
@@ -25,4 +25,4 @@ class MapObject {
     }
 }
 
-module.exports = MapObject;
+module.exports = MapNode;

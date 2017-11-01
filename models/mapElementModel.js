@@ -1,6 +1,6 @@
 'use strict';
 
-class mapElement {
+class MapElement {
     constructor(type, value) {
         this.type = type;
         this.value = value;
@@ -10,4 +10,4 @@ class mapElement {
     }
 }
 
-module.exports = mapElement;
+module.exports = MapElement;

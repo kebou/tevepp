@@ -22,7 +22,7 @@ tp.use(revealCtx)
 
 describe('#generateMap module', () => {
     it('should work', (done) => {
-        tp.process('hogyan BME-re fehérváriból', { user: { locations } })
+        tp.process('hogyan BME-re fehérváriból', { user: { locations }, MAX_WORD_NUMBER: 5 })
             .then(() => {
                 console.log(context.map[1][1])
                 console.log(context.map[2][2])

@@ -1,4 +1,6 @@
-const partitions = (start, end) => {
+'use strict';
+
+const partitions = (start, end, max) => {
     let x = start;
     let y = start;
     const array = [];
@@ -10,21 +12,20 @@ const partitions = (start, end) => {
         for (let i = 0; i < limit; i++) {
             const last = array[i][array[i].length - 1];
 
-            if (x > last[1] && y > last[1]) {
-                const arr = array[i].slice().concat([[x, y]]);
+            if (last[1] < x && last[1] < y) {
+                const arr = array[i].concat([[x, y]]);
                 array.push(arr);
             }
         }
         array.push([[x, y]]);
 
-        if (y === end) {
+        if (y-x+1 === max || y === end) {
             y = ++x;
         } else {
             y++;
         }
     }
-
     return array;
 };
-
-console.log(partitions(1,3));
+console.log(partitions(-2, 0), -3);
+return partitions;
