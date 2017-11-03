@@ -49,9 +49,9 @@ const generateMap = (ctx) => {
             const text = tokensToString(tokensToProcess);
             return tp.process(text, { tokens: tokensToProcess, elements: [], user })
                 .then(ctx => {
-                    const mobj = new MapNode(tokensToProcess);
-                    mobj.setFromContext(ctx);
-                    return mobj;
+                    const node = new MapNode(tokensToProcess);
+                    node.setFromContext(ctx);
+                    return node;
                 });
         }));
     }));
