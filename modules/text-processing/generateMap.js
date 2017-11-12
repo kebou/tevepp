@@ -37,7 +37,7 @@ module.exports = (ctx, next) => {
         });
 };
 
-const generateMap = (ctx) => {
+const generateMap2 = (ctx) => {
     const { tokens, user, MAX_WORD_NUMBER } = ctx;
 
     return Promise.all(tokens.map((token, startIdx, tokens) => {
@@ -53,4 +53,51 @@ const generateMap = (ctx) => {
                 .then(ctx => ctx.node);
         }));
     }));
+};
+
+
+
+const generateMap = (ctx) => {
+    const { tokens, user, MAX_WORD_NUMBER } = ctx;
+
+    return Promise.all(tokens.map((token, startIdx, tokens) => {
+        let skipLocation = false;
+        return tokens.reduce((prev, token, endIdx) => {
+            return prev.then(array => {
+                if ((startIdx > endIdx) || (endIdx - startIdx >= MAX_WORD_NUMBER)) {
+                    array.push(undefined);
+                    return array;
+                }
+
+                if (shouldSkipLocation(array)) {
+                    console.log(startIdx, endIdx);
+                    skipLocation = true;
+                }
+
+                const tokensToProcess = tokens.slice(startIdx, endIdx + 1);
+                const text = tokensToString(tokensToProcess);
+                const node = new MapNode(tokensToProcess);
+                return tp.process(text, { node, user, tokens, skipLocation })
+                    .then(ctx => {
+                        array.push(ctx.node);
+                        return array;
+                    });
+            });
+        }, Promise.resolve([]));
+    }));
+};
+
+const shouldSkipLocation = (array) => {
+    return array.length > 0 && 
+        array[array.length - 1] !== undefined &&
+        hasNodeWithLocation(array) &&
+        !hasLocationElement(array[array.length - 1]);
+};
+
+const hasLocationElement = (node) => {
+    return node && node.elements.filter(element => element.type === 'location').length;
+};
+
+const hasNodeWithLocation = (array) => {
+    return array.filter(node => hasLocationElement(node)).length;
 };

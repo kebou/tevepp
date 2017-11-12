@@ -9,9 +9,13 @@ const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
  * Out: elements
  */
 module.exports = (ctx, next) => {
-    const { text, node } = ctx;
+    const { text, node, skipLocation } = ctx;
     if (!text || !node) {
         logger.error('#findLocation module should be used after "text" and "node" property in ctx');
+        return next();
+    }
+
+    if (skipLocation) {
         return next();
     }
     

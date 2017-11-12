@@ -16,7 +16,7 @@ module.exports = (ctx, next) => {
     const { type, partial } = element;
     let value = weights.type[type];
     if (partial) {
-        value /= 2;
+        value = 0;
     }
     
     const rankElement = {

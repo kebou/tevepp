@@ -43,10 +43,11 @@ tp.use(revealCtx)
     // Szent Gellért térről a Nyúl utca 2-be
     // Széll Kálmán térről Solymárra
     // József Attila utcából Albertfalva utcába
+    // József Attila utca 6ból Albertfalva utcába <--!!!
 
 describe('#generateMap module', () => {
     it('should work', (done) => {
-        tp.process('Szent Gellért térről a Nyúl utca 2-be', { user: { locations }, MAX_WORD_NUMBER: 5 })
+        tp.process('József Attila utca 6ból Albertfalva utcába', { user: { locations }, MAX_WORD_NUMBER: 5 })
             .then(() => {
                 // const node = context.map[4][5];
                 // console.log('\ntext\n----------');

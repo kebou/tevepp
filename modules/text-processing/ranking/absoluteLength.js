@@ -14,8 +14,10 @@ module.exports = (ctx, next) => {
     }
 
     const weight = weights.absoluteLength;
-    const length = node.tokens.length;
-    const value = Math.pow(allTokens.length*allTokens.length/(2*length), length);
+    let length = node.tokens.length;
+    if (length > allTokens.length / 2) length = allTokens.length / 2;
+    //const value = Math.pow(allTokens.length*allTokens.length/(2*length), length);
+    const value = Math.pow(weight, length);
     // if (length > allTokens.length/2) {
     //     length = allTokens.length/2;
     // }
