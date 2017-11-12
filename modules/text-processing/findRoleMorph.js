@@ -4,17 +4,17 @@ const MapElement = require('../../models/mapElementModel');
 const path = require('path');
 const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 /**
- * In: tokens
- * Out: role
+ * In: node
+ * Out: role, text
  */
 module.exports = (ctx, next) => {
-    const { tokens } = ctx;
-    if (!tokens) {
-        logger.error('#findRoleMorph module should be used after "tokens" property in ctx');
+    const { node } = ctx;
+    if (!node) {
+        logger.error('#findRoleMorph module should be used after "node" property in ctx');
         return next();
     }
     
-    const token = tokens[tokens.length -1];
+    const token = node.tokens[node.tokens.length -1];
     const suffix = token.hfstana && token.hfstana.length > 0 && token.hfstana[token.hfstana.length - 1];
 
     const startSuffix = isStartSuffix(suffix);
@@ -35,8 +35,10 @@ module.exports = (ctx, next) => {
 
     const element = new MapElement('morph', value);
     element.source = scriptName;
-    ctx.role = element;
-
+    node.role = element;
+    // szöveg frissítése a ragok nélküli verzióval
+    ctx.text = node.text;
+    
     return next();
 };
 

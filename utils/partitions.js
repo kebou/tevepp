@@ -1,6 +1,6 @@
 'use strict';
 
-const partitions = (start, end, max) => {
+const partitions = module.exports = (start, end, max) => {
     let x = start;
     let y = start;
     const array = [];
@@ -27,5 +27,3 @@ const partitions = (start, end, max) => {
     }
     return array;
 };
-console.log(partitions(0, 2));
-return partitions;

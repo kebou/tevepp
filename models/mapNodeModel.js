@@ -4,24 +4,32 @@ class MapNode {
     constructor(tokens) {
         this.tokens = tokens;
         this.elements = [];
-        this.role = undefined;
+        this.ranks = [];
+    }
+    get bestElement () {
+        if (this.elements.length < 1) {
+            return undefined;
+        }
+        let max = this.elements[0];
+        for (let element of this.elements) {
+            if (max.rank < element.rank) {
+                max = element;
+            }
+        }
+        return max;
     }
     get rank() {
         if (this.elements.length < 1) {
-            return 0;
+            return -10000;
         }
-        return this.elements.reduce((sum, element) => sum += element.rank, 0);
+        const rank = this.ranks.reduce((sum, rank) => sum += rank.value, 0);
+        return rank + this.bestElement.rank;
     }
-    get string() {
+    get text() {
         return this.toString();
     }
     toString() {
         return this.tokens.reduce((prev, token) => prev.concat(' ' + (token.custom || token.content)), '').trim();
-    }
-    setFromContext (ctx) {
-        const { elements, role } = ctx;
-        this.elements = elements;
-        this.role = role;
     }
 }
 

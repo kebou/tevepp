@@ -23,7 +23,7 @@ module.exports = (bot) => {
         const delimiter = matches[0][0];
         const parts = text.split(delimiter);
         const routeName = parts.pop();
-        const stopName = parts.reduce((a, b) => a.concat(delimiter + b), '').substring(1).trim();
+        const stopName = parts.reduce((a, b) => a.concat(delimiter + b), '').slice(0,-1).trim();
         logger.debug('[matchSimpleStopRoutePair] - Possible routeName match:', { routeName, stopName });
 
         return Futar.searchStop(stopName)

@@ -20,6 +20,7 @@ module.exports = (ctx, next) => {
         .then(res => {
             ctx.emagyar = res;
             ctx.tokens = parseTokens(res.tokens);
+            ctx.tokens = filterTokens(ctx.tokens);
             logger.debug('Parsed tokens:', ctx.tokens);
             return next();
         })
@@ -34,4 +35,11 @@ const parseTokens = (tokens) => {
         token.hfstana = token.hfstana.match(/\[.*?\]/g);
     }
     return tokens;
+};
+
+const filterTokens = (tokens) => {
+    return tokens.filter(token => {
+        return token.hfstana &&
+            (token.hfstana[0] !== '[/Det|art.Def]');
+    });
 };

@@ -9,9 +9,9 @@ const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
  * Out: role
  */
 module.exports = (ctx, next) => {
-    const { tokens } = ctx;
-    if (!tokens) {
-        logger.error('#findRoleRegexp module should be used after "tokens" property in ctx');
+    const { node } = ctx;
+    if (!node) {
+        logger.error('#findRoleRegexp module should be used after "node" property in ctx');
         return next();
     }
 
@@ -19,38 +19,41 @@ module.exports = (ctx, next) => {
         return next();
     }
     
-    const token = tokens[tokens.length -1];
+    const token = node.tokens[node.tokens.length -1];
     const latinizedToken = latinize(token.content);
 
     const startToken = isStartToken(latinizedToken);
     const endToken = isEndToken(latinizedToken);
 
-    if (!startToken && ! endToken) {
+    if (!startToken && !endToken) {
         return next();
     }
 
     let value;
     if (startToken) {
         value = 'start';
+        token.custom = startToken[0];
     }
     if (endToken) {
         value = 'end';
+        token.custom = endToken[0];
     }
-    token.custom = latinizedToken;
 
     const element = new MapElement('regexp', value);
     element.source = scriptName;
-    ctx.role = element;
+    node.role = element;
+    // szöveg frissítése a ragok nélküli verzióval
+    ctx.text = node.text;
 
     return next();
 };
 
 const isStartToken = (str) => {
-    const pattern = /.*(?=bol$)|.*(?=rol$)|.*(?=tol$)/i;
+    const pattern = /[^-]*(?=-?bol$)|[^-]*(?=-?rol$)|[^-]*(?=-?tol$)/i;
     return str.match(pattern);
 };
 
 const isEndToken = (str) => {
-    const pattern = /.*(?=hoz$)|.*(?=ig$)|.*(?=ra$)|.*(?=re$)|.*(?=ba$)|.*(?=be$)/i;
+    const pattern = /[^-]*(?=-?hoz$)|[^-]*(?=-?ig$)|[^-]*(?=-?ra$)|[^-]*(?=-?re$)|[^-]*(?=-?ba$)|[^-]*(?=-?be$)/i;
     return str.match(pattern);
 };

@@ -5,13 +5,13 @@ const latinize = require('../../utils/nlg').latinize;
 const path = require('path');
 const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 /**
- * In: text, user
+ * In: text, user, node
  * Out: elements
  */
 module.exports = (ctx, next) => {
-    const { text, user } = ctx;
-    if (!text || !user) {
-        logger.error('#findFavouriteLocation module should be used after "text", "user" property in ctx');
+    const { text, user, node } = ctx;
+    if (!text || !user || !node) {
+        logger.error('#findFavouriteLocation module should be used after "text", "user" and "node" property in ctx');
         return next();
     }
 
@@ -26,7 +26,9 @@ module.exports = (ctx, next) => {
         if (match && match.length > 0 && match.index === 0) {
             const element = new MapElement('favourite', location);
             element.source = scriptName;
-            ctx.elements.push(element);
+
+            node.elements = node.elements || [];
+            node.elements.push(element);
         }
     });
     return next();

@@ -11,9 +11,10 @@ tp.use(require('./findRoleMorph'))
     .use(require('./findRoleRegexp'))
     .use(require('./findStop'))
     .use(require('./findLocation'))
-    .use(require('./findPartialLocation'))
+    //.use(require('./findPartialLocation'))
     .use(require('./findRouteName'))
     .use(require('./findFavouriteLocation'))
+    .use(require('./setRank'))
     .use(require('./returnContext'));
 /**
  * In: tokens, user, MAX_WORD_NUMBER
@@ -47,12 +48,9 @@ const generateMap = (ctx) => {
             // do the stuff here
             const tokensToProcess = tokens.slice(startIdx, endIdx + 1);
             const text = tokensToString(tokensToProcess);
-            return tp.process(text, { tokens: tokensToProcess, elements: [], user })
-                .then(ctx => {
-                    const node = new MapNode(tokensToProcess);
-                    node.setFromContext(ctx);
-                    return node;
-                });
+            const node = new MapNode(tokensToProcess);
+            return tp.process(text, { node, user, tokens })
+                .then(ctx => ctx.node);
         }));
     }));
 };

@@ -11,7 +11,7 @@ module.exports.routeName = () => {
 };
 
 module.exports.routeNameInText = () => {
-    return new RegExp(`(?:${basicName}|${rail}|${subway}|${ferry})(?!-?(?:ba|be|bol|ból|ből|rol|ról|ről|ra|re|tol|tól|től|hoz|hez|höz|ig))`, 'gi');
+    return new RegExp(`(?:${basicName}|${rail}|${subway}|${ferry})(?!-?(?:ba|be|b?ol|b?ól|b?ől|rol|ról|ről|ra|re|tol|tól|től|hoz|hez|höz|ig))`, 'gi');
 };
 
 module.exports.routeNameWithDelimiter = (delimiter) => {

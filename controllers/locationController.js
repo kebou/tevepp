@@ -99,12 +99,12 @@ const fromText = (text, userId) => {
 };
 
 const searchLocation = (text, opts) => {
-    const { userId, partial } = opts || {};
+    const { userId, partial, minConfidence } = opts || {};
     let geocoder = gc;
     if (partial && partial === true) {
         geocoder = gcp;
     }
-    return geocoder.geocode({ address: text, country: 'Magyarország', withBounds: true })
+    return geocoder.geocode({ address: text, country: 'Magyarország', minConfidence, withBounds: true })
         .then(res => {
             if (res.length < 1) {
                 const err = new Error('Geocoder result is empty.');

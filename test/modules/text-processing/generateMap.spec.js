@@ -17,18 +17,59 @@ const revealCtx = (ctx, next) => {
 
 tp.use(revealCtx)
     .use(require('../../../modules/text-processing/parseText'))
-    .use(require('../../../modules/text-processing/generateMap'));
+    .use(require('../../../modules/text-processing/generateMap'))
+    .use(require('../../../modules/text-processing/rankPartitions'))
+    .use(require('../../../modules/text-processing/printMap'));
 
+    // [+]
+    // albertfalva utca 47 fehérváriról
+    // 16 órakor indulnek a delibol a szarvashegy utcaba
+    // Gellért térről eljussak a Margitszigetre
+    // Nagykovácsi Nefelejcs utca 4
+    // Szentendre pannonia utca 14/b-bol mennek szolokert kozbe
+    // Silvanus setanyrol deak
+    // blaha deak
+    // moricz keleti
+    // delibol M2
+    // szena ter 6os
+
+    // [-]
+    // virág utca 6ba népfürdő utca 10ből
+    // 41, gárdonyi tér -> hosszal nyer a 41-gárdonyi-tér
+    // Mikor indul a következő 41-es villamos Kamaraerdei Ifjúsági park megállóból?
+    // Nyugati pályaudvar király utca -> google nem elég szigorú, van match az egészre, hossz miatt nyerni fog
+    // Nyugati pályaudvarról Üllő, pesti útra
+    // Szent Gellért térről a Blaha Lujza térre tartok
+    // Szent Gellért térről a Nyúl utca 2-be
+    // Széll Kálmán térről Solymárra
+    // József Attila utcából Albertfalva utcába
 
 describe('#generateMap module', () => {
     it('should work', (done) => {
-        tp.process('hogyan BME-re fehérváriból', { user: { locations }, MAX_WORD_NUMBER: 5 })
+        tp.process('Szent Gellért térről a Nyúl utca 2-be', { user: { locations }, MAX_WORD_NUMBER: 5 })
             .then(() => {
-                console.log(context.map[1][1])
-                console.log(context.map[2][2])
-                //context.map.map(x => x.map(y => console.log(y)));
+                // const node = context.map[4][5];
+                // console.log('\ntext\n----------');
+                // console.log(node.text);
+                // // console.log('\ntokens\n----------');
+                // // console.log(node.tokens);
+                // console.log('\nrole\n----------');
+                // console.log(node.role);
+                // console.log('\nelements\n----------');
+                // console.log(node.elements);
+                // console.log('\nelements rank\n----------');
+                // const elements = node.elements;
+                // for (let element of elements) {
+                //     console.log(element.ranks);
+                //     console.log(element.rank);
+                // }
+                // console.log('\nranks\n----------');
+                // console.log(node.ranks);
+                // console.log('\nrank\n----------');
+                // console.log(node.rank);
             })
-            .then(done, done);
+            .then(done, done)
+            .catch(console.error);
     });
 });
 
