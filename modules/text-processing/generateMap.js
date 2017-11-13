@@ -70,7 +70,6 @@ const generateMap = (ctx) => {
                 }
 
                 if (shouldSkipLocation(array)) {
-                    console.log(startIdx, endIdx);
                     skipLocation = true;
                 }
 
@@ -88,14 +87,16 @@ const generateMap = (ctx) => {
 };
 
 const shouldSkipLocation = (array) => {
-    return array.length > 0 && 
+    return false;
+    return array.length > 1 && 
         array[array.length - 1] !== undefined &&
-        hasNodeWithLocation(array) &&
-        !hasLocationElement(array[array.length - 1]);
+        array[array.length - 2] !== undefined &&
+        !hasLocationElement(array[array.length - 1]) &&
+        hasLocationElement(array[array.length - 2]);
 };
 
 const hasLocationElement = (node) => {
-    return node && node.elements.filter(element => element.type === 'location').length;
+    return node && node.elements.findIndex(element => element.type === 'location');
 };
 
 const hasNodeWithLocation = (array) => {

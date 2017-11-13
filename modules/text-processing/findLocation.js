@@ -2,6 +2,7 @@
 const logger = require('winston');
 const Location = require('../../controllers/locationController');
 const MapElement = require('../../models/mapElementModel');
+const latinize = require('../../utils/nlg').latinize;
 const path = require('path');
 const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 /**
@@ -15,7 +16,7 @@ module.exports = (ctx, next) => {
         return next();
     }
 
-    if (skipLocation) {
+    if (skipLocation || shouldSkip(node)) {
         return next();
     }
     
@@ -33,4 +34,21 @@ module.exports = (ctx, next) => {
             return next();
         })
         .catch(() => next());
+};
+
+const shouldSkip = (node) => {
+    const firstToken = node.tokens[0];
+    return isNumber(firstToken) ||
+        startsWith(firstToken);
+};
+
+const isNumber = (token) => {
+    return token.hfstana && (token.hfstana[0] === '[/Num]' || token.hfstana[0] === '[/Num|Digit]' || !isNaN(token.custom || token.content));
+};
+
+const startsWith = (token) => {
+    const str = (token.custom || token.content);
+    const latinized = latinize(str);
+    return latinized.match(/ter/i) ||
+        latinized.match(/utca/i);
 };

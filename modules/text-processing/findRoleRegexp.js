@@ -19,7 +19,8 @@ module.exports = (ctx, next) => {
         return next();
     }
     
-    const token = node.tokens[node.tokens.length -1];
+    const lastIdx = node.tokens.length - 1;
+    const token = node.tokens[lastIdx];
     const latinizedToken = latinize(token.content);
 
     const startToken = isStartToken(latinizedToken);
@@ -29,21 +30,25 @@ module.exports = (ctx, next) => {
         return next();
     }
 
-    let value;
+    let value, custom;
     if (startToken) {
         value = 'start';
-        token.custom = startToken[0];
+        custom = startToken[0];
     }
     if (endToken) {
         value = 'end';
-        token.custom = endToken[0];
+        custom = endToken[0];
     }
+
+    node.tokens = node.tokens.slice(0);
+    node.tokens[lastIdx] = Object.assign({}, node.tokens[lastIdx]);
+    node.tokens[lastIdx].custom = custom;
 
     const element = new MapElement('regexp', value);
     element.source = scriptName;
     node.role = element;
     // szöveg frissítése a ragok nélküli verzióval
-    ctx.text = node.text;
+    //ctx.text = node.text;
 
     return next();
 };

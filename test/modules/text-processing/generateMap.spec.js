@@ -32,6 +32,7 @@ tp.use(revealCtx)
     // moricz keleti
     // delibol M2
     // szena ter 6os
+    // Szentendre nap utca 52ből fehérvári út 199be
 
     // [-]
     // virág utca 6ba népfürdő utca 10ből
@@ -47,7 +48,7 @@ tp.use(revealCtx)
 
 describe('#generateMap module', () => {
     it('should work', (done) => {
-        tp.process('József Attila utca 6ból Albertfalva utcába', { user: { locations }, MAX_WORD_NUMBER: 5 })
+        tp.process('albertfalva utca 47 fehérváriról', { user: { locations }, MAX_WORD_NUMBER: 5 })
             .then(() => {
                 // const node = context.map[4][5];
                 // console.log('\ntext\n----------');
