@@ -37,7 +37,7 @@ module.exports = (ctx, next) => {
         });
 };
 
-const generateMap2 = (ctx) => {
+const generateMap = (ctx) => {
     const { tokens, user, MAX_WORD_NUMBER } = ctx;
 
     return Promise.all(tokens.map((token, startIdx, tokens) => {
@@ -57,7 +57,7 @@ const generateMap2 = (ctx) => {
 
 
 
-const generateMap = (ctx) => {
+const generateMap2 = (ctx) => {
     const { tokens, user, MAX_WORD_NUMBER } = ctx;
 
     return Promise.all(tokens.map((token, startIdx, tokens) => {

@@ -15,7 +15,7 @@ module.exports = (ctx, next) => {
         return next();
     }
 
-    if (ctx.role) {
+    if (node.role) {
         return next();
     }
     
@@ -30,15 +30,19 @@ module.exports = (ctx, next) => {
         return next();
     }
 
-    let value, custom;
+    let value, match;
     if (startToken) {
         value = 'start';
-        custom = startToken[0];
+        match = startToken[0];
     }
     if (endToken) {
         value = 'end';
-        custom = endToken[0];
+        match = endToken[0];
     }
+
+    // utolsó hang rövídítése ha az mássalhangzó
+    const diff = Math.abs(token.content.length - match.length);
+    const custom = token.content.slice(0,token.content.length-diff-1) + match.slice(-1);
 
     node.tokens = node.tokens.slice(0);
     node.tokens[lastIdx] = Object.assign({}, node.tokens[lastIdx]);
@@ -48,7 +52,7 @@ module.exports = (ctx, next) => {
     element.source = scriptName;
     node.role = element;
     // szöveg frissítése a ragok nélküli verzióval
-    //ctx.text = node.text;
+    ctx.text = node.text;
 
     return next();
 };

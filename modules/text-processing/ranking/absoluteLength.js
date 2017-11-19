@@ -14,10 +14,14 @@ module.exports = (ctx, next) => {
     }
 
     const weight = weights.absoluteLength;
-    let length = node.tokens.length;
-    if (length > allTokens.length / 2) length = allTokens.length / 2;
+    const length = node.tokens.length;
+    const keys = Object.keys(weight);
+    const lastKey = keys[keys.length - 1];
+    const firstKey = keys[1];
+    const value = length === allTokens.length && length > firstKey ? weight[firstKey] : weight[length] || weight[lastKey];
+    //if (length > allTokens.length / 2) length = allTokens.length / 2;
     //const value = Math.pow(allTokens.length*allTokens.length/(2*length), length);
-    const value = Math.pow(weight, length);
+    //const value = Math.pow(weight, length);
     // if (length > allTokens.length/2) {
     //     length = allTokens.length/2;
     // }

@@ -29,16 +29,23 @@ elementProcessor.use(require('./ranking/editDistance'))
 
 const weights = {
     role: {
-        morph: 20,
+        morph: 22,
         regexp: 20
     },
-    absoluteLength: 5,
+    absoluteLength: {
+        1: 100,
+        2: 220,
+        3: 550,
+        4: 690,
+        5: 300,
+        6: 100
+    },
     relativeLength: 10,
     editDistance: 1,
     type: {
         routeName: 10,
         stop: 10,
-        favourite: 5,
+        favourite: 15,
         location: 1,
         partialLocation: 1
     }

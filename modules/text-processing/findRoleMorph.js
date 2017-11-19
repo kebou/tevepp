@@ -14,7 +14,8 @@ module.exports = (ctx, next) => {
         return next();
     }
     
-    const token = node.tokens[node.tokens.length -1];
+    const lastIdx = node.tokens.length - 1;
+    const token = node.tokens[lastIdx];
     const suffix = token.hfstana && token.hfstana.length > 0 && token.hfstana[token.hfstana.length - 1];
 
     const startSuffix = isStartSuffix(suffix);
@@ -31,7 +32,10 @@ module.exports = (ctx, next) => {
     if (endSuffix) {
         value = 'end';
     }
-    token.custom = token.lemma;
+
+    node.tokens = node.tokens.slice(0);
+    node.tokens[lastIdx] = Object.assign({}, node.tokens[lastIdx]);
+    node.tokens[lastIdx].custom = token.lemma;
 
     const element = new MapElement('morph', value);
     element.source = scriptName;

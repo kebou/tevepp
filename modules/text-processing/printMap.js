@@ -13,8 +13,8 @@ module.exports = (ctx, next) => {
         return next();
     }
     
-    printTable(map);
     printRankingDetails(map);
+    printTable(map);
     printPartitions(partitions);
     // console.log(map[1][1])
     // console.log(map[2][2].elements[1].rank)
@@ -50,6 +50,7 @@ const printTable = (map) => {
     table.push(...rows);
     
     console.log(table.toString());
+    console.log('\n');
 };
 
 const printRankingDetails = (map) => {

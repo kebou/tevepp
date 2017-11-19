@@ -163,12 +163,15 @@ const mapOpts = {
 };
 
 const gc = NodeGeocoder(mapOpts);
-gc.geocode({ address: 'Albertfalva utca 21', country: 'Magyarország', minConfidence: 0, withBounds: true })
+gc.geocode({ address: 'út 17 andrássy', country: 'Magyarország', minConfidence: 0, withBounds: true })
     .then(res => {
         console.log(res);
         process.exit(0);
     })
-    .catch(console.error);
+    .catch(err => {
+        console.error(err);
+        process.exit(0);
+    });
 
 
 

@@ -22,7 +22,7 @@ tp.use(revealCtx)
     .use(require('../../../modules/text-processing/printMap'));
 
     // [+]
-    // albertfalva utca 47 fehérváriról
+    // albertfalva utca 27 fehérváriról
     // 16 órakor indulnek a delibol a szarvashegy utcaba
     // Gellért térről eljussak a Margitszigetre
     // Nagykovácsi Nefelejcs utca 4
@@ -30,25 +30,52 @@ tp.use(revealCtx)
     // Silvanus setanyrol deak
     // blaha deak
     // moricz keleti
-    // delibol M2
+    // dlibol M2
     // szena ter 6os
     // Szentendre nap utca 52ből fehérvári út 199be
+    // SAP hungarybol mennek a lévay utca 8ba
+    // allebol kőbánya alsóra
+    // albertfalva utca
+    // albertfalva utca 17
+    // Batthyány tér 1 Oktogon
+    // BME Qbol keletibe
+    // BME keletibe
+    // A golgota terről mennék pomázra
+    // A keletitol szeretnek menni a corvinushoz
+    // a lotz károly utcából szeretnék eljutni a Nagyvárad térre
+    // Batthyányi térről szeretnék eljutni a Váci út 16.-ba.
+    // Blaha Lujza térről Haller utcába, éjszaka! :)
+    // Móricz ceu 
 
     // [-]
     // virág utca 6ba népfürdő utca 10ből
     // 41, gárdonyi tér -> hosszal nyer a 41-gárdonyi-tér
     // Mikor indul a következő 41-es villamos Kamaraerdei Ifjúsági park megállóból?
-    // Nyugati pályaudvar király utca -> google nem elég szigorú, van match az egészre, hossz miatt nyerni fog
+    // !!Nyugati pályaudvar király utca -> google nem elég szigorú, van match az egészre, hossz miatt nyerni fog
+    // !! Nyugati pályaudvar fehérvári út
     // Nyugati pályaudvarról Üllő, pesti útra
     // Szent Gellért térről a Blaha Lujza térre tartok
     // Szent Gellért térről a Nyúl utca 2-be
     // Széll Kálmán térről Solymárra
     // József Attila utcából Albertfalva utcába
     // József Attila utca 6ból Albertfalva utcába <--!!!
+    // etele út fehérvári út
+    // mikor indul a következő 16os bécsi kaputól?
+    // A Fővám tértől a Ferenciek terére szeretnék menni
+    // Göllner Mária regionális gimnázium
+    // A határ úttól hogy jutok el a Blaha Lujza térre? -> magas ed megoldja
+    // A Nemzeti SZínház az úticél
+    // a tüske csarnokba hogyan melyik járattal juthatok a szent gellért térről?
+    // akkor próbáljuk részletekben: Bécsi kapu tér - Széll Kálmán tér -> magas ed megoldja
+    // Albertfalva kitérő 47-es villamos indulás
+    // az etele út fehérvári út megállótól szeretnék eljutni a szendrő utca 44 a-ba -> mindent is megtalál
+    // Buzogány utca 42-be szeretnék menni holnap délre 
+    // Blaha-Móricz útvonal? 
+    // Fehérvári út 114
 
 describe('#generateMap module', () => {
     it('should work', (done) => {
-        tp.process('albertfalva utca 47 fehérváriról', { user: { locations }, MAX_WORD_NUMBER: 5 })
+        tp.process('Fehérvári út 17 andrássy út', { user: { locations }, MAX_WORD_NUMBER: 5 })
             .then(() => {
                 // const node = context.map[4][5];
                 // console.log('\ntext\n----------');
@@ -101,7 +128,7 @@ const locations = [{
     'streetName' : 'Fehérvári út',
     'streetNumber' : '199',
     'zipCode' : 1116,
-    'name' : 'Fehérvári',
+    'name' : 'Otthon',
     'userId' : 111,
     'type' : 'favourite',
     '__v' : 0,

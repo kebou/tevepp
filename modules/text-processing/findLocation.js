@@ -50,5 +50,7 @@ const startsWith = (token) => {
     const str = (token.custom || token.content);
     const latinized = latinize(str);
     return latinized.match(/ter/i) ||
-        latinized.match(/utca/i);
+        latinized.match(/utca/i) ||
+        latinized.match(/ut/i) ||
+        latinized.match(/^\d+/i);
 };

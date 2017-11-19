@@ -31,10 +31,10 @@ module.exports = (ctx, next) => {
 };
 
 const parseTokens = (tokens) => {
-    for (let token of tokens) {
+    return tokens.map(token => {
         token.hfstana = token.hfstana.match(/\[.*?\]/g);
-    }
-    return tokens;
+        return token;
+    });
 };
 
 const filterTokens = (tokens) => {
