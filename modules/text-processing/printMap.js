@@ -7,17 +7,19 @@ const round = require('../../utils/round');
  * Out: 
  */
 module.exports = (ctx, next) => {
-    const { map, partitions } = ctx;
+    const { map, partitions, startIdx, endIdx } = ctx;
     if (!map || !partitions) {
         logger.error('#printMap module should be used after "map", "partitions" property in ctx');
         return next();
     }
+
+    if (startIdx !== undefined && endIdx !== undefined) {
+        return Promise.resolve(printNode(map[startIdx][endIdx], startIdx, endIdx));
+    }
     
-    printRankingDetails(map);
+    //printRankingDetails(map);
     printTable(map);
     printPartitions(partitions);
-    // console.log(map[1][1])
-    // console.log(map[2][2].elements[1].rank)
     
     return next();
 };
@@ -76,9 +78,9 @@ const printNode = (node, startIdx, endIdx) => {
     console.log(`\nTEXT: ${node.text}`);
     console.log(`\nRANK: ${round(node.rank, 2)}`);
     node.ranks.forEach(rank => printRank(rank, ' - '));
-    console.log('\n');
+    console.log('');
     node.elements.sort((a, b) => b.rank - a.rank).forEach(element => printElement(element, '  '));
-    console.log('\n');
+    console.log('');
 };
 
 const printElement = (element, prefix) => {

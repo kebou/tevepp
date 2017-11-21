@@ -49,8 +49,10 @@ const isNumber = (token) => {
 const startsWith = (token) => {
     const str = (token.custom || token.content);
     const latinized = latinize(str);
-    return latinized.match(/ter/i) ||
-        latinized.match(/utca/i) ||
-        latinized.match(/ut/i) ||
+    return latinized.match(/\bter\b/i) ||
+        latinized.match(/\butca/i) ||
+        latinized.match(/\but\b/i) ||
+        latinized.match(/\butvonal\b/i) ||
+        latinized.match(/\bmenni/i) ||
         latinized.match(/^\d+/i);
 };
