@@ -603,4 +603,19 @@ describe('#generateMap module', () => {
             })
             .then(done, done);
     });
+    it('mikó utcából kelenföldre', (done) => {
+        tp.process('mikó utcából kelenföldre', tpObject)
+            .then(ctx => {
+                ctx.should.have.property('map');
+                ctx.should.have.property('partitions').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const { partitions } = ctx;
+                const bestMatch = partitions[0];
+                bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const bestNodes = bestMatch.nodes;
+                bestNodes.should.to.have.lengthOf(2);
+                bestNodes[0].text.should.have.to.equal('mikó utca');
+                bestNodes[1].text.should.have.to.equal('kelenföld');
+            })
+            .then(done, done);
+    });
 });
