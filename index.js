@@ -163,7 +163,7 @@ const mapOpts = {
 };
 
 const gc = NodeGeocoder(mapOpts);
-gc.geocode({ address: 'út 17 andrássy', country: 'Magyarország', minConfidence: 0, withBounds: true })
+gc.geocode({ address: 'János kórház', country: 'Magyarország', minConfidence: 0, withBounds: true })
     .then(res => {
         console.log(res);
         process.exit(0);

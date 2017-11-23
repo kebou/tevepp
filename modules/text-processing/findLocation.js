@@ -15,7 +15,7 @@ module.exports = (ctx, next) => {
         logger.error('#findLocation module should be used after "text" and "node" property in ctx');
         return next();
     }
-
+    //console.log(shouldSkip(node));
     if (skipLocation || shouldSkip(node)) {
         return next();
     }
@@ -25,7 +25,8 @@ module.exports = (ctx, next) => {
             if (res.title === '' || res.title.startsWith(',')) {
                 return next();
             }
-            
+            //console.log(node.text);
+            //console.log(res);
             const element = new MapElement('location', res);
             element.source = scriptName;
 
@@ -49,10 +50,13 @@ const isNumber = (token) => {
 const startsWith = (token) => {
     const str = (token.custom || token.content);
     const latinized = latinize(str);
-    return latinized.match(/\bter\b/i) ||
+    return latinized.match(/\bter(?:rol)?\b/i) ||
         latinized.match(/\butca/i) ||
         latinized.match(/\but\b/i) ||
         latinized.match(/\butvonal\b/i) ||
         latinized.match(/\bmenni/i) ||
-        latinized.match(/^\d+/i);
+        latinized.match(/^(?:villamos|busz?|metro|hev|troli)/i) ||
+        latinized.match(/^megallo(?:bol)?$/i) ||
+        latinized.match(/\bido(?:be)?\b/i) ||
+        latinized.match(/^[0-9]+/i);
 };

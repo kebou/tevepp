@@ -33,7 +33,7 @@ const weights = {
         regexp: 20
     },
     absoluteLength: {
-        1: 100,
+        1: 80,
         2: 220,
         3: 550,
         4: 690,

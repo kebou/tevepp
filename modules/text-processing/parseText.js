@@ -40,6 +40,14 @@ const parseTokens = (tokens) => {
 const filterTokens = (tokens) => {
     return tokens.filter(token => {
         return token.hfstana &&
-            (token.hfstana[0] !== '[/Det|art.Def]');
+            (token.hfstana[0] !== '[/Det|art.Def]') && // határozott névelő
+            (token.hfstana[0] !== '[/Cnj]') &&  // kötőszó
+            (token.hfstana[0] !== '[/Prev]') && // igekötő
+            (token.hfstana[0] !== '[/Post]') && // névutó
+            (token.hfstana[0] !== '[/Adv|Pro|Int]') && // határozószó, kérdő névmás
+            (token.hfstana[0] !== '[/Adj|Pro|Int]') && // melléknév, kérdő névmás
+            (token.hfstana[0] !== '[/Det|Pro|Int]') && // determináns, kérdő névmás
+            (token.hfstana[0] !== '[/N|Pro|Int]') && // főnév, kérdő névmás
+            (token.hfstana[0] !== '[/Num|Pro|Int]'); // számnév, kérdő névmás
     });
 };

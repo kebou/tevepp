@@ -33,5 +33,8 @@ module.exports = (ctx, next) => {
     console.log('\t\t.then(done, done);');
     console.log('});\n');
 
-    return next();
+    if (next) {
+        return next();
+    }
+    return Promise.resolve();
 };
