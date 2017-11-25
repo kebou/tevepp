@@ -64,4 +64,5 @@ ecosystem.config.js
 
 scripts/test.sh
 scripts/generatecode.sh
-scripts/mapper.jstest/artillery/processors.js
+scripts/mapper.js
+test/artillery/*
