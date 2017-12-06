@@ -58,11 +58,11 @@ module.exports = (ctx, next) => {
 };
 
 const isStartToken = (str) => {
-    const pattern = /[^-]*(?=-?bol$)|[^-]*(?=-?rol$)|[^-]*(?=-?tol$)/i;
+    const pattern = /[^-]*(?=-?[brt]ol$)/i;
     return str.match(pattern);
 };
 
 const isEndToken = (str) => {
-    const pattern = /[^-]*(?=-?hoz$)|[^-]*(?=-?ig$)|[^-]*(?=-?ra$)|[^-]*(?=-?re$)|[^-]*(?=-?ba$)|[^-]*(?=-?be$)/i;
+    const pattern = /[^-]*(?=-?(hoz|ig|r[ae]|b[ae])$)/i;
     return str.match(pattern);
 };
