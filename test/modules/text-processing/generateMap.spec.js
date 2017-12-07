@@ -42,6 +42,7 @@ tp.use(revealCtx)
 // - Mikor indul az utolsó M3 metró Újpest Központból? -> újpest központ külön írva nem ad találatot
 // - Mikor indul HÉV Szentendréről Békásra? -> békást nem ismeri
 // - Mikor megy legközelebb hármas metró a Deák térről kőbánya felé?
+// - Mikor indul a következő busz Bikás Park metróállomástól a Kosztolányi Dezső tér felé?
 
 const locations = [{
     '_id': '0101',

@@ -10,7 +10,7 @@
     "addintent": "./scripts/newintent"
   },
   "author": "kebou",
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": "8.1.3"
   },

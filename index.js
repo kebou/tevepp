@@ -1,8 +1,8 @@
 'use strict';
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
-const MONGO_URL = 'localhost';
-mongoose.connect(MONGO_URL);
+// const MONGO_URL = 'localhost';
+// mongoose.connect(MONGO_URL);
 
 
 
@@ -163,7 +163,7 @@ const mapOpts = {
 };
 
 const gc = NodeGeocoder(mapOpts);
-gc.geocode({ address: 'János kórház', country: 'Magyarország', minConfidence: 0, withBounds: true })
+gc.geocode({ address: 'setany', country: 'Magyarország', minConfidence: 0, withBounds: true })
     .then(res => {
         console.log(res);
         process.exit(0);
