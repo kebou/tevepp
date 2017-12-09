@@ -55,6 +55,7 @@ const startsWith = (token) => {
         latinized.match(/\but\b/i) ||
         latinized.match(/\butvonal\b/i) ||
         latinized.match(/\bmenni/i) ||
+        latinized.match(/\bkovetkezo/i) ||
         latinized.match(/^(?:villamos|busz?|metro|hev|troli)/i) ||
         latinized.match(/^megallo(?:bol)?$/i) ||
         latinized.match(/\bido(?:be)?\b/i) ||
