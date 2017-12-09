@@ -16,6 +16,10 @@ module.exports = (bot) => {
         if (!type) type = payload.message.quick_reply.payload;
 
         userController.getUser(userId)
+            .then(user => {
+                logger.info(`New ${type} quickreply received from ${user.lastName} ${user.firstName}.`);
+                return user;
+            })
             .then(user => handleQuickReply(user, chat, type, data));
     });
 

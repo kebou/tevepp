@@ -21,7 +21,7 @@ module.exports = (ctx, next) => {
             ctx.emagyar = res;
             ctx.tokens = parseTokens(res.tokens);
             ctx.tokens = filterTokens(ctx.tokens);
-            logger.debug('Parsed tokens:', ctx.tokens);
+            logger.silly('Parsed tokens:', ctx.tokens);
             return next();
         })
         .catch(err => {

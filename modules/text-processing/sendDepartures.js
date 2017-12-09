@@ -14,18 +14,21 @@ module.exports = (bot) => {
             throw err;
         }
         if (!routeName) {
+            logger.verbose('sendDepartures skipped - no routeName in context');
             return next();
         }
         if (start && end) {
+            logger.verbose('sendDepartures skipped - start & end in context');
             return next();
         }
-        const stopName = (start && start.type === 'stop' && start.value.name) || (end && end.type === 'stop' && end.value.name);
+        const stopName = (start && start.type === 'stop' && start.value.title) || (end && end.type === 'stop' && end.value.title);
         
         if (!stopName) {
+            logger.verbose('sendDepartures skipped - no stopName in context');
             return next();
         }
-        logger.info('Sending departures:', { text: ctx.text, stopName, routeName });
-        return Schedule.sendDeparturesFromUserSearch(user, stopName, routeName);
+        logger.info('Sending departures:', { text: ctx.text, stopName, routeName: routeName.value });
+        return Schedule.sendDeparturesFromUserSearch(user, stopName, routeName.value);
     };
 
     return sendDepartures;

@@ -1,6 +1,7 @@
 'use strict';
-const chai = require('chai');
-const should = require('chai').should();
+/* eslint-disable no-undef*/
+const chai = require('chai');   // eslint-disable-line no-unused-vars
+const should = require('chai').should(); // eslint-disable-line no-unused-vars
 const mongoose = require('mongoose');
 const MONGO_URL = process.env.MONGO_URL;
 mongoose.Promise = global.Promise;
@@ -669,7 +670,7 @@ describe('#generateMap module', () => {
             })
             .then(done, done);
     });
-    it('Klinikák metrómegállótól indulnék a Nyugati pályaudvarra', (done) => {
+    it.skip('Klinikák metrómegállótól indulnék a Nyugati pályaudvarra', (done) => {
         tp.process('Klinikák metrómegállótól indulnék a Nyugati pályaudvarra', tpObject)
             .then(ctx => {
                 ctx.should.have.property('map');
