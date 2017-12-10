@@ -9,12 +9,15 @@ const Futar = require('../controllers/futarController');
 const mapOpts = {
     provider: 'google',
     language: 'hu',
+    region: 'hu',
     apiKey: process.env.MAPS_API_KEY,
     formatter: null,
+    excludePartialMatches: true,
     bounds: '47.1523107,18.8460594|47.6837053,19.3915303'
 };
-
 const gc = NodeGeocoder(mapOpts);
+mapOpts.excludePartialMatches = false;
+const gcp = NodeGeocoder(mapOpts);
 
 const fromPayload = (payload) => {
     const userId = payload.sender.id;
@@ -39,7 +42,7 @@ const fromPayload = (payload) => {
 const fromAttachment = (attachment, userId) => {
     const coords = { lat: attachment.payload.coordinates.lat, lon: attachment.payload.coordinates.long };
 
-    return gc.reverse(coords)
+    return gcp.reverse(coords)
         .then(res => {
             const params = _formatParams(res[0]);
             params.fbTitle = attachment.title;
@@ -92,11 +95,16 @@ const fromQuickReply = (data, userId) => {
 const fromText = (text, userId) => {
     return Futar.searchStop(text)
         .then(stops => fromStop(stops[0], userId))
-        .catch(() => searchLocation(text, userId));
+        .catch(() => searchLocation(text, { userId, partial: true }));
 };
 
-const searchLocation = (text, userId) => {
-    return gc.geocode({ text: text, withBounds: true })
+const searchLocation = (text, opts) => {
+    const { userId, partial, minConfidence } = opts || {};
+    let geocoder = gc;
+    if (partial && partial === true) {
+        geocoder = gcp;
+    }
+    return geocoder.geocode({ address: text, country: 'Magyarország', minConfidence, withBounds: true })
         .then(res => {
             if (res.length < 1) {
                 const err = new Error('Geocoder result is empty.');
@@ -109,10 +117,19 @@ const searchLocation = (text, userId) => {
                 throw err;
             }
 
-            const params = _formatParams(res[0]);
+            const budapest = res.filter(x => x.city === 'Budapest');
+            let location;
+            if (budapest && budapest.length > 0) {
+                location = budapest[0];
+            } else {
+                location = res[0];
+            }
+
+
+            const params = _formatParams(location);
             const loc = new Location(params);
             const locObj = loc.toObject();
-            
+
             if (userId) {
                 loc.userId = userId;
                 loc.type = 'log';
@@ -125,7 +142,7 @@ const searchLocation = (text, userId) => {
 
 const fromLocation = (location, userId) => {
     return new Promise(resolve => {
-        
+
         const loc = new Location(location);
         loc.userId = userId;
         loc.type = 'log';
@@ -153,6 +170,11 @@ const fromStop = (stop, userId) => {
         }
         return resolve(locObj);
     });
+};
+
+const toStop = (location) => {
+    return Futar.stopsForLocation(location, 100)
+        .then(stops => stops[0]);
 };
 
 const saveFavourite = (user, location, update) => {
@@ -238,6 +260,7 @@ module.exports = {
     fromAttachment,
     fromQuickReply,
     fromStop,
+    toStop,
     fromLocation,
     saveFavourite,
     removeFavourite,

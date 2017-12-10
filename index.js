@@ -1,8 +1,8 @@
 'use strict';
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
-const MONGO_URL = process.env.MONGO_URL;
-mongoose.connect(MONGO_URL);
+// const MONGO_URL = 'localhost';
+// mongoose.connect(MONGO_URL);
 
 
 
@@ -146,10 +146,32 @@ const Futar = require('./controllers/futarController');
 //     .catch(err => console.log(err));
 
 const Location = require('./controllers/locationController');
-Location.searchLocation('kerepesi 29')
-    .then(console.log)
-    .catch(console.error);
+// Location.searchLocation('blaha battyhány utca 48')
+//     .then(console.log)
+//     .catch(console.error);
 
+const NodeGeocoder = require('./utils/node-geocoder');
+
+const mapOpts = {
+    provider: 'google',
+    language: 'hu',
+    region: 'hu',
+    apiKey: process.env.MAPS_API_KEY,
+    formatter: null,
+    excludePartialMatches: true,
+    bounds: '47.1523107,18.8460594|47.6837053,19.3915303'
+};
+
+const gc = NodeGeocoder(mapOpts);
+gc.geocode({ address: 'setany', country: 'Magyarország', minConfidence: 0, withBounds: true })
+    .then(res => {
+        console.log(res);
+        process.exit(0);
+    })
+    .catch(err => {
+        console.error(err);
+        process.exit(0);
+    });
 
 
 
