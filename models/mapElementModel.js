@@ -6,10 +6,10 @@ class MapElement {
         this.value = value;
         this.source = undefined;
         this.partial = false;
-        this.ranks = [];
+        this.scores = [];
     }
-    get rank() {
-        return this.ranks.reduce((sum, rank) => sum += rank.value, 0);
+    get score() {
+        return this.scores.reduce((sum, score) => sum += score.value, 0);
     }
 }
 

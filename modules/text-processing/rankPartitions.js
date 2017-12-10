@@ -23,13 +23,13 @@ const rankPartitions = (partitions, map) => {
     return partitions.map(partition => {
         return partition.reduce((parts, x) => {
             const node = map[x[0]][x[1]];
-            parts.rank += node.rank;
+            parts.score += node.score;
             parts.nodes.push(node);
             return parts;
-        }, { rank: 0, nodes: [] });
+        }, { score: 0, nodes: [] });
     });
 };
 
 const sortPartitions = (partitions) => {
-    return partitions.sort((a, b) => b.rank - a.rank);
+    return partitions.sort((a, b) => b.score - a.score);
 };

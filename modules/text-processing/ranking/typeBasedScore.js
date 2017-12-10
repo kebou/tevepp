@@ -9,7 +9,7 @@ const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 module.exports = (ctx, next) => {
     const { element, weights } = ctx;
     if (!element || !weights) {
-        logger.error('#typeBasedRank module should be used after "element" and "weights" property in ctx');
+        logger.error('#typeBasedScore module should be used after "element" and "weights" property in ctx');
         return next();
     }
 
@@ -19,11 +19,11 @@ module.exports = (ctx, next) => {
         value = 0;
     }
     
-    const rankElement = {
+    const scoreElement = {
         value,
         source: scriptName
     };
-    element.ranks.push(rankElement);
+    element.scores.push(scoreElement);
     
     return next();
 };

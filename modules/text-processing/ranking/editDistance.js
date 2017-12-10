@@ -23,11 +23,11 @@ module.exports = (ctx, next) => {
     const normalized = distance/max;
     const value = (1 - normalized) * weight;
 
-    const rankElement = {
+    const scoreElement = {
         value,
         source: scriptName
     };
-    element.ranks.push(rankElement);
+    element.scores.push(scoreElement);
 
     return next();
 };

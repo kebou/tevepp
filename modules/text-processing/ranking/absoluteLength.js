@@ -34,12 +34,12 @@ module.exports = (ctx, next) => {
     // const weight = 100;
     // const value = offset + weight*(1 - Math.exp(-length/tau));
     
-    const rankElement = {
+    const scoreElement = {
         value,
         source: scriptName
     };
-    node.ranks.push(rankElement);
-    //console.log('absoluteLength', rankElement);
+    node.scores.push(scoreElement);
+    //console.log('absoluteLength', scoreElement);
     return next();
 };
 

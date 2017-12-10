@@ -14,7 +14,7 @@ tp.use(require('./findRoleMorph'))
     //.use(require('./findPartialLocation'))
     .use(require('./findRouteName'))
     .use(require('./findFavouriteLocation'))
-    .use(require('./setRank'))
+    .use(require('./setScore'))
     .use(require('./returnContext'));
 /**
  * In: tokens, user, MAX_WORD_NUMBER

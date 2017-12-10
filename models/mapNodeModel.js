@@ -4,7 +4,7 @@ class MapNode {
     constructor(tokens) {
         this.tokens = tokens;
         this.elements = [];
-        this.ranks = [];
+        this.scores = [];
     }
     get bestElement () {
         if (this.elements.length < 1) {
@@ -12,18 +12,18 @@ class MapNode {
         }
         let max = this.elements[0];
         for (let element of this.elements) {
-            if (max.rank < element.rank) {
+            if (max.score < element.score) {
                 max = element;
             }
         }
         return max;
     }
-    get rank() {
+    get score() {
         if (this.elements.length < 1) {
             return -10000;
         }
-        const rank = this.ranks.reduce((sum, rank) => sum += rank.value, 0);
-        return rank + this.bestElement.rank;
+        const score = this.scores.reduce((sum, score) => sum += score.value, 0);
+        return score + this.bestElement.score;
     }
     get text() {
         return this.toString();
@@ -35,8 +35,8 @@ class MapNode {
         return {
             tokens: this.tokens,
             elements: this.elements,
-            score: this.rank,
-            scores: this.ranks,
+            score: this.score,
+            scores: this.scores,
             role: this.role,
             bestElement: this.bestElement
         };

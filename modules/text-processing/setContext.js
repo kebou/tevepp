@@ -19,8 +19,8 @@ module.exports = (ctx, next) => {
     const bestMatch = partitions[0];
     const nodes = bestMatch.nodes;
 
-    if (bestMatch.rank < 0) {
-        logger.debug('BestElement\'s rank is smaller than zero, setContext skipped.');
+    if (bestMatch.score < 0) {
+        logger.debug('BestElement\'s score is smaller than zero, setContext skipped.');
         return next();
     }
 
@@ -54,22 +54,24 @@ module.exports = (ctx, next) => {
 };
 
 const sortNodes = (nodes) => {
-    const sorted = { startLocations: [], endLocations: [], locations: [], routeNames: [] };
+    let sorted = { startLocations: [], endLocations: [], locations: [], routeNames: [] };
     for (let node of nodes) {
         const bestElement = node.bestElement;
 
         if (isLocation(bestElement)) {
             if (hasRole(node)) {
+                bestElement.role = node.role.value;
                 sorted[node.role.value + 'Locations'].push(bestElement);
             } else {
                 sorted.locations.push(bestElement);
             }
-            
         }
-
         if (isRouteName(bestElement)) {
             sorted.routeNames.push(bestElement);
         }
+    }
+    for (let key in sorted) {
+        sorted[key] = orderByScore(sorted[key]);
     }
     return sorted;
 };
@@ -84,4 +86,8 @@ const isRouteName = (element) => {
 
 const hasRole = (node) => {
     return node && node.role !== undefined;
+};
+
+const orderByScore = (elements) => {
+    return elements.sort((a, b) => b.score - a.score);
 };

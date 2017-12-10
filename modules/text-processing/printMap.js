@@ -35,7 +35,7 @@ const printTable = (map) => {
             if (!map[startIdx][endIdx]) {
                 value = '-';
             } else {
-                value = map[startIdx][endIdx].rank;
+                value = map[startIdx][endIdx].score;
                 value = Math.round(value);
             }
             row[key].push(value);
@@ -76,32 +76,35 @@ const printNode = (node, startIdx, endIdx) => {
     console.log(text);
     console.log(separator);
     console.log(`\nTEXT: ${node.text}`);
-    console.log(`\nRANK: ${round(node.rank, 2)}`);
-    node.ranks.forEach(rank => printRank(rank, ' - '));
+    console.log(`\nSCORE: ${round(node.score, 2)}`);
+    node.scores.forEach(score => printScore(score, ' - '));
     console.log('');
-    node.elements.sort((a, b) => b.rank - a.rank).forEach(element => printElement(element, '  '));
+    node.elements.sort((a, b) => b.score - a.score).forEach(element => printElement(element, '  '));
     console.log('');
 };
 
 const printElement = (element, prefix) => {
     prefix = prefix || '';
     const title = element.value.name || element.value.title || element.value;
-    const text = `${prefix}    ${element.type.toUpperCase()}: ${title}`;
+    let text = `${prefix}    ${element.type.toUpperCase()}: ${title}`;
+    if (element.type === 'location') {
+        text += ` - ${element.value.latitude},${element.value.longitude}`;
+    }
     let separator = prefix;
-    for (let i = 0; i < text.length+4; i++) {
+    for (let i = 0; i < text.length+2; i++) {
         separator += '-';
     }
     console.log(text);
     console.log(separator);
-    console.log(`${prefix}RANK: ${round(element.rank, 2)}`);
-    element.ranks.forEach(rank => printRank(rank, `${prefix} - `));
+    console.log(`${prefix}SCORE: ${round(element.score, 2)}`);
+    element.scores.forEach(score => printScore(score, `${prefix} - `));
     console.log('\n');
     //console.log('\n              ...\n');
 };
 
-const printRank = (rank, prefix) => {
+const printScore = (score, prefix) => {
     prefix = prefix || '';
-    console.log(`${prefix}${rank.source}: ${round(rank.value, 2)}`);
+    console.log(`${prefix}${score.source}: ${round(score.value, 2)}`);
 };
 
 const printPartitions = (partitions) => {
@@ -109,8 +112,8 @@ const printPartitions = (partitions) => {
     console.log('###########\n');
     for (let i = 0; i < partitions.length && i < 3; i++) {
         const part = partitions[i];
-        const rank = i+1 < 4 ? medal(i+1) : `[${i+1}]`;
-        console.log(`${rank}`, 'SUM:', round(part.rank, 2));
+        const score = i+1 < 4 ? medal(i+1) : `[${i+1}]`;
+        console.log(`${score}`, 'SUM:', round(part.score, 2));
         part.nodes.forEach(node => {
             console.log(node.text);
         });

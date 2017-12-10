@@ -29,17 +29,14 @@ tp.use(revealCtx)
 // - !! Nyugati pályaudvar fehérvári út
 // - etele út fehérvári út
 // - Göllner Mária regionális gimnázium
-// - A határ úttól hogy jutok el a Blaha Lujza térre? -> magas ed megoldja
 // - A Nemzeti SZínház az úticél
 // - akkor próbáljuk részletekben: Bécsi kapu tér - Széll Kálmán tér -> magas ed megoldja, eltalálja így is
 // - Albertfalva kitérő 47-es villamos indulás -> eltalálja, de a villamos és az indulás is benne marad, kiszűrhető
 // - az etele út fehérvári út megállótól szeretnék eljutni a szendrő utca 44 a-ba -> megálló is benne marad
 // + Buzogány utca 42-be szeretnék menni holnap délre -> dél benne marad, alapfeltevés
 // Mikor indul a következő 41-es villamos Kamaraerdei Ifjúsági park megállóból? -> 41-es, Kamaraerdei Ifjúsági park megálló
-// kiindulás Tétényi út 30. cél Andor utca -> felismeri, cél benne marad
 // - Klinikák metro állomástól az Eurocenterhez
 // - Kérlek most írd meg, a Blaháról milyen gyorsan jutok a Margit hídhoz.
-// - Meg tudnád mondani, hogy a Keletiből mennyi idő alatt érek át a Kelenföldre?
 // - Mikor indul az utolsó M3 metró Újpest Központból? -> újpest központ külön írva nem ad találatot
 // - Mikor indul HÉV Szentendréről Békásra? -> békást nem ismeri
 // - Mikor megy legközelebb hármas metró a Deák térről kőbánya felé?
@@ -742,6 +739,66 @@ describe('#generateMap module', () => {
                 bestNodes.should.to.have.lengthOf(2);
                 bestNodes[0].text.should.have.to.equal('33-as');
                 bestNodes[1].text.should.have.to.equal('budafoki út dombóvári út');
+            })
+            .then(done, done);
+    });
+    it('kiindulás Tétényi út 30. cél Andor utca', (done) => {
+        tp.process('kiindulás Tétényi út 30. cél Andor utca', tpObject)
+            .then(ctx => {
+                ctx.should.have.property('map');
+                ctx.should.have.property('partitions').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const { partitions } = ctx;
+                const bestMatch = partitions[0];
+                bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const bestNodes = bestMatch.nodes;
+                bestNodes.should.to.have.lengthOf(2);
+                bestNodes[0].text.should.have.to.equal('Tétényi út 30.');
+                bestNodes[1].text.should.have.to.equal('Andor utca');
+            })
+            .then(done, done);
+    });
+    it('A határ úttól hogy jutok el a Blaha Lujza térre?', (done) => {
+        tp.process('A határ úttól hogy jutok el a Blaha Lujza térre?', tpObject)
+            .then(ctx => {
+                ctx.should.have.property('map');
+                ctx.should.have.property('partitions').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const { partitions } = ctx;
+                const bestMatch = partitions[0];
+                bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const bestNodes = bestMatch.nodes;
+                bestNodes.should.to.have.lengthOf(2);
+                bestNodes[0].text.should.have.to.equal('határ út');
+                bestNodes[1].text.should.have.to.equal('Blaha Lujza tér');
+            })
+            .then(done, done);
+    });
+    it('Meg tudnád mondani, hogy a Keletiből mennyi idő alatt érek át a Kelenföldre?', (done) => {
+        tp.process('Meg tudnád mondani, hogy a Keletiből mennyi idő alatt érek át a Kelenföldre?', tpObject)
+            .then(ctx => {
+                ctx.should.have.property('map');
+                ctx.should.have.property('partitions').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const { partitions } = ctx;
+                const bestMatch = partitions[0];
+                bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const bestNodes = bestMatch.nodes;
+                bestNodes.should.to.have.lengthOf(2);
+                bestNodes[0].text.should.have.to.equal('Keleti');
+                bestNodes[1].text.should.have.to.equal('Kelenföld');
+            })
+            .then(done, done);
+    });
+    it('deakrol parlamenthez', (done) => {
+        tp.process('deakrol parlamenthez', tpObject)
+            .then(ctx => {
+                ctx.should.have.property('map');
+                ctx.should.have.property('partitions').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const { partitions } = ctx;
+                const bestMatch = partitions[0];
+                bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
+                const bestNodes = bestMatch.nodes;
+                bestNodes.should.to.have.lengthOf(2);
+                bestNodes[0].text.should.have.to.equal('deak');
+                bestNodes[1].text.should.have.to.equal('parlament');
             })
             .then(done, done);
     });

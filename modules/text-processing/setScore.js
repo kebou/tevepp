@@ -9,7 +9,7 @@ nodeProcessor.use(require('./ranking/hasRole'))
 const elementProcessor = new TextProcessor();
 elementProcessor.use(require('./ranking/editDistance'))
     .use(require('./ranking/relativeLength'))
-    .use(require('./ranking/typeBasedRank'));
+    .use(require('./ranking/typeBasedScore'));
 
 // const weights = {
 //     role: {
@@ -33,7 +33,7 @@ const weights = {
         regexp: 20
     },
     absoluteLength: {
-        1: 80,
+        1: 90,
         2: 220,
         3: 550,
         4: 690,
@@ -58,11 +58,11 @@ const weights = {
 module.exports = (ctx, next) => {
     const { text, node } = ctx;
     if (!text || !node) {
-        logger.error('#setRank module should be used after "text", "tokens" and "node" property in ctx');
+        logger.error('#setScore module should be used after "text", "tokens" and "node" property in ctx');
         return next();
     }
     
-    return Promise.all([rankNode(ctx), rankElements(ctx)])
+    return Promise.all([scoreNode(ctx), scoreElements(ctx)])
         .then(res => {
             //console.log(res);
             return res;
@@ -74,12 +74,12 @@ module.exports = (ctx, next) => {
         });
 };
 
-const rankNode = (ctx) => {
+const scoreNode = (ctx) => {
     const { node, tokens } = ctx;
     return nodeProcessor.process({ tokens: node.tokens, allTokens: tokens, node, weights });
 };
 
-const rankElements = (ctx) => {
+const scoreElements = (ctx) => {
     const { node } = ctx;
 
     return Promise.all(node.elements.map(element => {

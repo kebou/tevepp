@@ -17,11 +17,11 @@ module.exports = (ctx, next) => {
         return next();
     }
 
-    const rankElement = {
+    const scoreElement = {
         value: weights.role[node.role.type],
         source: scriptName
     };
-    node.ranks.push(rankElement);
-    //console.log('hasRole', rankElement);
+    node.scores.push(scoreElement);
+    //console.log('hasRole', scoreElement);
     return next();
 };
