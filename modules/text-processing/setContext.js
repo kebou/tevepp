@@ -70,9 +70,10 @@ const sortNodes = (nodes) => {
             sorted.routeNames.push(bestElement);
         }
     }
-    for (let key in sorted) {
-        sorted[key] = orderByScore(sorted[key]);
-    }
+    // cím nélküli esetben felborítja a mondaton belüli sorrendet
+    // for (let key in sorted) {
+    //     sorted[key] = orderByScore(sorted[key]);
+    // }
     return sorted;
 };
 
