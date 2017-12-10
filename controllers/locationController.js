@@ -172,6 +172,11 @@ const fromStop = (stop, userId) => {
     });
 };
 
+const toStop = (location) => {
+    return Futar.stopsForLocation(location, 100)
+        .then(stops => stops[0]);
+};
+
 const saveFavourite = (user, location, update) => {
     location.userId = user.id;
     location.type = 'favourite';
@@ -255,6 +260,7 @@ module.exports = {
     fromAttachment,
     fromQuickReply,
     fromStop,
+    toStop,
     fromLocation,
     saveFavourite,
     removeFavourite,

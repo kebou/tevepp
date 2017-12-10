@@ -1,5 +1,6 @@
 'use strict';
 const logger = require('winston');
+const Location = require('../../controllers/locationController');
 /**
  * Out: user, start, end, routeName
  */
@@ -21,14 +22,26 @@ module.exports = (bot) => {
             logger.verbose('sendDepartures skipped - start & end in context');
             return next();
         }
-        const stopName = (start && start.type === 'stop' && start.value.title) || (end && end.type === 'stop' && end.value.title);
-        
-        if (!stopName) {
-            logger.verbose('sendDepartures skipped - no stopName in context');
-            return next();
+
+        const stop = start || end;
+
+        if (stop.type === 'stop') {
+            const stopName = stop.value.title;
+
+            logger.info('Sending departures:', { text: ctx.text, stopName, routeName: routeName.value });
+            return Schedule.sendDeparturesFromUserSearch(user, stopName, routeName.value);
         }
-        logger.info('Sending departures:', { text: ctx.text, stopName, routeName: routeName.value });
-        return Schedule.sendDeparturesFromUserSearch(user, stopName, routeName.value);
+
+        return Location.toStop(stop.value)
+            .then(stop => {
+                const stopName = stop.name;
+                logger.info('Sending departures:', { text: ctx.text, stopName, routeName: routeName.value });
+                return Schedule.sendDeparturesFromUserSearch(user, stopName, routeName.value);
+            })
+            .catch(() => {
+                logger.verbose('sendDepartures skipped - no stop in context');
+                return next();
+            });
     };
 
     return sendDepartures;
