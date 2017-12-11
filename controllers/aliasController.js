@@ -18,7 +18,7 @@ const update = () => {
         .then(aliases => {
             table = generateAlternatives(aliases);
             pattern = generatePattern(table);
-            console.log(Object.keys(table));
+            return Object.keys(table);
         });
 };
 
