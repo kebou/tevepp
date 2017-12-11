@@ -25,6 +25,11 @@ module.exports = (bot) => {
 
         const stop = start || end;
 
+        if (!stop) {
+            // honnan indulnál
+            console.log('Honnan indulnál?');
+        }
+
         if (stop.type === 'stop') {
             const stopName = stop.value.title;
 
