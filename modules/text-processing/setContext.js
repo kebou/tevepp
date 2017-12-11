@@ -78,7 +78,7 @@ const sortNodes = (nodes) => {
 };
 
 const isLocation = (element) => {
-    return element.type === 'location' || element.type === 'stop';
+    return element.type === 'location' || element.type === 'stop' || element.type === 'favourite';
 };
 
 const isRouteName = (element) => {
