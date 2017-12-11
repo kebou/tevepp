@@ -15,12 +15,14 @@ module.exports = (ctx, next) => {
         return next();
     }
 
-    if (node.role) {
-        return next();
-    }
-    
     const lastIdx = node.tokens.length - 1;
     const token = node.tokens[lastIdx];
+
+    if (node.role && token.content !== token.custom ) {
+        //console.log(JSON.stringify(node, null, 4))
+        return next();
+    }
+
     const latinizedToken = latinize(token.content);
 
     const startToken = isStartToken(latinizedToken);
