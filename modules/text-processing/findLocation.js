@@ -2,7 +2,8 @@
 const logger = require('winston');
 const Location = require('../../controllers/locationController');
 const MapElement = require('../../models/mapElementModel');
-const latinize = require('../../utils/nlg').latinize;
+const Pattern = require('../../utils/patterns');
+const latinize = require('latenize');
 const path = require('path');
 const scriptName = path.basename(__filename).replace(/\.[^/.]+$/, '');
 /**
@@ -15,7 +16,6 @@ module.exports = (ctx, next) => {
         logger.error('#findLocation module should be used after "text" and "node" property in ctx');
         return next();
     }
-    //console.log(shouldSkip(node));
     if (skipLocation || shouldSkip(node)) {
         return next();
     }
@@ -59,5 +59,6 @@ const startsWith = (token) => {
         latinized.match(/^(?:villamos|busz?|metro|hev|troli)/i) ||
         latinized.match(/^megallo(?:bol)?$/i) ||
         latinized.match(/\bido(?:be)?\b/i) ||
-        latinized.match(/^[0-9]+/i);
+        latinized.match(/^[0-9]+/i) ||
+        latinized.match(Pattern.routeNameInText());
 };
