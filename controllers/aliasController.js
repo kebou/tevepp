@@ -43,6 +43,9 @@ const sortAlternatives = (alternatives) => {
 };
 
 const generatePattern = (alternatives) => {
+    if (Object.keys(alternatives).length < 1) {
+        return new RegExp('$^');
+    }
     return new RegExp(Object.keys(alternatives).map(x => alternatives[x].pattern).join('|'), 'gi');
 };
 
