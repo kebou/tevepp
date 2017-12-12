@@ -142,9 +142,7 @@ const searchLocation = (text, opts) => {
 
 const fromLocation = (location, userId) => {
     return new Promise(resolve => {
-        console.log(location);
-        delete location._id;
-        console.log(location);
+        location._id = mongoose.Types.ObjectId();
         const loc = new Location(location);
         loc.userId = userId;
         loc.type = 'log';
