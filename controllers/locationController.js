@@ -142,7 +142,7 @@ const searchLocation = (text, opts) => {
 
 const fromLocation = (location, userId) => {
     return new Promise(resolve => {
-        delete data.location._id;
+        delete location._id;
         const loc = new Location(location);
         loc.userId = userId;
         loc.type = 'log';
