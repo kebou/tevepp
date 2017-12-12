@@ -24,6 +24,10 @@ module.exports.farewell = (user) => {
     return user.__(getRandomItem(user, 'greeting.bye'), { name: user.firstName });
 };
 
+module.exports.comeBack = (user) => {
+    return user.__(getRandomItem(user, 'greeting.comeBack'));
+};
+
 module.exports.emoji = (user) => {
     return user.__(getRandomItem(user, 'emoji'));
 };

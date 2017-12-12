@@ -18,6 +18,8 @@ module.exports = (bot) => {
 
     const sendWelcome = (user) => Message.welcome(user);
 
+    const sendFarewell = (user) => Message.farewell(user);
+
     const sendOutOfScope = (user) => Message.outOfScope(user);
 
     const sendEmoji = (user) => Message.emoji(user);
@@ -30,6 +32,7 @@ module.exports = (bot) => {
         sendHelp,
         sendAllIsWell,
         sendWelcome,
+        sendFarewell,
         sendOutOfScope,
         sendEmoji,
         sendTesterMessage

@@ -19,8 +19,8 @@ module.exports = (ctx, next) => {
     const bestMatch = partitions[0];
     const nodes = bestMatch.nodes;
 
-    if (bestMatch.score < 0) {
-        logger.debug('BestElement\'s score is smaller than zero, setContext skipped.');
+    if (bestMatch.score < 100) {
+        logger.debug('BestElement\'s score is smaller than 100, setContext skipped.');
         return next();
     }
 

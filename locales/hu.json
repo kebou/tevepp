@@ -10,6 +10,11 @@
 			"0": "Viszlát {{{name}}}! 👋🏻",
 			"1": "Pápá {{{name}}}! 🙂"
 		},
+		"comeBack": {
+			"0": "Ha legközelebb szükséged van valamire, írj nyugodtan!",
+			"1": "Ha később kérdésed lesz, dobj egy üzenetet!",
+			"2": "Ha kérdésed lesz, csak írj!"
+		},
 		"newUser": {
 			"0": "Szükséged van néhány hasznos infóra a fővárosi tömegközlekedéssel kapcsolatban?",
 			"1": "Remélem segítségedre leszek!",
