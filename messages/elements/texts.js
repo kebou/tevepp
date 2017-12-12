@@ -28,6 +28,10 @@ module.exports.comeBack = (user) => {
     return user.__(getRandomItem(user, 'greeting.comeBack'));
 };
 
+module.exports.introduction = (user) => {
+    return user.__(getRandomItem(user, 'introduction'));
+};
+
 module.exports.emoji = (user) => {
     return user.__(getRandomItem(user, 'emoji'));
 };

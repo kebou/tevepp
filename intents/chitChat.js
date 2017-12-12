@@ -14,6 +14,8 @@ module.exports = (bot) => {
 
     const sendHelp = (user) => Message.help(user);
 
+    const sendIntroduction = (user) => Message.introduction(user);
+
     const sendAllIsWell = (user) => Message.allIsWell(user);
 
     const sendWelcome = (user) => Message.welcome(user);
@@ -30,6 +32,7 @@ module.exports = (bot) => {
         sendGreeting,
         sendJoke,
         sendHelp,
+        sendIntroduction,
         sendAllIsWell,
         sendWelcome,
         sendFarewell,

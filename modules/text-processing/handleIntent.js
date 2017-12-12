@@ -42,6 +42,9 @@ module.exports = (bot) => {
             case 'GREETING_BYE':
                 return ChitChat.sendFarewell(user);
 
+            case 'INTRODUCTION':
+                return ChitChat.sendIntroduction(user);
+
             case 'THANKS':
                 return ChitChat.sendWelcome(user);
 

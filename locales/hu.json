@@ -39,6 +39,11 @@
 		"3": "Ugyan kérlek, öröm ha segíhetek 😉",
 		"4": "Igazán nincs mit, remélem tudtam segíteni 🙂"
 	},
+	"introduction": {
+		"0": "TeVe vagyok, a budapesti közösségi közlekedéssel foglalkozó chatbot. 🐪", 
+		"1": "Tömgeközlekedés központú asszisztens vagyok. 🚋",
+		"2": "Egy chatbot vagyok, aki él-hal a tömegközlekedésért. 🚌"
+	},
 	"outOfScope": {
 		"0": "Ne haragudj, de ezt nem értem 😕",
 		"1": "Sajnos ez meghaladja a képességeimet 😞",
