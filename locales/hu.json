@@ -132,7 +132,7 @@
 	"favouriteLocation": {
 		"newLocation": "Milyen helyet szeretnél hozzáadni?",
 		"editLocation": "Mire változtatnád {{{title}}} címet?",
-		"newName": "Milyen néven mentenéd el {{{locationTitle}}} helyet?",
+		"newName": "Milyen néven mentenéd el {{{title}}} helyet?",
 		"editName": "Mire változtatnád {{{name}}} nevet?",
 		"nameHint": "Írj egy nevet (max. 20 karakter)",
 		"canceled": {
