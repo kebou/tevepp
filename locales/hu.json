@@ -124,6 +124,17 @@
 			"0": "Melyik irányba mennél?",
 			"1": "Melyik irányba utaznál?"
 		},
+		"askStop": {
+			"0": "Melyik megállóból indulnál?",
+			"1": "Melyik megállóból?",
+			"2": "Honnan indulva?",
+			"3": "Melyik megállóból keressem?"
+		},
+		"canceled": {
+			"0": "Okés, mégse! 🙂",
+			"1": "Induláskeresés – lefújva!",
+			"2": "Értem én, majd legközelebb! 😉"
+		},
 		"withinOneMinute": "Egy percen belül a megállóban van a következő {{{routeName}}}.",
 		"withinXMinutes": "{{{minutes}}} percen belül a megállóban van a következő {{{routeName}}}.",
 		"departAt": "A következő {{{routeName}}} {{{time}}}-kor indul a megállóból.",

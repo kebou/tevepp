@@ -78,6 +78,7 @@ const generateRawName = (stopName) => {
     name = name.replace(/ M$| H$| \(».+\)| M\+H/, '');
     name = name.replace(/ H | M /, ' ');
     name = name.replace(/ M\)| H\)/, ')');
+    name = name.replace(/ *\[.+\]/, '');
     return name;
 };
 

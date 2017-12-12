@@ -1,6 +1,7 @@
 'use strict';
 const BootBot = require('bootbot');
 const Futar = require('../controllers/futarController');
+const locationController = require('../controllers/locationController');
 const intersect = require('../utils/intersect');
 
 const Canvas = require('../controllers/canvasController');
@@ -14,6 +15,48 @@ module.exports = (bot) => {
 
     const sendDeparturesFromStops = (user, stops, location) => {
 
+    };
+
+    const askStop = (convo) => {
+        const question = (convo) => {
+            const user = convo.get('user');
+            return Message.askStop(user);
+        };
+    
+        const handleAnswer = (payload, convo) => {
+            return locationController.fromPayload(payload)
+                .then(location => locationController.toStop(location))
+                .then(stop => {
+                    const user = convo.get('user');
+                    const routeName = convo.get('routeName');
+                    return sendDeparturesFromUserSearch(user, stop.rawName, routeName)
+                        .then(() => convo.end());
+                })
+                .catch(err => {
+                    if (err.name !== 'NoStopsForLocationError') {
+                        throw err;
+                    }
+                    console.debug(err);
+                    const user = convo.get('user');
+                    return Message.invalidStopName(user)
+                        .then(() => askStop(convo));
+                });
+        };
+    
+        const callbacks = [
+            {
+                event: 'quick_reply:CANCEL',
+                callback: (payload, convo) => {
+                    const user = convo.get('user');
+                    return Message.canceled(user)
+                        .then(() => convo.end());
+                }
+            }
+        ];
+    
+        const options = {};
+    
+        return convo.ask(question, handleAnswer, callbacks, options);
     };
 
     const sendDeparturesFromNearbyStops = (user, stops, location) => {
@@ -152,6 +195,7 @@ module.exports = (bot) => {
         sendDeparturesFromNearbyStops,
         sendDeparturesFromUserSearch,
         sendNextDeparture,
-        sendMoreDepartures
+        sendMoreDepartures,
+        askStop
     };
 };

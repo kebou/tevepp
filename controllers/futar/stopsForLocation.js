@@ -15,8 +15,10 @@ module.exports = (location, radius) => {
     let stops;
     return futar.stopsForLocation(opts)
         .then(data => {
-            if (!(data && data.list)) {
-                throw new Error('Nincsenek közeli megállók.');
+            if (!(data && data.list && data.list.length > 0)) {
+                const err = new Error('Nincsenek közeli megállók.');
+                err.name = 'NoStopsForLocationError';
+                throw err;
             }
             return data.list.map(stop => {
                 stopNames.add(stop.name);

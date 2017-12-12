@@ -27,7 +27,12 @@ module.exports = (bot) => {
 
         if (!stop) {
             // honnan indulnál
-            console.log('Honnan indulnál?');
+            logger.info('Ask stop:', { text: ctx.text, routeName: routeName.value });
+            return bot.conversation(user.id, convo => {
+                convo.set('user', user);
+                convo.set('routeName', routeName.value);
+                return Schedule.askStop(convo);
+            });
         }
 
         if (stop.type === 'stop') {

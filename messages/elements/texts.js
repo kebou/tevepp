@@ -162,6 +162,14 @@ schedule.invalidRouteStopPair = (user, stop, route) => {
     return user.__('schedule.invalidRouteStopPair', { routeName: nlg.capitalize(routeName), stopName, transportType });
 };
 
+schedule.askStop = (user) => {
+    return user.__(getRandomItem(user, 'schedule.askStop'));
+};
+
+schedule.canceled = (user) => {
+    return user.__(getRandomItem(user, 'schedule.canceled'));
+};
+
 module.exports.schedule = schedule;
 
 const favouriteLocation = {};
