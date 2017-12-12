@@ -144,12 +144,14 @@ const fromLocation = (location, userId) => {
     return new Promise(resolve => {
         location._id = mongoose.Types.ObjectId();
         const loc = new Location(location);
-        loc.userId = userId;
-        loc.type = 'log';
-        loc.source = 'location';
-        loc.save();
-
-        return resolve(location);
+        const locObj = loc.toObject();
+        if (userId) {
+            loc.userId = userId;
+            loc.type = 'log';
+            loc.source = 'location';
+            loc.save();   
+        }
+        return resolve(locObj);
     });
 };
 
