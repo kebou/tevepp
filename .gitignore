@@ -66,3 +66,4 @@ scripts/test.sh
 scripts/generatecode.sh
 scripts/mapper.js
 test/artillery/*
+.vscode/launch.json
