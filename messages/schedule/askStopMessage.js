@@ -6,7 +6,7 @@ module.exports = (bot) => {
     const askStopMessage = (user) => {
         const text = Text.schedule.askStop(user);
         const quickReplies = [QR.cancel(user)];
-        const options = {};
+        const options = { typing: 1 };
 
         return bot.sendTextMessage(user.id, text, quickReplies, options);
     };
