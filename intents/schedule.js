@@ -1,4 +1,5 @@
 'use strict';
+const logger = require('winston');
 const BootBot = require('bootbot');
 const Futar = require('../controllers/futarController');
 const locationController = require('../controllers/locationController');
@@ -33,10 +34,10 @@ module.exports = (bot) => {
                         .then(() => convo.end());
                 })
                 .catch(err => {
-                    if (err.name !== 'NoStopsForLocationError') {
+                    if (err.name !== 'NoStopsForLocationError' && err.name !== 'LocationError') {
                         throw err;
                     }
-                    console.debug(err);
+                    logger.debug(err);
                     const user = convo.get('user');
                     return Message.invalidStopName(user)
                         .then(() => askStop(convo));
