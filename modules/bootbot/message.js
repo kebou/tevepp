@@ -56,17 +56,17 @@ module.exports = (bot) => {
         const userId = payload.sender.id;
         const text = payload.message.text;
 
-        let _user;
+        let user;
         return userController.getUser(userId)
-            .then(user => {
-                _user = user;
+            .then(_user => {
+                user = _user;
                 logger.info(`New message received from ${user.lastName} ${user.firstName}: ${text}`);
                 return user;
             })
             .then(user => tp.process(text, { user, chat, payload, MAX_WORD_NUMBER: 5 }))
             .catch(err => {
-                logger.error(err);
-                return ChitChat.sendOutOfScope(_user);
+                logger.error('Error in pipeline.', err);
+                return ChitChat.sendOutOfScope(user);
             });
     });
 };
