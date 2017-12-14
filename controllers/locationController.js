@@ -116,6 +116,11 @@ const searchLocation = (text, opts) => {
                 err.name = 'LocationError';
                 throw err;
             }
+            if (!res[0].city) {
+                const err = new Error('Geocoder result has no city.');
+                err.name = 'LocationError';
+                throw err;
+            }
 
             const budapest = res.filter(x => x.city === 'Budapest');
             let location;
@@ -238,6 +243,9 @@ const _formatTitle = (res) => {
     if (res.streetNumber) title += ` ${res.streetNumber}.`;
     if (!res.streetName && res.extra && res.extra.neighborhood) {
         title += `, ${res.extra.neighborhood}`;
+    }
+    if (title === '') {
+        title += res.country;
     }
     return title;
 };
