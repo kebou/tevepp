@@ -158,12 +158,12 @@ const mapOpts = {
     region: 'hu',
     apiKey: process.env.MAPS_API_KEY,
     formatter: null,
-    excludePartialMatches: true,
+    excludePartialMatches: false,
     bounds: '47.1523107,18.8460594|47.6837053,19.3915303'
 };
 
 const gc = NodeGeocoder(mapOpts);
-gc.geocode({ address: 'setany', country: 'Magyarország', minConfidence: 0, withBounds: true })
+gc.geocode({ address: 'qqqqqqqqqqqqqqqqq', country: 'Magyarország', minConfidence: 0, withBounds: true })
     .then(res => {
         console.log(res);
         process.exit(0);
