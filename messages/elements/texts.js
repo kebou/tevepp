@@ -24,6 +24,14 @@ module.exports.farewell = (user) => {
     return user.__(getRandomItem(user, 'greeting.bye'), { name: user.firstName });
 };
 
+module.exports.comeBack = (user) => {
+    return user.__(getRandomItem(user, 'greeting.comeBack'));
+};
+
+module.exports.introduction = (user) => {
+    return user.__(getRandomItem(user, 'introduction'));
+};
+
 module.exports.emoji = (user) => {
     return user.__(getRandomItem(user, 'emoji'));
 };
@@ -49,6 +57,14 @@ module.exports.welcome = (user) => {
 
 module.exports.outOfScope = (user) => {
     return user.__(getRandomItem(user, 'outOfScope'));
+};
+
+module.exports.textProcessingError = (user) => {
+    const intro = user.__(getRandomItem(user, 'error.intro'));
+    const textProcessing = user.__(getRandomItem(user, 'error.textProcessing'));
+    const outro = user.__(getRandomItem(user, 'error.outro'));
+
+    return intro + ' ' + textProcessing + ' ' + outro;
 };
 
 const tripPlanning = {};
@@ -152,6 +168,14 @@ schedule.invalidRouteStopPair = (user, stop, route) => {
     const stopName = nlg.appendArticle(user, stop.rawName);
     const transportType = user.__(`transportType.${route.type}`);
     return user.__('schedule.invalidRouteStopPair', { routeName: nlg.capitalize(routeName), stopName, transportType });
+};
+
+schedule.askStop = (user) => {
+    return user.__(getRandomItem(user, 'schedule.askStop'));
+};
+
+schedule.canceled = (user) => {
+    return user.__(getRandomItem(user, 'schedule.canceled'));
 };
 
 module.exports.schedule = schedule;

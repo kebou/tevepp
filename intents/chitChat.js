@@ -14,9 +14,13 @@ module.exports = (bot) => {
 
     const sendHelp = (user) => Message.help(user);
 
+    const sendIntroduction = (user) => Message.introduction(user);
+
     const sendAllIsWell = (user) => Message.allIsWell(user);
 
     const sendWelcome = (user) => Message.welcome(user);
+
+    const sendFarewell = (user) => Message.farewell(user);
 
     const sendOutOfScope = (user) => Message.outOfScope(user);
 
@@ -24,14 +28,19 @@ module.exports = (bot) => {
 
     const sendTesterMessage = (user) => Message.dataCollection(user);
 
+    const sendTextProcessingError = (user) => Message.textProcessingError(user);
+
     return {
         sendGreeting,
         sendJoke,
         sendHelp,
+        sendIntroduction,
         sendAllIsWell,
         sendWelcome,
+        sendFarewell,
         sendOutOfScope,
         sendEmoji,
-        sendTesterMessage
+        sendTesterMessage,
+        sendTextProcessingError
     };
 };

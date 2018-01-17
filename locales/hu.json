@@ -10,6 +10,11 @@
 			"0": "Viszlát {{{name}}}! 👋🏻",
 			"1": "Pápá {{{name}}}! 🙂"
 		},
+		"comeBack": {
+			"0": "Ha legközelebb szükséged van valamire, írj nyugodtan!",
+			"1": "Ha később kérdésed lesz, dobj egy üzenetet!",
+			"2": "Ha kérdésed lesz, csak írj!"
+		},
 		"newUser": {
 			"0": "Szükséged van néhány hasznos infóra a fővárosi tömegközlekedéssel kapcsolatban?",
 			"1": "Remélem segítségedre leszek!",
@@ -34,11 +39,36 @@
 		"3": "Ugyan kérlek, öröm ha segíhetek 😉",
 		"4": "Igazán nincs mit, remélem tudtam segíteni 🙂"
 	},
+	"introduction": {
+		"0": "TeVe vagyok, a budapesti közösségi közlekedéssel foglalkozó chatbot. 🐪", 
+		"1": "Tömgeközlekedés központú asszisztens vagyok. 🚋",
+		"2": "Egy chatbot vagyok, aki él-hal a tömegközlekedésért. 🚌"
+	},
 	"outOfScope": {
 		"0": "Ne haragudj, de ezt nem értem 😕",
 		"1": "Sajnos ez meghaladja a képességeimet 😞",
 		"2": "Hát ezzel megfogtál 😀",
 		"3": "Bevallom, most ötletem sincs, hogy mit szeretnél 😃"
+	},
+	"error": {
+		"intro": {
+			"0": "😞 A nemjóját!",
+			"1": "🤨 Na fene!",
+			"2": "😱 Ajajj!",
+			"3": "🤭 Hupsz!"
+		},
+		"textProcessing": {
+			"0": "Az emberi nyelv fordítóm meghibásodott."
+		},
+		"general": {
+			"0": "Valami hiba történt.",
+			"1": "Valami nem úgy működik, ahogy működnie kellene."
+		},
+		"outro": {
+			"0": "Kérlek, próbáld meg később.",
+			"1": "Kérlek, nézz vissza később.",
+			"2": "Próbáld meg újra egy kicsit később."
+		}
 	},
 	"emoji": {
 		"0": "👍🏻",
@@ -114,6 +144,17 @@
 			"0": "Melyik irányba mennél?",
 			"1": "Melyik irányba utaznál?"
 		},
+		"askStop": {
+			"0": "Melyik megállóból indulnál?",
+			"1": "Melyik megállóból?",
+			"2": "Honnan indulva?",
+			"3": "Melyik megállóból keressem?"
+		},
+		"canceled": {
+			"0": "Okés, mégse! 🙂",
+			"1": "Induláskeresés – lefújva!",
+			"2": "Értem én, majd legközelebb! 😉"
+		},
 		"withinOneMinute": "Egy percen belül a megállóban van a következő {{{routeName}}}.",
 		"withinXMinutes": "{{{minutes}}} percen belül a megállóban van a következő {{{routeName}}}.",
 		"departAt": "A következő {{{routeName}}} {{{time}}}-kor indul a megállóból.",
@@ -132,15 +173,15 @@
 	"favouriteLocation": {
 		"newLocation": "Milyen helyet szeretnél hozzáadni?",
 		"editLocation": "Mire változtatnád {{{title}}} címet?",
-		"newName": "Milyen néven mentenéd el {{{locationTitle}}} helyet?",
+		"newName": "Milyen néven mentenéd el {{{title}}} helyet?",
 		"editName": "Mire változtatnád {{{name}}} nevet?",
 		"nameHint": "Írj egy nevet (max. 20 karakter)",
 		"canceled": {
 			"0": "Akkor most nem adok hozzá új kedvencet.",
 			"1": "Kedvenc hely hozzáadás - lefújva!"
 		},
-		"maxLocationReached": "Összesen {{{maxLocation}}} helyet menthetsz el, új hely hozzáadásához először tötölnöd kell egyet.",
-		"missingName": "Kérlek küldj el a hely nevét szöveges üzenetként.",
+		"maxLocationReached": "Összesen {{{maxLocation}}} helyet menthetsz el, új hely hozzáadásához először törölnöd kell egyet.",
+		"missingName": "Kérlek küldd el a hely nevét szöveges üzenetként.",
 		"approveNewLocation": "Hozzáadhatom {{{name}}} néven {{{title}}} helyet?",
 		"newLocationAdded": {
 			"0": "{{{name}}} helyet felvetted a kedvenceid közé. ⭐️",

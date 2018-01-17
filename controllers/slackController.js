@@ -31,3 +31,15 @@ module.exports.sendFeedback = (user, feedback) => {
 
     return wh.send({ attachments: [attachment] });
 };
+
+module.exports.sendError = (error) => {
+    const attachment = {
+        fallback: `${error.name} típusú hiba történt.`,
+        title: `_${error.name}_ típusú hiba történt:`,
+        text: `_${error.message}_`,
+        footer: (new Date()).toString(),
+        color: 'warning'
+    };
+
+    return wh.send({ attachments: [attachment] });
+};

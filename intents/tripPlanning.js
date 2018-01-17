@@ -66,6 +66,13 @@ module.exports = (bot) => {
                     convo.end();
                     return bot._handleEvent('quick_reply', payload, data);
                 }
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
+                }
             }
         ];
 
@@ -121,6 +128,13 @@ module.exports = (bot) => {
                 callback: (payload, convo, data) => {
                     convo.end();
                     return bot._handleEvent('quick_reply', payload, data);
+                }
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
                 }
             }
         ];

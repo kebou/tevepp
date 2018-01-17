@@ -13,28 +13,25 @@ const printCtx = (ctx, next) => {
 
 module.exports = (bot) => {
     const userController = require('../../controllers/userController')(bot);
+    const slackController = require('../../controllers/slackController');
     const ChitChat = require('../../intents/chitChat')(bot);
 
-    tp.use(require('../text-processing/sendTypingIndicator')(bot));
-    tp.use(require('../text-processing/validateInput'));
-    tp.use(require('../text-processing/getIntent'));
-    tp.use(require('../text-processing/handleIntent')(bot));
-
-    tp.use(require('../text-processing/matchSimpleRouteStopPair')(bot));
-    tp.use(require('../text-processing/matchSimpleStopRoutePair')(bot));
-    tp.use(require('../text-processing/parseText'));
-
-    tp.use(require('../text-processing/findStopNameWithMorph'));
-    tp.use(require('../text-processing/findStopNameWithoutAccent'));
-    tp.use(require('../text-processing/findAddressWithSuffix'));
-    tp.use(require('../text-processing/matchRouteName'));
-    tp.use(require('../text-processing/findAddressWithNumber'));
-    tp.use(require('../text-processing/findStopNameWithoutSuffix'));
-    //tp.use(printCtx);
-
-    tp.use(require('../text-processing/sendDepartures')(bot));
-    tp.use(require('../text-processing/startTripPlanning')(bot));
-    tp.use(require('../text-processing/outOfScope')(bot));
+    tp.use(require('../text-processing/sendTypingIndicator')(bot))
+        .use(require('../text-processing/validateInput'))
+        .use(require('../text-processing/getIntent'))
+        .use(require('../text-processing/handleIntent')(bot))
+        .use(require('../text-processing/matchSimpleRouteStopPair')(bot))
+        .use(require('../text-processing/matchSimpleStopRoutePair')(bot))
+        // text processing
+        .use(require('../text-processing/parseText'))
+        .use(require('../text-processing/generateMap'))
+        .use(require('../text-processing/rankPartitions'))
+        .use(require('../text-processing/setContext'))
+        //.use(printCtx);
+        // send response
+        .use(require('../text-processing/sendDepartures')(bot))
+        .use(require('../text-processing/startTripPlanning')(bot))
+        .use(require('../text-processing/outOfScope')(bot));
 
 
     // járat, megálló indulás keresése (pl.: H5 szépvölgyi út)
@@ -60,17 +57,22 @@ module.exports = (bot) => {
         const userId = payload.sender.id;
         const text = payload.message.text;
 
-        let _user;
+        let user;
         return userController.getUser(userId)
-            .then(user => {
-                _user = user;
-                logger.info(`New message received from ${user.lastName} ${user.firstName}.`);
+            .then(_user => {
+                user = _user;
+                logger.info(`New message received from ${user.lastName} ${user.firstName}: ${text}`);
                 return user;
             })
-            .then(user => tp.process(text, { user, chat, payload }))
+            .then(user => tp.process(text, { user, chat, payload, MAX_WORD_NUMBER: 5 }))
             .catch(err => {
-                logger.error(err);
-                return ChitChat.sendOutOfScope(_user);
+                logger.error('Error in pipeline:', err);
+                return handleError(user, err);
             });
     });
+
+    const handleError = (user, err) => {
+        return ChitChat.sendTextProcessingError(user)
+            .then(() => slackController.sendError(err));
+    };
 };

@@ -60,6 +60,13 @@ module.exports = (bot) => {
                     return Message.cancelRemoval(user)
                         .then(() => convo.end());
                 }
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
+                }
             }
         ];
 
@@ -101,6 +108,13 @@ module.exports = (bot) => {
                     const user = convo.get('user');
                     return Message.cancelRemoval(user)
                         .then(() => convo.end());
+                }
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
                 }
             }
         ];
@@ -150,6 +164,13 @@ module.exports = (bot) => {
             {
                 event: 'quick_reply:DONT_MODIFY',
                 callback: (payload, convo) => _askName(convo)
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
+                }
             }
         ];
 
@@ -200,6 +221,13 @@ module.exports = (bot) => {
             {
                 event: 'quick_reply:DONT_MODIFY',
                 callback: (payload, convo) => _approveNewLocation(convo)
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
+                }
             }
         ];
 
@@ -256,6 +284,13 @@ module.exports = (bot) => {
             {
                 event: 'quick_reply:EDIT_NAME',
                 callback: (payload, convo) => _askName(convo)
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
+                }
             }
         ];
 

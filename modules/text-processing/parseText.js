@@ -20,7 +20,8 @@ module.exports = (ctx, next) => {
         .then(res => {
             ctx.emagyar = res;
             ctx.tokens = parseTokens(res.tokens);
-            logger.debug('Parsed tokens:', ctx.tokens);
+            ctx.tokens = filterTokens(ctx.tokens);
+            logger.silly('Parsed tokens:', ctx.tokens);
             return next();
         })
         .catch(err => {
@@ -30,8 +31,26 @@ module.exports = (ctx, next) => {
 };
 
 const parseTokens = (tokens) => {
-    for (let token of tokens) {
+    return tokens.map(token => {
         token.hfstana = token.hfstana.match(/\[.*?\]/g);
-    }
-    return tokens;
+        return token;
+    });
+};
+
+const filterTokens = (tokens) => {
+    return tokens.filter(token => {
+        //console.log(token);
+        return token.hfstana &&
+            (token.hfstana[0] !== '[/Det|art.Def]') && // határozott névelő
+            (token.hfstana[0] !== '[/Cnj]') &&  // kötőszó
+            (token.hfstana[0] !== '[/Prev]') && // igekötő
+            (token.hfstana[0] !== '[/Post]') && // névutó
+            (token.hfstana[0] !== '[/Adv|Pro|Int]') && // határozószó, kérdő névmás
+            (token.hfstana[0] !== '[/Adj|Pro|Int]') && // melléknév, kérdő névmás
+            (token.hfstana[0] !== '[/Det|Pro|Int]') && // determináns, kérdő névmás
+            (token.hfstana[0] !== '[/N|Pro|Int]') && // főnév, kérdő névmás
+            (token.hfstana[0] !== '[/Num|Pro|Int]') && // számnév, kérdő névmás
+            !(token.hfstana[0] === '[/V]' && token.hfstana.join().includes('1Sg'));// && // E/1 ige
+            //!(token.hfstana[0] === '[/V]' && token.hfstana.join().includes('[Inf]')); // főnévi igenév
+    });
 };

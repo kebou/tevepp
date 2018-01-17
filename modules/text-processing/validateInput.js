@@ -1,5 +1,6 @@
 'use strict';
 const logger = require('winston');
+const Alias = require('../../controllers/aliasController');
 const MAX_LENGTH = 200;
 /**
  * In: text.
@@ -16,5 +17,6 @@ module.exports = (ctx, next) => {
         ctx.text = text.substring(0, MAX_LENGTH);
         logger.verbose('Input text shortened.', { text });
     }
+    ctx.text = Alias.replace(ctx.text);
     return next();
 };

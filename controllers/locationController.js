@@ -9,21 +9,25 @@ const Futar = require('../controllers/futarController');
 const mapOpts = {
     provider: 'google',
     language: 'hu',
+    region: 'hu',
     apiKey: process.env.MAPS_API_KEY,
     formatter: null,
+    excludePartialMatches: true,
     bounds: '47.1523107,18.8460594|47.6837053,19.3915303'
 };
-
 const gc = NodeGeocoder(mapOpts);
+mapOpts.excludePartialMatches = false;
+const gcp = NodeGeocoder(mapOpts);
 
 const fromPayload = (payload) => {
     const userId = payload.sender.id;
     const text = payload.message && payload.message.text;
     const attachments = payload.message && payload.message.attachments;
-    const { type, data } = payload.message.quick_reply && payload.message.quick_reply.payload && tryParseJSON(payload.message.quick_reply.payload) || false;
+    const { type, data } = payload.message && payload.message.quick_reply && payload.message.quick_reply.payload && tryParseJSON(payload.message.quick_reply.payload) || false;
 
     if (!text && !(attachments && attachments[0] && (attachments[0].type === 'location')) && !(type && (type === 'LOCATION'))) {
-        return Promise.reject(new Error('Payload doesn\'t contain location attachment or text.'));
+        const err = new Error('Payload doesn\'t contain location attachment or text.');
+        throw err;
     }
 
     if (type === 'LOCATION')
@@ -39,7 +43,7 @@ const fromPayload = (payload) => {
 const fromAttachment = (attachment, userId) => {
     const coords = { lat: attachment.payload.coordinates.lat, lon: attachment.payload.coordinates.long };
 
-    return gc.reverse(coords)
+    return gcp.reverse(coords)
         .then(res => {
             const params = _formatParams(res[0]);
             params.fbTitle = attachment.title;
@@ -92,11 +96,16 @@ const fromQuickReply = (data, userId) => {
 const fromText = (text, userId) => {
     return Futar.searchStop(text)
         .then(stops => fromStop(stops[0], userId))
-        .catch(() => searchLocation(text, userId));
+        .catch(() => searchLocation(text, { userId, partial: true }));
 };
 
-const searchLocation = (text, userId) => {
-    return gc.geocode({ text: text, withBounds: true })
+const searchLocation = (text, opts) => {
+    const { userId, partial, minConfidence } = opts || {};
+    let geocoder = gc;
+    if (partial && partial === true) {
+        geocoder = gcp;
+    }
+    return geocoder.geocode({ address: text, country: 'Magyarország', minConfidence, withBounds: true })
         .then(res => {
             if (res.length < 1) {
                 const err = new Error('Geocoder result is empty.');
@@ -108,11 +117,25 @@ const searchLocation = (text, userId) => {
                 err.name = 'LocationError';
                 throw err;
             }
+            if (!res[0].city) {
+                const err = new Error('Geocoder result has no city.');
+                err.name = 'LocationError';
+                throw err;
+            }
 
-            const params = _formatParams(res[0]);
+            const budapest = res.filter(x => x.city === 'Budapest');
+            let location;
+            if (budapest && budapest.length > 0) {
+                location = budapest[0];
+            } else {
+                location = res[0];
+            }
+
+
+            const params = _formatParams(location);
             const loc = new Location(params);
             const locObj = loc.toObject();
-            
+
             if (userId) {
                 loc.userId = userId;
                 loc.type = 'log';
@@ -125,14 +148,16 @@ const searchLocation = (text, userId) => {
 
 const fromLocation = (location, userId) => {
     return new Promise(resolve => {
-        
+        location._id = mongoose.Types.ObjectId();
         const loc = new Location(location);
-        loc.userId = userId;
-        loc.type = 'log';
-        loc.source = 'location';
-        loc.save();
-
-        return resolve(location);
+        const locObj = loc.toObject();
+        if (userId) {
+            loc.userId = userId;
+            loc.type = 'log';
+            loc.source = 'location';
+            loc.save();   
+        }
+        return resolve(locObj);
     });
 };
 
@@ -153,6 +178,11 @@ const fromStop = (stop, userId) => {
         }
         return resolve(locObj);
     });
+};
+
+const toStop = (location) => {
+    return Futar.stopsForLocation(location, 100)
+        .then(stops => stops[0]);
 };
 
 const saveFavourite = (user, location, update) => {
@@ -215,6 +245,9 @@ const _formatTitle = (res) => {
     if (!res.streetName && res.extra && res.extra.neighborhood) {
         title += `, ${res.extra.neighborhood}`;
     }
+    if (title === '') {
+        title += res.country;
+    }
     return title;
 };
 
@@ -238,6 +271,7 @@ module.exports = {
     fromAttachment,
     fromQuickReply,
     fromStop,
+    toStop,
     fromLocation,
     saveFavourite,
     removeFavourite,

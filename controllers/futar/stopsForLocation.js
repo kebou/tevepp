@@ -5,18 +5,20 @@ const Stop = require('../../models/stopModel');
 
 const futar = new FutarAPI({ version: 3 });
 
-module.exports = (location) => {
+module.exports = (location, radius) => {
     const opts = {
         lat: location.latitude,
         lon: location.longitude,
-        radius: 60
+        radius: radius || 60
     };
     let stopNames = new Set();
     let stops;
     return futar.stopsForLocation(opts)
         .then(data => {
-            if (!(data && data.list)) {
-                throw new Error('Nincsenek közeli megállók.');
+            if (!(data && data.list && data.list.length > 0)) {
+                const err = new Error('Nincsenek közeli megállók.');
+                err.name = 'NoStopsForLocationError';
+                throw err;
             }
             return data.list.map(stop => {
                 stopNames.add(stop.name);

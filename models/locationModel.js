@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const LocationSchema = new Schema({
     userId: {
-        type: Number,
+        type: String,
         required: [true, 'Facebook page-scoped ID is missing.'],
         ref: 'User'
     },

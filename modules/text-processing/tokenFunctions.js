@@ -16,10 +16,15 @@ const _containsToken = (array, token) => {
 };
 
 const tokensToString = (tokens) => {
-    return tokens.reduce((prev, x) => prev.concat(' ' + x.content), '').trim();
+    return tokens.reduce((prev, x) => prev.concat(' ' + (x.custom || x.content)), '').trim();
+};
+
+const sortByFirstToken = (array) => {
+    return array.slice().sort((a, b) => a.tokens[0].id - b.tokens[0].id);
 };
 
 module.exports = {
     filterTokens,
-    tokensToString
+    tokensToString,
+    sortByFirstToken
 };

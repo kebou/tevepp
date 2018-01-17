@@ -7,6 +7,8 @@ module.exports = (bot) => {
     }
 
     return {
+        canceled: require('./schedule/canceledMessage')(bot),
+        askStop: require('./schedule/askStopMessage')(bot),
         departures: require('./schedule/departuresMessage')(bot),
         invalidRouteName: require('./schedule/invalidRouteNameMessage')(bot),
         invalidStopName: require('./schedule/invalidStopNameMessage')(bot),

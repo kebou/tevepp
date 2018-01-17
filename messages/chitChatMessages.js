@@ -7,6 +7,9 @@ module.exports = (bot) => {
     }
 
     return {
+        textProcessingError: require('./chitChat/textProcessingErrorMessage')(bot),
+        introduction: require('./chitChat/introductionMessage')(bot),
+        farewell: require('./chitChat/farewellMessage')(bot),
         dataCollection: require('./chitChat/dataCollectionMessage')(bot),
         startHelp: require('./chitChat/startHelpMessage')(bot),
         emoji: require('./chitChat/emojiMessage')(bot),
