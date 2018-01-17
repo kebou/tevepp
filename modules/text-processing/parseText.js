@@ -39,6 +39,7 @@ const parseTokens = (tokens) => {
 
 const filterTokens = (tokens) => {
     return tokens.filter(token => {
+        //console.log(token);
         return token.hfstana &&
             (token.hfstana[0] !== '[/Det|art.Def]') && // határozott névelő
             (token.hfstana[0] !== '[/Cnj]') &&  // kötőszó
@@ -48,6 +49,8 @@ const filterTokens = (tokens) => {
             (token.hfstana[0] !== '[/Adj|Pro|Int]') && // melléknév, kérdő névmás
             (token.hfstana[0] !== '[/Det|Pro|Int]') && // determináns, kérdő névmás
             (token.hfstana[0] !== '[/N|Pro|Int]') && // főnév, kérdő névmás
-            (token.hfstana[0] !== '[/Num|Pro|Int]'); // számnév, kérdő névmás
+            (token.hfstana[0] !== '[/Num|Pro|Int]') && // számnév, kérdő névmás
+            !(token.hfstana[0] === '[/V]' && token.hfstana.join().includes('1Sg'));// && // E/1 ige
+            //!(token.hfstana[0] === '[/V]' && token.hfstana.join().includes('[Inf]')); // főnévi igenév
     });
 };

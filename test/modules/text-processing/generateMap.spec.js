@@ -227,7 +227,7 @@ describe('#generateMap module', () => {
                 bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
                 const bestNodes = bestMatch.nodes;
                 bestNodes.should.to.have.lengthOf(2);
-                bestNodes[0].text.should.have.to.equal('Szentendre nap utca');
+                bestNodes[0].text.should.have.to.equal('Szentendre nap utca 52');
                 bestNodes[1].text.should.have.to.equal('fehérvári út 199');
             })
             .then(done, done);
@@ -421,7 +421,7 @@ describe('#generateMap module', () => {
                 bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
                 const bestNodes = bestMatch.nodes;
                 bestNodes.should.to.have.lengthOf(2);
-                bestNodes[0].text.should.have.to.equal('virág utca');
+                bestNodes[0].text.should.have.to.equal('virág utca 6');
                 bestNodes[1].text.should.have.to.equal('népfürdő utca');
             })
             .then(done, done);
@@ -526,7 +526,7 @@ describe('#generateMap module', () => {
                 bestMatch.should.have.property('nodes').with.to.be.a('array').to.have.lengthOf.at.least(1);
                 const bestNodes = bestMatch.nodes;
                 bestNodes.should.to.have.lengthOf(2);
-                bestNodes[0].text.should.have.to.equal('József Attila utca');
+                bestNodes[0].text.should.have.to.equal('József Attila utca 6');
                 bestNodes[1].text.should.have.to.equal('Albertfalva utca');
             })
             .then(done, done);
@@ -667,7 +667,7 @@ describe('#generateMap module', () => {
             })
             .then(done, done);
     });
-    it.skip('Klinikák metrómegállótól indulnék a Nyugati pályaudvarra', (done) => {
+    it('Klinikák metrómegállótól indulnék a Nyugati pályaudvarra', (done) => {
         tp.process('Klinikák metrómegállótól indulnék a Nyugati pályaudvarra', tpObject)
             .then(ctx => {
                 ctx.should.have.property('map');
@@ -678,7 +678,7 @@ describe('#generateMap module', () => {
                 const bestNodes = bestMatch.nodes;
                 bestNodes.should.to.have.lengthOf(2);
                 bestNodes[0].text.should.have.to.equal('Klinikák metrómegálló');
-                bestNodes[1].text.should.have.to.equal('indulnék Nyugati pályaudvar');
+                bestNodes[1].text.should.have.to.equal('Nyugati pályaudvar');
             })
             .then(done, done);
     });
