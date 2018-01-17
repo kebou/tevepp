@@ -16,10 +16,15 @@ module.exports = (bot) => {
         let { type, data } = tryParseJSON(postback.payload);
 
         if (!type) type = payload && postback.payload;
-        if (referral) type = referral.ref.toUpperCase();
+        if (referral) {
+            return bot._handleEvent('referral', {
+                sender,
+                referral,
+                new: true
+            });
+        }
 
-        userController.getUser(userId)
-            .then(user => addUserSource(user, referral))
+        return userController.getUser(userId)
             .then(user => {
                 logger.info(`New ${type} postback received from ${user.lastName} ${user.firstName}.`);
                 return user;
@@ -82,22 +87,4 @@ module.exports = (bot) => {
                 break;
         }
     };
-};
-
-const addUserSource = (user, referral) => {
-    if (user.source) {
-        return user;
-    }
-    let src = '';
-    if (!referral) {
-        src = 'unknown';
-    } else {
-        const { ref, source } = referral;
-        src = source.toLowerCase();
-        if (ref) {
-            src += `_${ref}`;
-        }
-    }
-    user.source = src;
-    return user.save();
 };
