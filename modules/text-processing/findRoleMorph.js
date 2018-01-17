@@ -25,6 +25,11 @@ module.exports = (ctx, next) => {
         return next();
     }
 
+    // 
+    if (token.lemma === token.content) {
+        return next();
+    }
+
     let value;
     if (startSuffix) {
         value = 'start';

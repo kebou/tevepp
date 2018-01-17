@@ -31,14 +31,14 @@ module.exports = (ctx, next) => {
     // console.log('endLocations', endLocations);
     // console.log('locations', locations);
     // console.log('routeNames', routeNames);
-
+    
     const start = (startLocations.length > 0 && startLocations.shift()) || (locations.length > 0 && locations.shift());
     const end = (endLocations.length > 0 && endLocations.shift()) || (locations.length > 0 && locations.shift());
     const routeName = routeNames.length > 0 && routeNames.shift();
 
-    console.log('start:', start);
-    console.log('end:', end);
-    console.log('routeName:', routeName);
+    logger.verbose('start:', start);
+    logger.verbose('end:', end);
+    logger.verbose('routeName:', routeName);
 
     if (start) {
         ctx.start = start;

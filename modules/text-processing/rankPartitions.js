@@ -7,9 +7,11 @@ const getPartitions = require('../../utils/partitions');
  */
 module.exports = (ctx, next) => {
     const { map, MAX_WORD_NUMBER } = ctx;
-    if (!map) {
-        logger.error('#rankPartitions module should be used after "map" property in ctx');
-        return next();
+    if (!map || !MAX_WORD_NUMBER) {
+        const errorMessage = '#rankPartitions module should be used after "map", "MAX_WORD_NUMBER" property in ctx';
+        const err = new Error(errorMessage);
+        err.name = 'PipelineError';
+        throw err;
     }
     const partitions = getPartitions(0, map.length - 1, MAX_WORD_NUMBER);
     const rankedPartitions = rankPartitions(partitions, map);

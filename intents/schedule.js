@@ -52,6 +52,13 @@ module.exports = (bot) => {
                     return Message.canceled(user)
                         .then(() => convo.end());
                 }
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
+                }
             }
         ];
     

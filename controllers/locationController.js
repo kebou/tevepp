@@ -23,10 +23,11 @@ const fromPayload = (payload) => {
     const userId = payload.sender.id;
     const text = payload.message && payload.message.text;
     const attachments = payload.message && payload.message.attachments;
-    const { type, data } = payload.message.quick_reply && payload.message.quick_reply.payload && tryParseJSON(payload.message.quick_reply.payload) || false;
+    const { type, data } = payload.message && payload.message.quick_reply && payload.message.quick_reply.payload && tryParseJSON(payload.message.quick_reply.payload) || false;
 
     if (!text && !(attachments && attachments[0] && (attachments[0].type === 'location')) && !(type && (type === 'LOCATION'))) {
-        return Promise.reject(new Error('Payload doesn\'t contain location attachment or text.'));
+        const err = new Error('Payload doesn\'t contain location attachment or text.');
+        throw err;
     }
 
     if (type === 'LOCATION')

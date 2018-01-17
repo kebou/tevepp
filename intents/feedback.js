@@ -45,6 +45,13 @@ module.exports = (bot) => {
                     return Message.canceled(user)
                         .then(() => convo.end());
                 }
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
+                }
             }
         ];
 
@@ -101,6 +108,13 @@ module.exports = (bot) => {
                         .then(() => Slack.sendFeedback(user, feedback))
                         .then(() => Message.thanksForFeedback(user))
                         .then(() => convo.end());
+                }
+            },
+            {
+                event: 'postback',
+                callback: (payload, convo, data) => {
+                    convo.end();
+                    return bot._handleEvent('postback', payload, data);
                 }
             }
         ];
