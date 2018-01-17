@@ -50,6 +50,26 @@
 		"2": "Hát ezzel megfogtál 😀",
 		"3": "Bevallom, most ötletem sincs, hogy mit szeretnél 😃"
 	},
+	"error": {
+		"intro": {
+			"0": "😞 A nemjóját!",
+			"1": "🤨 Na fene!",
+			"2": "😱 Ajajj!",
+			"3": "🤭 Hupsz!"
+		},
+		"textProcessing": {
+			"0": "Az emberi nyelv fordítóm meghibásodott."
+		},
+		"general": {
+			"0": "Valami hiba történt.",
+			"1": "Valami nem úgy működik, ahogy működnie kellene."
+		},
+		"outro": {
+			"0": "Kérlek, próbáld meg később.",
+			"1": "Kérlek, nézz vissza később.",
+			"2": "Próbáld meg újra egy kicsit később."
+		}
+	},
 	"emoji": {
 		"0": "👍🏻",
 		"1": "👌🏻",
@@ -160,8 +180,8 @@
 			"0": "Akkor most nem adok hozzá új kedvencet.",
 			"1": "Kedvenc hely hozzáadás - lefújva!"
 		},
-		"maxLocationReached": "Összesen {{{maxLocation}}} helyet menthetsz el, új hely hozzáadásához először tötölnöd kell egyet.",
-		"missingName": "Kérlek küldj el a hely nevét szöveges üzenetként.",
+		"maxLocationReached": "Összesen {{{maxLocation}}} helyet menthetsz el, új hely hozzáadásához először törölnöd kell egyet.",
+		"missingName": "Kérlek küldd el a hely nevét szöveges üzenetként.",
 		"approveNewLocation": "Hozzáadhatom {{{name}}} néven {{{title}}} helyet?",
 		"newLocationAdded": {
 			"0": "{{{name}}} helyet felvetted a kedvenceid közé. ⭐️",
