@@ -7,7 +7,13 @@ module.exports = (bot) => {
 
     const startTripPlanning = (ctx, next) => {
         const { user, chat, start, end } = ctx;
+        if (!user) {
+            const err = new Error('sendDepartures module should be used with "user" property in ctx');
+            err.name = 'PipelineError';
+            throw err;
+        }
         if (!start && !end) {
+            logger.verbose('startTripPlanning skipped - no start/stop in context');
             return next();
         }
         if (start && !end) {

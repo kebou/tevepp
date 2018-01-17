@@ -59,6 +59,14 @@ module.exports.outOfScope = (user) => {
     return user.__(getRandomItem(user, 'outOfScope'));
 };
 
+module.exports.textProcessingError = (user) => {
+    const intro = user.__(getRandomItem(user, 'error.intro'));
+    const textProcessing = user.__(getRandomItem(user, 'error.textProcessing'));
+    const outro = user.__(getRandomItem(user, 'error.outro'));
+
+    return intro + ' ' + textProcessing + ' ' + outro;
+};
+
 const tripPlanning = {};
 
 tripPlanning.walkingDistance = (user) => {

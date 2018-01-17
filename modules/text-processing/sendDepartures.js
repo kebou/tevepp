@@ -11,7 +11,7 @@ module.exports = (bot) => {
         const { start, end, routeName, user } = ctx;
         if (!user) {
             const err = new Error('sendDepartures module should be used with "user" property in ctx');
-            err.name = 'TextProcessingError';
+            err.name = 'PipelineError';
             throw err;
         }
         if (!routeName) {

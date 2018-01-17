@@ -23,8 +23,11 @@ tp.use(require('./findRoleMorph'))
 module.exports = (ctx, next) => {
     const { tokens, user, MAX_WORD_NUMBER } = ctx;
     if (!tokens || !user || !MAX_WORD_NUMBER) {
-        logger.error('#generateMap module should be used after "tokens", "user", "MAX_WORD_NUMBER" property in ctx');
-        return next();
+        const errorMessage = '#generateMap module should be used after "tokens", "user", "MAX_WORD_NUMBER" property in ctx';
+        //logger.error(errorMessage);
+        const err = new Error(errorMessage);
+        err.name = 'PipelineError';
+        throw err;
     }
     return generateMap(ctx)
         .then(map => {

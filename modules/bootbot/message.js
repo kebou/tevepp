@@ -13,6 +13,7 @@ const printCtx = (ctx, next) => {
 
 module.exports = (bot) => {
     const userController = require('../../controllers/userController')(bot);
+    const slackController = require('../../controllers/slackController');
     const ChitChat = require('../../intents/chitChat')(bot);
 
     tp.use(require('../text-processing/sendTypingIndicator')(bot))
@@ -65,8 +66,13 @@ module.exports = (bot) => {
             })
             .then(user => tp.process(text, { user, chat, payload, MAX_WORD_NUMBER: 5 }))
             .catch(err => {
-                logger.error('Error in pipeline.', err);
-                return ChitChat.sendOutOfScope(user);
+                logger.error('Error in pipeline:', err);
+                return handleError(user, err);
             });
     });
+
+    const handleError = (user, err) => {
+        return ChitChat.sendTextProcessingError(user)
+            .then(() => slackController.sendError(err));
+    };
 };

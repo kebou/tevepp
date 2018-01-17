@@ -28,6 +28,8 @@ module.exports = (bot) => {
 
     const sendTesterMessage = (user) => Message.dataCollection(user);
 
+    const sendTextProcessingError = (user) => Message.textProcessingError(user);
+
     return {
         sendGreeting,
         sendJoke,
@@ -38,6 +40,7 @@ module.exports = (bot) => {
         sendFarewell,
         sendOutOfScope,
         sendEmoji,
-        sendTesterMessage
+        sendTesterMessage,
+        sendTextProcessingError
     };
 };
