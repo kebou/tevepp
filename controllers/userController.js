@@ -17,7 +17,7 @@ module.exports = (bot) => {
                     lastName: userProfile.last_name,
                     profilePic: userProfile.profile_pic,
                     locale: userProfile.locale,
-                    timezone: userProfile.timezone,
+                    timezone: userProfile.timezone || null,
                     gender: userProfile.gender
                 };
                 const options = {
