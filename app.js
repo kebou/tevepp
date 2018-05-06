@@ -1,6 +1,5 @@
 'use strict';
 const BootBot = require('bootbot');
-const sendTemplatePatch = require('./utils/sendTemplatePatch');
 const mongoose = require('mongoose');
 const i18n = require('i18n');
 const winston = require('winston');
@@ -50,7 +49,8 @@ const bot = new BootBot({
     appSecret: APP_SECRET
 });
 // Patching sendTemplate function
-bot.sendTemplate = sendTemplatePatch;
+bot.sendTemplate = require('./utils/sendTemplatePatch');
+bot.sendMessage = require('./utils/sendMessagePatch');
 // Registering BootBot modules
 bot.module(require('./modules/bootbot/webhooks'));
 bot.module(require('./modules/bootbot/message'));
