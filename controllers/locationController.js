@@ -209,7 +209,10 @@ const saveFavourite = (user, location, update) => {
 
 const removeFavourite = (user, location) => {
     return Location.findByIdAndRemove(location._id)
-        .then(() => user.locations.remove(location._id));
+        .then(() => {
+            user.locations.remove(location._id);
+            return user.save();
+        });
 };
 
 const toMapUrl = (location, type) => {
