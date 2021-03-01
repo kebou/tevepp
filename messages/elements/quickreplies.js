@@ -168,7 +168,7 @@ module.exports.sendFeedback = (user) => {
  * @param {object} user a felhasználót reprezentáló objektum
  */
 module.exports.menu = (user) => {
-    return [location(), planTrip(user), help(user)];
+    return [planTrip(user), help(user)];
 };
 
 /**
