@@ -18,14 +18,20 @@ module.exports = (bot) => {
             payload: 'LOCATION_LIST'
         },
         {
-            title: '🔄 Visszajelzés küldése',
-            type: 'postback',
-            payload: 'FEEDBACK'
-        },
-        {
-            title: '❓ Segítség',
-            type: 'postback',
-            payload: 'HELP'
+            title: '💬 Továbbiak',
+            type: 'nested',
+            call_to_actions: [
+                {
+                    title: '🔄 Visszajelzés küldése',
+                    type: 'postback',
+                    payload: 'FEEDBACK'
+                },
+                {
+                    title: '❓ Segítség',
+                    type: 'postback',
+                    payload: 'HELP'
+                }
+            ]
         }
     ]);
 
