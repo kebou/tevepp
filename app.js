@@ -51,6 +51,7 @@ const bot = new BootBot({
 // Patching sendTemplate function
 bot.sendTemplate = require('./utils/sendTemplatePatch');
 bot.sendMessage = require('./utils/sendMessagePatch');
+bot.getUserProfile = require('./utils/getUserProfilePatch');
 // Registering BootBot modules
 bot.module(require('./modules/bootbot/webhooks'));
 bot.module(require('./modules/bootbot/message'));
