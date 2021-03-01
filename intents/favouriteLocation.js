@@ -184,7 +184,6 @@ module.exports = (bot) => {
             const user = convo.get('user');
             const location = convo.get('location');
             const editing = convo.get('editing');
-            console.log(location);
             if (editing) {
                 return Message.editName(user, location);
             }

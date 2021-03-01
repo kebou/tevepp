@@ -48,6 +48,7 @@ module.exports = (bot) => {
                 return chat.conversation(convo => {
                     convo.set('user', user);
                     convo.set('location', data.location);
+                    console.log({user, data})
                     return FavouriteLocation.editLocation(convo);
                 });
 
