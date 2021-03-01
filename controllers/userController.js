@@ -12,7 +12,7 @@ module.exports = (bot) => {
     const getUser = (userId) => {
         return bot.getUserProfile(userId)
             .then(userProfile => {
-                console.log({userId, user});
+                console.log({userId, userProfile});
                 const update = {
                     firstName: userProfile.first_name,
                     lastName: userProfile.last_name,
