@@ -12,6 +12,7 @@ module.exports = (bot) => {
     const getUser = (userId) => {
         return bot.getUserProfile(userId)
             .then(userProfile => {
+                console.log({userId, user});
                 const update = {
                     firstName: userProfile.first_name,
                     lastName: userProfile.last_name,
@@ -31,6 +32,7 @@ module.exports = (bot) => {
     };
 
     const _setLocale = (user) => {
+        console.log(user);
         const userLocale = 'hu';
         i18n.init(user);
         user.setLocale(userLocale);
