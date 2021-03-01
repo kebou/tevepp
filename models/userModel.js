@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     timezone: Number,
     gender: {
         type: String,
-        enum: ['male', 'female']
+        enum: ['male', 'female', null]
     },
     preferredLocale: String,
     locations: [{
