@@ -6,7 +6,7 @@ module.exports = (bot) => {
     const editLocationMessage = (user, location) => {
         const text = Text.favouriteLocation.editLocation(user, location);
         const hint = Text.locationHint(user);
-        const quickReplies = [QR.dontModify(user), QR.location(), QR.cancel(user)];
+        const quickReplies = [QR.dontModify(user), QR.cancel(user)];
         const options = {};
 
         return bot.sendTextMessage(user.id, text)

@@ -8,7 +8,6 @@ module.exports = (bot) => {
         const hint = Text.locationHint(user);
         const quickReplies = [
             QR.cancel(user),
-            QR.location(),
             ...QR.favouriteLocations(user)
         ];
         const options = { typing: true };

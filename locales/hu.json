@@ -133,7 +133,7 @@
 			"2": "Értem én, majd legközelebb! 😉"
 		}
 	},
-	"locationHint": "📍 Írj egy címet, vagy az aktuális tartózkodási helyedet is elküldheted.",
+	"locationHint": "📍 Írj egy címet",
 	"invalidLocation": "Sajnos nem sikerült beazonosítanom a helyet az üzeneted alapján, kérlek próbáld meg mégegyszer.",
 	"minute": "%s perc",
 	"stop": "%s megálló",
