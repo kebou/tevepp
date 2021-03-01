@@ -139,6 +139,7 @@ module.exports = (bot) => {
             return locationController.fromPayload(payload)
                 .then(location => {
                     convo.set('location', location);
+                    console.log(location)
                     return _askName(convo);
                 })
                 .catch(err => {
