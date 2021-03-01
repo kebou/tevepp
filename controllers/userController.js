@@ -34,7 +34,7 @@ module.exports = (bot) => {
     };
 
     const _setLocale = (user) => {
-        const userLocale = user.locale.split('_')[0];
+        const userLocale = 'hu';
         i18n.init(user);
         user.setLocale(userLocale);
         return user;
