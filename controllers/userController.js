@@ -15,10 +15,7 @@ module.exports = (bot) => {
                 const update = {
                     firstName: userProfile.first_name,
                     lastName: userProfile.last_name,
-                    profilePic: userProfile.profile_pic,
-                    locale: userProfile.locale,
-                    timezone: userProfile.timezone || null,
-                    gender: userProfile.gender
+                    profilePic: userProfile.profile_pic
                 };
                 const options = {
                     new: true,
