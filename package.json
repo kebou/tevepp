@@ -19,7 +19,7 @@
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "bootbot": "^1.0.12",
-    "canvas": "^1.6.5",
+    "canvas": "^1.6.11",
     "config": "^1.26.1",
     "emagyar": "git+https://github.com/kebou/emagyar.git",
     "express": "^4.15.3",
